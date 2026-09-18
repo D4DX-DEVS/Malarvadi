@@ -1,0 +1,255 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "objectives": "Objectives",
+    "history": "History",
+    "programs": "Programs",
+    "events": "Events",
+    "leaders": "Leaders",
+    "news": "News",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Close",
+    "globalPresence": "Our Global Presence"
+  },
+  "hero": {
+    "badge": "Kerala's Children's Movement",
+    "title": "Small Steps, Big Change!",
+    "subtitle": "A happy space for young minds to learn, create, lead and make a kinder, brighter world.",
+    "ctaPrimary": "Explore Programs",
+    "ctaSecondary": "Upcoming Events",
+    "line1": "Small Steps",
+    "line2": "Big Change!",
+    "script": "Happier · Kinder · Braver · Together",
+    "bubble": "Kids for a Better Tomorrow"
+  },
+  "sections": {
+    "introTitle": "What is Malarvadi?",
+    "programsTitle": "Programs children love",
+    "programsSub": "Creativity, knowledge, nature and friendship — guided by caring mentors.",
+    "eventsTitle": "Upcoming events",
+    "newsTitle": "Latest news",
+    "galleryTitle": "Moments of joy",
+    "leadersTitle": "Our young leaders",
+    "leadersSub": "Leadership grows here through teamwork and responsibility.",
+    "ctaTitle": "Come, be part of Malarvadi",
+    "ctaSub": "Find a unit near you, join a program, or simply say hello.",
+    "ctaButton": "Contact us",
+    "unitsTitle": "Malarvadi is everywhere",
+    "unitsSub": "Units in Kerala, outside Kerala, GCC, Europe and USA."
+  },
+  "categories": {
+    "title": "Explore by interest",
+    "sub": "Find what your child loves — every path leads to real Malarvadi programs.",
+    "items": [
+      {
+        "type": "",
+        "label": "All programs",
+        "hint": "Everything"
+      },
+      {
+        "type": "little_scholar",
+        "label": "Little Scholar",
+        "hint": "Quiz & knowledge"
+      },
+      {
+        "type": "rainbow",
+        "label": "Rainbow",
+        "hint": "Drawing & arts"
+      },
+      {
+        "type": "balolsavam",
+        "label": "Balolsavam",
+        "hint": "Summer festival"
+      },
+      {
+        "type": "general",
+        "label": "Clubs & camps",
+        "hint": "Friends & nature"
+      },
+      {
+        "type": "other",
+        "label": "More activities",
+        "hint": "Values & care"
+      }
+    ]
+  },
+  "impact": {
+    "title": "Growing with children since 1980",
+    "sub": "Milestones from the Malarvadi journey.",
+    "items": [
+      {
+        "big": "1980",
+        "title": "Magazine begins",
+        "text": "Malarvadi magazine starts in November 1980 as value-based children's reading, continuing through June 2021."
+      },
+      {
+        "big": "2003",
+        "title": "Balasangham expands",
+        "text": "Structural expansion begins in November 2003 with a first state committee of 10 members."
+      },
+      {
+        "big": "2009",
+        "title": "Rainbow begins",
+        "text": "The structured drawing competition for young children starts and keeps growing."
+      },
+      {
+        "big": "50,000+",
+        "title": "Rainbow participants",
+        "text": "Reported student participation in Rainbow over the years."
+      },
+      {
+        "big": "8",
+        "title": "Homes built by children",
+        "text": "Through Changathikkoru Veedu, Malarvadi children helped build 8 homes."
+      },
+      {
+        "big": "Units",
+        "title": "Across regions",
+        "text": "Units in Kerala, outside Kerala, GCC, Europe and USA."
+      }
+    ]
+  },
+  "common": {
+    "viewAll": "View all",
+    "readMore": "Read more",
+    "loading": "Loading…",
+    "empty": "Nothing here yet. Please check back soon.",
+    "error": "Something went wrong. Please try again.",
+    "retry": "Try again",
+    "back": "Back",
+    "demo": "Demo",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "all": "All",
+    "search": "Search",
+    "featured": "Featured",
+    "published": "Published",
+    "draft": "Draft"
+  },
+  "about": {
+    "title": "About Malarvadi",
+    "clubsTitle": "School Malarvadi Clubs",
+    "clubsBody": "In schools, children form Malarvadi Clubs guided by a Vidya Council — a democratic system where students take responsibility, plan activities together, and learn practical life skills through participation.",
+    "serviceTitle": "Changathikkoru Veedu — a home for a friend",
+    "serviceBody": "Malarvadi children collected money together and helped build 8 homes for families in need. It remains a living lesson in compassion and collective action.",
+    "heroLine": "A movement of children, for a brighter tomorrow.",
+    "journeyTitle": "Our Journey",
+    "storyTitle": "Our Story",
+    "body": [
+      "Malarvadi Balasangham is a collective that works towards the all-round growth and personality development of children. Beyond academic study, Malarvadi Balasangham focuses on nurturing creativity, talents, life skills, leadership, moral awareness and social commitment in children.",
+      "Malarvadi Balasangham designs a wide variety of programmes and activities that give children the opportunity to discover and develop their own talents and interests. It also provides the awareness and guidance children need on the matters they face today — the challenges of the digital world, screen addiction, complexities in personal relationships, lack of self-confidence and limitations in communication."
+    ]
+  },
+  "objectives": {
+    "title": "Objectives",
+    "intro": "The main aim of Malarvadi Balasangham is to raise an upright generation with a sense of responsibility — one with moral awareness, ethical values, social commitment and leadership.",
+    "lead": "To this end, Malarvadi Balasangham:",
+    "items": [
+      "Nurtures the creative and intellectual abilities of children.",
+      "Develops the Life Skills needed to face the challenges of life with confidence and maturity.",
+      "Enables children to build healthy personal relationships and social interactions.",
+      "Creates awareness about the responsible use of digital technology and gives guidance on facing challenges including Screen Addiction.",
+      "Cultivates values such as morality, ethics, empathy and social responsibility in children.",
+      "Develops skills such as Leadership, Communication, Teamwork and Decision-Making in practical ways.",
+      "Creates opportunities for children to gain leadership experience by entrusting them with responsibilities such as Captain and Secretary at school and class level.",
+      "Organises awareness programmes including Parenting Classes to strengthen the role of parents.",
+      "Recognises the talents and interests of children and provides suitable platforms and opportunities to nurture them."
+    ]
+  },
+  "history": {
+    "title": "History",
+    "sub": "From a children's magazine to a worldwide children's movement.",
+    "events": [
+      {
+        "year": "1980",
+        "title": "Malarvadi magazine begins",
+        "text": "In November 1980, Malarvadi magazine starts as a value-based children's reading platform."
+      },
+      {
+        "year": "2003",
+        "title": "Balasangham expands",
+        "text": "In November 2003, Malarvadi Balasangham's structural expansion begins across Kerala."
+      },
+      {
+        "year": "2003",
+        "title": "First state leadership",
+        "text": "Akbar Vaniyambalam becomes the first state coordinator and Musthafa Mankada the General Secretary, with an initial state committee of 10 members."
+      },
+      {
+        "year": "2009",
+        "title": "Rainbow begins",
+        "text": "Rainbow, the structured drawing competition for young children, starts and grows to 50,000+ participants."
+      },
+      {
+        "year": "2024",
+        "title": "Zaitoon Kids app",
+        "text": "In November 2024, the Zaitoon Kids app introduces its first logo, bringing stories and values to screens safely."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact us",
+    "sub": "We would love to hear from you.",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone (optional)",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send message",
+    "success": "Thank you! Your message has been received.",
+    "fail": "Could not send your message. Please try again later.",
+    "formTitle": "Let's Stay in Touch!",
+    "formSub": "We'd love to hear from you.",
+    "addressLabel": "Our Address",
+    "emailLabel": "Email Us",
+    "callLabel": "Call Us",
+    "addressValue": "",
+    "emailValue": "",
+    "phoneValue": "",
+    "spread": "Spread Kindness!"
+  },
+  "footer": {
+    "tagline": "A children's community growing with creativity, values and friendship.",
+    "explore": "Explore",
+    "programs": "Programs",
+    "rights": "Malarvadi. All rights reserved.",
+    "quickLinks": "Quick Links",
+    "newsletter": "Newsletter",
+    "newsletterSub": "Get updates on our events and stories.",
+    "emailPlaceholder": "Your email",
+    "subscribe": "Subscribe",
+    "closing": "Let's build a kinder, brighter tomorrow — together!",
+    "follow": "Follow us",
+    "subscribeOk": "Thank you! You are on the list.",
+    "subscribeFail": "Could not sign you up. Please try again."
+  },
+  "actions": {
+    "toggleLanguage": "മലയാളം",
+    "joinUs": "Join Us"
+  },
+  "health": {
+    "frontend": "Frontend is running",
+    "backend": "Backend status"
+  },
+  "grow": {
+    "title": "Together We Grow!",
+    "sub": "Real milestones from the Malarvadi journey."
+  },
+  "highlights": {
+    "title": "Recent Highlights",
+    "sub": "Moments from our units across Kerala."
+  },
+  "quote": {
+    "text": "Children are not just the future, they are the change today."
+  },
+  "globalPresence": {
+    "title": "Our Global Presence",
+    "intro": "Rooted in Kerala, Malarvadi Balasangham has active units that have spread its work to various parts of India and to regions such as the GCC countries, Europe and America.",
+    "body": [
+      "Bringing together children and families in different parts of the world, Malarvadi continues its work with the aim of raising a generation that is value-conscious, capable, confident, socially committed and responsible."
+    ]
+  }
+}

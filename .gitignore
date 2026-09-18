@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Next.js
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+
+# Build output
+backend/dist/
+shared/dist/
+*.tsbuildinfo
+
+# Env (never commit real values)
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# OneDrive / Windows
+*.tmp
+~$*
+
+# Upload staging (per architecture: avoid server tmp for normal uploads;
+# this dir exists only for exceptional cases and stays empty/gitignored)
+backend/uploads-tmp/
