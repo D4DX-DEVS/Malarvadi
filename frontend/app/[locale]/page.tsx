@@ -1,21 +1,17 @@
 import { notFound } from "next/navigation";
 import { isValidLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
-import { api, type Localized } from "@/lib/api";
-import { demoEvents, demoNews, withDemo } from "@/lib/demo";
+import { api } from "@/lib/api";
+import { demoAlbums, demoNews, demoPosters, demoVideos, withDemo } from "@/lib/demo";
 import { pageMeta } from "@/lib/seo";
-import { Hero } from "@/components/home/Hero";
-import { GrowBand } from "@/components/home/GrowBand";
-import { Highlights, type HighlightDoc } from "@/components/home/Highlights";
-import { QuoteStrip } from "@/components/home/QuoteStrip";
-
-interface Doc {
-  slug: string;
-  title: Localized;
-  dateStart?: string;
-  publishedAt?: string;
-  demo?: boolean;
-}
+import { HeroBanner } from "@/components/home/HeroBanner";
+import { CampaignStrip } from "@/components/home/CampaignStrip";
+import { AboutIntro } from "@/components/home/AboutIntro";
+import { StatsBar } from "@/components/home/StatsBar";
+import { NewsPosters, type NewsDoc, type PosterDoc } from "@/components/home/NewsPosters";
+import { PhotosVideos, type AlbumDoc, type VideoDoc } from "@/components/home/PhotosVideos";
+import { FocusGrid } from "@/components/home/FocusGrid";
+import { JoinBand } from "@/components/home/JoinBand";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -24,56 +20,84 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 /**
- * Home follows the reference layout top to bottom: sunny hero, sand band with
- * the interest icons and the "Together We Grow" facts card, a highlights row,
- * then the closing quote.
+ * Home, following the reference sheet top to bottom: the illustrated banner,
+ * the campaign shelf, the introduction beside its photograph, the reach bar,
+ * stories next to posters, pictures next to videos, the six things we do, and
+ * the invitation to join sitting on the footer's hills.
+ *
+ * Every band draws from a real collection where one exists - news, gallery,
+ * publications - and falls back to the clearly-labelled demo documents so the
+ * layout is reviewable before the database is filled.
  */
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isValidLocale(locale)) notFound();
   const dict = getDictionary(locale);
+  const home = dict.home;
 
-  const [e, n] = await Promise.all([api.events("?limit=3&scope=upcoming"), api.news("?limit=3")]);
-  const events = withDemo<Doc>(e?.data as Doc[], demoEvents);
-  const news = withDemo<Doc>(n?.data as Doc[], demoNews);
+  /* One round trip per band, in parallel. Posters and videos are the two
+     `kind`s of the publications collection the home page shows. */
+  const [n, g, p, v] = await Promise.all([
+    api.news("?limit=2"),
+    api.gallery("?limit=8"),
+    api.publications("?limit=8&kind=notice"),
+    api.publications("?limit=4&kind=video"),
+  ]);
 
-  /* Highlights mix the freshest events and stories, newest first, capped at 3. */
-  const highlights: HighlightDoc[] = [
-    ...events.map((d) => ({ ...d, kind: "events" as const })),
-    ...news.map((d) => ({ ...d, kind: "news" as const })),
-  ].slice(0, 3);
+  const news = withDemo<NewsDoc>(n?.data as NewsDoc[], demoNews);
+  const albums = withDemo<AlbumDoc>(g?.data as AlbumDoc[], demoAlbums);
+  const posters = withDemo<PosterDoc>(p?.data as PosterDoc[], demoPosters);
+  const videos = withDemo<VideoDoc>(v?.data as VideoDoc[], demoVideos);
 
   return (
-    <main>
-      <Hero
+    <main className="bg-white">
+      {/* The banner and the campaign shelf share the pale sky the page opens on. */}
+      <div className="bg-gradient-to-b from-sky-soft/80 via-white to-white">
+        <HeroBanner tagline={home.banner.tagline} alt={home.banner.alt} slideLabel={home.banner.slide} />
+        <CampaignStrip locale={locale} title={home.campaigns.title} sub={home.campaigns.sub} items={home.campaigns.items} prevLabel={home.campaigns.prev} nextLabel={home.campaigns.next} />
+      </div>
+
+      <AboutIntro
         locale={locale}
-        badge={dict.hero.badge}
-        line1={dict.hero.line1}
-        line2={dict.hero.line2}
-        subtitle={dict.hero.subtitle}
-        ctaPrimary={dict.hero.ctaPrimary}
-        ctaSecondary={dict.hero.ctaSecondary}
-        script={dict.hero.script}
-        bubble={dict.hero.bubble}
+        badge={home.intro.badge}
+        line1={home.intro.line1}
+        line2={home.intro.line2}
+        body={home.intro.body}
+        cta={home.intro.cta}
       />
 
-      <GrowBand
-        locale={locale}
-        categories={dict.categories}
-        growTitle={dict.grow.title}
-        growSub={dict.grow.sub}
-        stats={dict.impact.items}
-      />
+      <StatsBar items={home.stats.items} />
 
-      <Highlights
+      <NewsPosters
         locale={locale}
-        title={dict.highlights.title}
-        sub={dict.highlights.sub}
+        news={news}
+        posters={posters}
+        newsTitle={home.news.title}
+        postersTitle={home.posters.title}
         viewAll={dict.common.viewAll}
-        items={highlights}
+        readMore={dict.common.readMore}
+        demoLabel={dict.common.demo}
+        prevLabel={home.campaigns.prev}
+        nextLabel={home.campaigns.next}
       />
 
-      <QuoteStrip text={dict.quote.text} />
+      <PhotosVideos
+        locale={locale}
+        albums={albums}
+        videos={videos}
+        photosTitle={home.photos.title}
+        photosSub={home.photos.sub}
+        photosFootnote={home.photos.footnote}
+        videosTitle={home.videos.title}
+        videosSub={home.videos.sub}
+        videosFootnote={home.videos.footnote}
+        playLabel={home.videos.play}
+        viewAll={dict.common.viewAll}
+      />
+
+      <FocusGrid locale={locale} title={home.focus.title} sub={home.focus.sub} items={home.focus.items} />
+
+      <JoinBand locale={locale} title={home.join.title} sub={home.join.sub} cta={home.join.cta} />
     </main>
   );
 }

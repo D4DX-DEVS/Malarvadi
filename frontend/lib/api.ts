@@ -41,4 +41,7 @@ export const api = {
   gallery: (params = "") => get<ApiList<unknown>>(`/api/v1/gallery${params}`),
   album: (slug: string) => get<{ data: unknown }>(`/api/v1/gallery/${slug}`),
   page: (slug: string) => get<{ data: unknown }>(`/api/v1/pages/${slug}`),
+  /** Posters, magazines and videos all live in the publications collection,
+      separated by `kind` - the home page pulls `notice` and `video` from it. */
+  publications: (params = "") => get<ApiList<unknown>>(`/api/v1/publications${params}`),
 };

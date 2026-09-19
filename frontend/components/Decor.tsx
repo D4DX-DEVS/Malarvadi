@@ -664,3 +664,79 @@ export function KidsGroup({ className = "" }: S) {
     </svg>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Panel emblems                                                       */
+/* The small mark that opens each panel in the lower half of the home  */
+/* page. Solid silhouettes rather than line art, because they sit at   */
+/* 20px inside a coloured tile where a hairline would disappear.       */
+/* ------------------------------------------------------------------ */
+
+/** Announcements - the news panel. */
+export function Megaphone({ className = "" }: S) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M19 4.2v15.6c0 .9-1 1.4-1.7.9L11 16.2V7.8l6.3-4.5c.7-.5 1.7 0 1.7.9Z" />
+      <path d="M4 9h5.5v6H4a1.6 1.6 0 0 1-1.6-1.6v-2.8C2.4 9.7 3.1 9 4 9Z" />
+      <path d="M6 16.4h3l.8 4.2a1 1 0 0 1-1 1.2H7.6a1 1 0 0 1-1-.8L6 16.4Z" />
+      <path d="M20.8 9.6h2.1v1.8h-2.1zM20.4 6.4l1.9-1 .8 1.6-1.9 1zM20.4 14.6l.8-1.6 1.9 1-.8 1.6z" opacity="0.7" />
+    </svg>
+  );
+}
+
+/** Photographs - the pictures panel. */
+export function Camera({ className = "" }: S) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M9.3 3.5h5.4c.5 0 1 .3 1.2.8l.6 1.2H20c1.1 0 2 .9 2 2v9.8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V7.5c0-1.1.9-2 2-2h3.5l.6-1.2c.2-.5.7-.8 1.2-.8Z" />
+      <circle cx="12" cy="13" r="4.4" fill="#fff" opacity="0.92" />
+      <circle cx="12" cy="13" r="2.4" fill="currentColor" />
+    </svg>
+  );
+}
+
+/** Play triangle in a disc - the videos panel and every video thumbnail. */
+export function PlayCircle({ className = "" }: S) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M10 8.2 16.2 12 10 15.8Z" fill="#fff" />
+    </svg>
+  );
+}
+
+/** A framed picture - the posters panel. */
+export function PictureFrame({ className = "" }: S) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M4 3.5h16A2.5 2.5 0 0 1 22.5 6v12a2.5 2.5 0 0 1-2.5 2.5H4A2.5 2.5 0 0 1 1.5 18V6A2.5 2.5 0 0 1 4 3.5Z" />
+      <path d="M4 17.5 9 11l3.5 4.2 2.5-2.7 5 5H4Z" fill="#fff" opacity="0.92" />
+      <circle cx="16.5" cy="8.5" r="2" fill="#fff" opacity="0.92" />
+    </svg>
+  );
+}
+
+/** A potted plant - the introduction band's window-sill decoration. */
+export function Pot({ className = "" }: S) {
+  return (
+    <svg viewBox="0 0 64 80" className={className} aria-hidden="true">
+      <path d="M32 46 Q 32 30 32 18" stroke="#2FA36B" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+      <path d="M32 34 Q 18 32 14 18 Q 28 20 32 34 Z" fill="#2FA36B" opacity="0.9" />
+      <path d="M32 26 Q 46 24 50 10 Q 36 12 32 26 Z" fill="#2FA36B" opacity="0.75" />
+      <path d="M32 40 Q 22 42 18 32 Q 30 32 32 40 Z" fill="#7CC66E" opacity="0.9" />
+      <rect x="14" y="44" width="36" height="9" rx="4.5" fill="#FF8A5B" />
+      <path d="M17 53 L47 53 L43 76 L21 76 Z" fill="#F26B3A" />
+      <path d="M21 76 L24 58 L40 58 L43 76 Z" fill="#E85F2A" opacity="0.5" />
+    </svg>
+  );
+}
+
+/** Magnifier, for the objectives/focus grid and search affordances. */
+export function Compass({ className = "" }: S) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M15.6 8.4 13.8 13.8 8.4 15.6 10.2 10.2Z" />
+    </svg>
+  );
+}

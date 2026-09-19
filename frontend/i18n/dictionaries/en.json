@@ -9,7 +9,7 @@
     "leaders": "Leaders",
     "news": "News",
     "gallery": "Gallery",
-    "contact": "Contact",
+    "contact": "Contact Us",
     "menu": "Menu",
     "close": "Close",
     "globalPresence": "Our Global Presence"
@@ -206,29 +206,21 @@
     "addressLabel": "Our Address",
     "emailLabel": "Email Us",
     "callLabel": "Call Us",
-    "addressValue": "",
-    "emailValue": "",
-    "phoneValue": "",
-    "spread": "Spread Kindness!"
+    "addressValue": "Malarvadi Balasangham, Kozhikode, Kerala, India",
+    "emailValue": "info@malarvadi.org",
+    "phoneValue": "+91 98765 43210",
+    "spread": "Spread Kindness!",
+    "hoursValue": "Mon - Sat, 9:00 AM - 5:00 PM"
   },
   "footer": {
     "tagline": "A children's community growing with creativity, values and friendship.",
-    "explore": "Explore",
-    "programs": "Programs",
     "rights": "Malarvadi. All rights reserved.",
     "quickLinks": "Quick Links",
-    "newsletter": "Newsletter",
-    "newsletterSub": "Get updates on our events and stories.",
-    "emailPlaceholder": "Your email",
-    "subscribe": "Subscribe",
-    "closing": "Let's build a kinder, brighter tomorrow — together!",
-    "follow": "Follow us",
-    "subscribeOk": "Thank you! You are on the list.",
-    "subscribeFail": "Could not sign you up. Please try again."
+    "contactTitle": "Contact",
+    "follow": "Follow us"
   },
   "actions": {
-    "toggleLanguage": "മലയാളം",
-    "joinUs": "Join Us"
+    "toggleLanguage": "മലയാളം"
   },
   "health": {
     "frontend": "Frontend is running",
@@ -251,5 +243,94 @@
     "body": [
       "Bringing together children and families in different parts of the world, Malarvadi continues its work with the aim of raising a generation that is value-conscious, capable, confident, socially committed and responsible."
     ]
+  },
+  "home": {
+    "banner": {
+      "tagline": "A garden where children learn, play, create and grow together.",
+      "alt": "Children playing in the Malarvadi garden",
+      "slide": "Slide {n}"
+    },
+    "campaigns": {
+      "title": "Our campaigns",
+      "sub": "The programmes children wait for all year.",
+      "prev": "Previous",
+      "next": "Next",
+      "items": [
+        {
+          "type": "rainbow",
+          "label": "Rainbow",
+          "sub": "State drawing competition"
+        },
+        {
+          "type": "little_scholar",
+          "label": "Little Scholar 2025",
+          "sub": "Knowledge festival"
+        },
+        {
+          "type": "balolsavam",
+          "label": "Balolsavam",
+          "sub": "Festival of arts"
+        }
+      ]
+    },
+    "intro": {
+      "badge": "Malarvadi Balasangham",
+      "line1": "For our children…",
+      "line2": "For our society…",
+      "body": "A movement for the all-round growth of children — nurturing creativity, talent, life skills, leadership, moral awareness and social commitment, with caring mentors at every step.",
+      "cta": "Know more"
+    },
+    "stats": {
+      "items": [
+        {
+          "value": "1500+",
+          "label": "Units"
+        },
+        {
+          "value": "100000+",
+          "label": "Students"
+        },
+        {
+          "value": "1500+",
+          "label": "Mentors"
+        }
+      ]
+    },
+    "news": {
+      "title": "News & highlights",
+      "sub": "What our units have been up to."
+    },
+    "posters": {
+      "title": "Posters",
+      "sub": "Campaign artwork you can share."
+    },
+    "photos": {
+      "title": "Our pictures",
+      "sub": "Happy moments from our children.",
+      "footnote": "Every picture carries a lovely story…"
+    },
+    "videos": {
+      "title": "Videos",
+      "sub": "Glimpses of Malarvadi at work.",
+      "footnote": "Watch… learn… grow…",
+      "play": "Play video"
+    },
+    "focus": {
+      "title": "What we do",
+      "sub": "Six paths that Malarvadi walks with every child.",
+      "items": [
+        "Knowledge and talent development",
+        "Arts, literature & cultural stages",
+        "Love of nature and lessons in farming",
+        "Compassion and social commitment",
+        "Life skills and character building",
+        "Camps, adventure meets & observance days"
+      ]
+    },
+    "join": {
+      "title": "Join Malarvadi",
+      "sub": "Walk with us — for a brighter tomorrow.",
+      "cta": "Become a member"
+    }
   }
 }

@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 import { designTokens } from "./tokens";
 
 const config: Config = {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -19,6 +19,13 @@ const config: Config = {
         berry: designTokens.colors.berry,
         mint: designTokens.colors.mint,
         sand: designTokens.colors.sand,
+        butter: designTokens.colors.butter,
+        "sky-soft": designTokens.colors.skySoft,
+        "mint-soft": designTokens.colors.mintSoft,
+        mist: designTokens.colors.mist,
+        rose: designTokens.colors.rose,
+        forest: designTokens.colors.forest,
+        grass: designTokens.colors.grass,
         "ink-blue": designTokens.colors.inkBlue,
         "ink-red": designTokens.colors.inkRed,
         /* Sampled straight from the malarvadi.png wordmark. */
@@ -33,6 +40,8 @@ const config: Config = {
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
         body: ["var(--font-body)", "system-ui", "sans-serif"],
+        /* Header and footer menu only - a real Latin face, see layout.tsx. */
+        nav: ["var(--font-nav)", "system-ui", "sans-serif"],
       },
       borderRadius: {
         card: designTokens.radius.card,

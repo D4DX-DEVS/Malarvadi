@@ -56,6 +56,12 @@ body {
 /* clipping, overlap and horizontal overflow at every breakpoint.      */
 /* ------------------------------------------------------------------ */
 :lang(ml) {
+  /* Every Malayalam heading, button and label uses this one serif face,
+     regardless of which font utility (font-display, font-nav, ...) the
+     component itself carries - only English text keeps those. Equal
+     specificity to those classes, so it wins on source order: this file is
+     compiled after the @tailwind utilities it overrides. */
+  font-family: var(--font-body), system-ui, sans-serif;
   line-height: 1.8;
   word-break: normal;
   overflow-wrap: anywhere;

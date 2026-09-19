@@ -12,11 +12,13 @@ export function Button({
   children,
   variant = "primary",
   locale,
+  className = "",
 }: {
   href: string;
   children: ReactNode;
-  variant?: "primary" | "dark" | "soft" | "berry";
+  variant?: "primary" | "dark" | "soft" | "berry" | "leaf";
   locale?: string;
+  className?: string;
 }) {
   const lift = "hover:-translate-y-0.5 hover:shadow-lift active:translate-y-0 active:scale-[0.97]";
   const styles =
@@ -24,6 +26,8 @@ export function Button({
       ? `bg-marigold text-cocoa ${lift}`
       : variant === "berry"
         ? `bg-berry text-white ${lift}`
+        : variant === "leaf"
+          ? `bg-leaf text-white ${lift}`
         : variant === "dark"
           ? `bg-cocoa text-white ${lift}`
           : `bg-white text-cocoa ring-1 ring-cocoa/15 hover:-translate-y-0.5 hover:shadow-soft active:translate-y-0 active:scale-[0.97]`;
@@ -31,15 +35,30 @@ export function Button({
     <Link
       href={href}
       hrefLang={locale}
-      className={`squish group inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-full px-6 py-2.5 text-sm font-bold shadow-playful transition-all duration-200 ${styles}`}
+      className={`squish group inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-full px-6 py-2.5 text-sm font-bold shadow-playful transition-all duration-200 ${styles} ${className}`}
     >
       {children}
       {/* The sparkle is the primary call to action's flourish only - secondary
-          buttons repeat often enough that it would read as noise. */}
-      {variant === "primary" || variant === "berry" ? (
+          buttons repeat often enough that it would read as noise. The berry and
+          leaf pills close on the reference's small arrow instead. */}
+      {variant === "primary" ? (
         <span aria-hidden="true" className="inline-block transition-transform duration-200 group-hover:translate-x-1">
           <Sparkle className="h-3.5 w-3.5 group-hover:animate-wiggle" />
         </span>
+      ) : null}
+      {variant === "berry" || variant === "leaf" ? (
+        <svg
+          viewBox="0 0 24 24"
+          className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h13M13 6l6 6-6 6" />
+        </svg>
       ) : null}
     </Link>
   );

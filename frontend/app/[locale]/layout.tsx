@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { isValidLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
+import { HEADER_SOCIALS, SOCIALS } from "@/lib/site";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SiteLoader } from "@/components/SiteLoader";
@@ -43,29 +44,25 @@ export default async function LocaleLayout({
         {/* One exception to the English chrome: the language toggle names the
             language it switches TO, so it has to come from the active locale's
             dictionary - on a Malayalam page it must read "English". */}
-        <Header locale={locale} nav={chrome.nav} toggleLabel={dict.actions.toggleLanguage} joinLabel={chrome.actions.joinUs} />
+        <Header locale={locale} nav={chrome.nav} toggleLabel={dict.actions.toggleLanguage} socials={HEADER_SOCIALS} />
       </div>
       <div id="content" className="page-enter min-h-[60vh]">{children}</div>
       <div lang="en">
         <Footer
           locale={locale}
           tagline={chrome.footer.tagline}
-          explore={chrome.footer.explore}
-          programsLabel={chrome.footer.programs}
           nav={chrome.nav}
           rights={chrome.footer.rights}
           quickLinksLabel={chrome.footer.quickLinks}
-          categories={chrome.categories.items}
-          newsletter={{
-            title: chrome.footer.newsletter,
-            sub: chrome.footer.newsletterSub,
-            placeholder: chrome.footer.emailPlaceholder,
-            submit: chrome.footer.subscribe,
-            closing: chrome.footer.closing,
-            follow: chrome.footer.follow,
-            success: chrome.footer.subscribeOk,
-            fail: chrome.footer.subscribeFail,
+          followLabel={chrome.footer.follow}
+          contact={{
+            title: chrome.footer.contactTitle,
+            address: chrome.contact.addressValue,
+            phone: chrome.contact.phoneValue,
+            email: chrome.contact.emailValue,
+            hours: chrome.contact.hoursValue,
           }}
+          socials={SOCIALS}
         />
       </div>
     </div>

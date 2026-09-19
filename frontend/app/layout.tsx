@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Baloo_Chettan_2, Noto_Sans_Malayalam } from "next/font/google";
+import { Baloo_Chettan_2 } from "next/font/google";
+import localFont from "next/font/local";
 import "@/styles/globals.css";
 
 const SITE = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
@@ -31,22 +32,41 @@ export const viewport: Viewport = {
   themeColor: "#FFF8E9",
 };
 
-const display = Baloo_Chettan_2({
-  subsets: ["latin", "malayalam"],
+/* Every English heading, button and title - the brand's own hand-drawn
+   display face. Malayalam text overrides this back to the body face instead
+   (see the :lang(ml) rule in globals.css), since this face has no Malayalam
+   glyphs of its own. Self-hosted rather than pulled from Google Fonts, so the
+   exact family the client supplied is what ships. */
+const display = localFont({
+  src: "../public/Fonts/FSL-ATHIRA.otf",
+  weight: "400",
   variable: "--font-display",
   display: "swap",
 });
 
-const body = Noto_Sans_Malayalam({
-  subsets: ["latin", "malayalam"],
+/* Every paragraph, caption and label - a variable font, so the one file
+   covers its whole weight range instead of shipping several static cuts. */
+const body = localFont({
+  src: "../public/Fonts/NotoSerifMalayalam-VariableFont_wght.ttf",
+  weight: "100 900",
   variable: "--font-body",
+  display: "swap",
+});
+
+/* Header and footer menu only. FSL-ATHIRA has no real Latin letterforms - it
+   maps the English alphabet to Malayalam-shaped glyphs - so the English words
+   in the nav ("Home", "About Us", ...) render as nonsense in it. This is a
+   real Latin webfont in the same playful spirit, used only for that chrome. */
+const nav = Baloo_Chettan_2({
+  subsets: ["latin"],
+  variable: "--font-nav",
   display: "swap",
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${display.variable} ${body.variable}`}>{children}</body>
+      <body className={`${display.variable} ${body.variable} ${nav.variable}`}>{children}</body>
     </html>
   );
 }
