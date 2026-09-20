@@ -1,0 +1,75 @@
+// Default site settings = the copy that was hard-coded in the original static site.
+// getSettings() deep-merges the stored document over this, so every field always exists.
+import type { SiteSettings } from "./types";
+
+export const DEFAULT_SETTINGS: SiteSettings = {
+  _id: "site",
+  siteName: "മലർവാടി",
+  tagline: "കുട്ടികളുടെ സന്തോഷ ലോകം",
+  seoTitle: "Malarvadi — Kids Learning & Joy",
+  seoDescription: "Malarvadi children's collective — units, students, mentors, programs, gallery and more.",
+  hero: { over: "ബാലസംഘം • SINCE 1992", under: "കുട്ടികളുടെ സന്തോഷ ലോകം • 1500+ യൂണിറ്റുകൾ", badges: ["കല", "വായന", "ബാലസംഘം"] },
+  ticker: [
+    "മഴവില്ല് വായനോത്സവം — ജൂണിൽ എല്ലാ യൂണിറ്റുകളിലും",
+    "Little Scholar 2025 രജിസ്ട്രേഷൻ ആരംഭിച്ചു",
+    "ബാലോത്സവം — 10,000+ കുട്ടികൾ",
+    "തൈ നടൽ ദിനം — ഒക്ടോബർ 5",
+  ],
+  about: {
+    kicker: "മലർവാടി മലപ്പുറം • സ്നേഹക്കൂട്ടം",
+    title: "കുട്ടികൾക്കായി...\nസമൂഹത്തിനായി...",
+    body: "കുരുന്നുകളുടെ സർഗാത്മകതയും അറിവും വളർത്തുന്ന മലർവാടി — കല, സാഹിത്യം, ശാസ്ത്രം, സാമൂഹിക സേവനം എന്നീ മേഖലകളിൽ കുട്ടികൾക്ക് വേദിയൊരുക്കുന്നു. 1500+ യൂണിറ്റുകളിലായി പതിനായിരക്കണക്കിന് കുട്ടികൾ എല്ലാ ഞായറും ഒത്തുചേരുന്നു.",
+    badge: "30+ വർഷം",
+    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=900&q=80",
+    chips: ["കല", "വായന", "പരിസ്ഥിതി"],
+  },
+  stats: [
+    { label: "Units • യൂണിറ്റുകൾ", value: 1500, suffix: "+", icon: "Building2", tone: "s-blue" },
+    { label: "Students • കുട്ടികൾ", value: 10000, suffix: "+", icon: "UsersRound", tone: "s-green" },
+    { label: "Mentors • മെന്റർമാർ", value: 1500, suffix: "+", icon: "Star", tone: "s-red" },
+  ],
+  contact: {
+    orgName: "മലർവാടി സെൻട്രൽ കമ്മിറ്റി",
+    address: "മലപ്പുറം, കേരളം",
+    pincode: "676505",
+    phone: "+91 98765 43210",
+    phoneNote: "രാവിലെ 9 – വൈകിട്ട് 5",
+    whatsapp: "+91 98765 43210",
+    email: "info@malarvadi.org",
+    hours: "തിങ്കൾ – ശനി, 9:00 AM – 5:00 PM",
+  },
+  social: { facebook: "https://facebook.com/malarvadi", instagram: "https://instagram.com/malarvadi", youtube: "https://youtube.com/@malarvadi", whatsapp: "https://wa.me/919876543210" },
+  app: {
+    eyebrow: "മലർവാടി ആപ്പ്",
+    title: "കുട്ടികൾക്കായി {highlight} ആപ്പ്",
+    highlight: "സൈത്തൂൺ",
+    body: "കഥകളും പാട്ടുകളും കാർട്ടൂണുകളും — പരസ്യങ്ങളില്ലാത്ത, കുട്ടികൾക്ക് സുരക്ഷിതമായ ഒരിടം. മലർവാടിയുടെ എല്ലാ യൂണിറ്റുകൾക്കും സൗജന്യം.",
+    appStore: "https://apps.apple.com/",
+    playStore: "https://play.google.com/store",
+  },
+  join: { eyebrow: "ചേരാം • Join Us", title: "മലർവാടിയിൽ അംഗമാവാം", formTitle: "ഫോം പൂരിപ്പിക്കൂ, ഞങ്ങൾ ബന്ധപ്പെടാം!" },
+  popup: { enabled: true, eyebrow: "ബാലസംഘം • Join Us", title: "മലർവാടിയിൽ ചേരാം", body: "പുതിയ പരിപാടികളും വാർത്തകളും അറിയാൻ ഇമെയിൽ നൽകൂ — ആഴ്ചയിൽ ഒരിക്കൽ മാത്രം." },
+  cta: { kicker: "ചേരൂ, കളിക്കൂ, വളരൂ", title: "മലർവാടിയിൽ അണിചേരാം", button: "അംഗമാവുക" },
+  footer: { blurb: "കുരുന്നുകളുടെ സന്തോഷ ലോകം.\nസ്നേഹവും അറിവും പങ്കിടാം.", copyright: "© 2026 Malarvadi. All rights reserved." },
+  pages: {
+    about: {
+      kicker: "ഞങ്ങളെക്കുറിച്ച് • About Us",
+      title: "കുട്ടികൾക്കായി, സമൂഹത്തിനായി",
+      sub: "1990 മുതൽ കേരളത്തിലുടനീളം കുരുന്നുകളുടെ സർഗാത്മകതയും മൂല്യങ്ങളും വളർത്തുന്ന ബാലസംഘം.",
+      story: [
+        "മലർവാടി ഒരു കുട്ടിക്കൂട്ടായ്മയാണ് — വായന, കല, ശാസ്ത്രം, കായികം, സാമൂഹികസേവനം എന്നിവയിലൂടെ കുട്ടികളിൽ ആത്മവിശ്വാസവും സഹാനുഭൂതിയും വളർത്തുന്നു. എല്ലാ ഞായറാഴ്ചയും 1500+ യൂണിറ്റുകളിൽ സ്നേഹത്തോടെ കൂടുന്നു.",
+        "10,000+ വിദ്യാർത്ഥികൾ, 1500+ പരിശീലകരായ മെന്റർമാർ — ഓരോ കുട്ടിയും ഒരു പൂവ് പോലെ വിരിയുന്നു.",
+      ],
+      sundayNote: "എല്ലാ ഞായറും • 9:30 AM",
+      sundayLine: "പാട്ട്, കഥ, കളി, ചിത്രം വര, പരിസ്ഥിതി പാഠങ്ങൾ — പഠനം രസകരമാക്കുന്നു.",
+      image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=900&q=80",
+      mentorsTitle: "ഓരോ കുട്ടിക്കും {highlight}",
+      mentorsSub: "സുരക്ഷിതവും സ്നേഹപൂർണ്ണവുമായ അന്തരീക്ഷത്തിൽ ഓരോ കുട്ടിയെയും അറിഞ്ഞ്, ക്ഷമയോടെയും പ്രോത്സാഹനത്തോടെയും കൂടെ നിൽക്കുന്ന മെന്റർമാർ.",
+    },
+    programs: { kicker: "പരിപാടികൾ • Programs", title: "കളിയും പഠനവും ഒരുമിച്ച്", sub: "6 മുഖ്യ പരിപാടികൾ — ഓരോ കുട്ടിക്കും തിളങ്ങാൻ ഒരു വേദി." },
+    gallery: { kicker: "ഗാലറി • Photos & Videos", title: "നമ്മുടെ ചിത്രങ്ങളും വീഡിയോകളും", sub: "ചിരിയും കളിയും പഠനവും — ഓരോ ഫ്രെയിമിലും സന്തോഷം." },
+    contact: { kicker: "ബന്ധപ്പെടാം • Contact Us", title: "ഹലോ പറയൂ, ചേരൂ", sub: "അഡ്മിഷൻ, യൂണിറ്റ് തുടങ്ങൽ, സംശയങ്ങൾ — ഞങ്ങൾ സന്തോഷത്തോടെ സഹായിക്കാം." },
+    news: { kicker: "വാർത്തകൾ • News", title: "വാർത്തകളും വിശേഷങ്ങളും", sub: "മലർവാടിയിലെ പുതിയ വാർത്തകളും വിശേഷങ്ങളും എല്ലാം ഒരിടത്ത്." },
+    blog: { kicker: "ബ്ലോഗ് • Blog", title: "അറിവുകളും പ്രവർത്തനങ്ങളും", sub: "കുട്ടികൾക്കും മാതാപിതാക്കൾക്കും ഉപകാരപ്രദമായ അറിവുകളും പ്രവർത്തനങ്ങളും." },
+  },
+};
