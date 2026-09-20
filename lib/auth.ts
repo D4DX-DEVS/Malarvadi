@@ -3,7 +3,11 @@ import { createHmac, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 
 export const ADMIN_COOKIE = "mv_admin";
-const secret = () => process.env.AUTH_SECRET || "dev-secret-change-me";
+function secret(): string {
+  const s = process.env.AUTH_SECRET;
+  if (!s || s.length < 16) throw new Error("AUTH_SECRET env var is required (min 16 chars)");
+  return s;
+}
 
 function sign(payload: string) {
   return createHmac("sha256", secret()).update(payload).digest("hex");
@@ -16,13 +20,18 @@ export function makeToken(): string {
 }
 
 export function verifyToken(token: string | undefined): boolean {
-  if (!token) return false;
-  const [payload, sig] = token.split(".");
-  if (!payload || !sig) return false;
-  const expected = sign(payload);
-  if (expected.length !== sig.length) return false;
-  if (!timingSafeEqual(Buffer.from(expected), Buffer.from(sig))) return false;
-  return Number(payload) > Date.now();
+  try {
+    if (!token) return false;
+    const [payload, sig] = token.split(".");
+    if (!payload || !sig || !/^[0-9a-f]+$/i.test(sig)) return false;
+    const expected = Buffer.from(sign(payload), "hex");
+    const given = Buffer.from(sig, "hex");
+    if (expected.length !== given.length) return false;
+    if (!timingSafeEqual(expected, given)) return false;
+    return Number(payload) > Date.now();
+  } catch {
+    return false;
+  }
 }
 
 export function checkPassword(pw: string): boolean {

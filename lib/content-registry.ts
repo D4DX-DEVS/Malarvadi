@@ -136,7 +136,7 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
 export const COLLECTION_KEYS = Object.keys(COLLECTIONS);
 
 export function slugify(s: string): string {
-  const base = s.toLowerCase().trim().replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-+|-+$/g, "");
+  const base = s.toLowerCase().trim().replace(/[^\p{L}\p{M}\p{N}]+/gu, "-").replace(/^-+|-+$/g, "");
   return base || Math.random().toString(36).slice(2, 8);
 }
 

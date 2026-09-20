@@ -46,7 +46,7 @@ export function Header() {
             {link("/contact", "Contact Us", "alt3")}
           </nav>
           <div className="socials">
-            <span className="icon-btn" aria-label="Search"><Search size={14} /></span>
+            <a href="/search" className="icon-btn" aria-label="Search"><Search size={14} /></a>
           </div>
         </motion.div>
       </div>

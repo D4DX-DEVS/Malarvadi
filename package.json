@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev -p 3007",
     "build": "next build",
-    "start": "next start -p 3007"
+    "start": "next start -p 3007",
+    "seed": "tsx scripts/seed.ts",
+    "seed:reset": "tsx scripts/seed.ts --reset"
   },
   "dependencies": {
     "framer-motion": "^11.11.0",

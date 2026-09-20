@@ -55,7 +55,9 @@ function mergeDeep<T>(base: T, over: unknown): T {
 export async function getSettings(): Promise<SiteSettings> {
   const db = await getDb();
   const stored = await db.collection("settings").findOne({ _id: "site" as unknown as ObjectId });
-  return mergeDeep(DEFAULT_SETTINGS, stored ? { ...stored, _id: "site" } : {});
+  const over: Record<string, unknown> = stored ? { ...stored, _id: "site" } : {};
+  delete over.createdAt; delete over.updatedAt;
+  return mergeDeep(DEFAULT_SETTINGS, over);
 }
 
 export async function getHomeSections(): Promise<HomeSection[]> {

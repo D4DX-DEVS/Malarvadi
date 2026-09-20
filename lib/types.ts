@@ -153,7 +153,7 @@ export interface SiteSettings {
   cta: { kicker: string; title: string; button: string };
   footer: { blurb: string; copyright: string };
   pages: {
-    about: { kicker: string; title: string; sub: string; story: string[]; sundayNote: string; sundayLine: string; image: string; mentorsTitle: string; mentorsSub: string };
+    about: { kicker: string; title: string; sub: string; story: string[]; sundayNote: string; sundayLine: string; image: string; mentorsTitle: string; mentorsHighlight: string; mentorsSub: string };
     programs: { kicker: string; title: string; sub: string };
     gallery: { kicker: string; title: string; sub: string };
     contact: { kicker: string; title: string; sub: string };
