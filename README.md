@@ -31,7 +31,9 @@ The community npm wrapper (`npm install -g cloudflared`) is picked up too, as ar
 | `npm run share -- --json` | one JSON line (`{"url":"https://..."}`) on stdout for scripts and agents, logs on stderr |
 | `npm run tunnel` | tunnel only, for a site you already have running; errors out if nothing is listening on the port |
 
-The tunnel fronts the whole app, **`/admin` included**, and anyone with the link can attempt the admin login. Set a long random `ADMIN_PASSWORD` in `.env.local` before sharing, and close the tunnel when you are done. Quick Tunnels are built for development and demos: the URL is random, changes on every run, and Cloudflare gives no uptime guarantee. A stable hostname needs a named tunnel (Cloudflare account plus a DNS record) or a real deploy.
+The tunnel fronts the whole app, **`/admin` included**, and anyone with the link can attempt the admin login. Set a long random `ADMIN_PASSWORD` in `.env.local` before sharing, and close the tunnel when you are done.
+
+Quick Tunnels are built for development and demos: the URL is random, changes on every run, and Cloudflare gives no uptime guarantee. Creating several in a row can also make Cloudflare withhold DNS for the new hostname for a while, in which case the connector registers but the public URL does not resolve yet; `npm run share` checks for that and says so. A stable hostname needs a named tunnel (Cloudflare account plus a DNS record) or a real deploy.
 
 ## Environment
 

@@ -14,6 +14,7 @@
  */
 
 import { spawn, spawnSync } from "node:child_process";
+import dns from "node:dns/promises";
 import { existsSync } from "node:fs";
 import net from "node:net";
 import path from "node:path";
@@ -109,6 +110,45 @@ async function waitForPort(port, timeoutMs) {
     await sleep(400);
   }
   return false;
+}
+
+/**
+ * A fresh quick Tunnel registers with the edge before Cloudflare publishes DNS
+ * for its hostname, and Cloudflare throttles hostnames when tunnels are created
+ * in quick succession. Report the difference instead of handing over a dead URL.
+ */
+async function publishedInDoh(host) {
+  try {
+    const response = await fetch(`https://cloudflare-dns.com/dns-query?name=${host}&type=A`, {
+      headers: { accept: "application/dns-json" },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!response.ok) return false;
+    const body = await response.json();
+    return body?.Status === 0 && Array.isArray(body.Answer) && body.Answer.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+async function hostnameIsPublished(host) {
+  try {
+    await dns.lookup(host);
+    return true;
+  } catch {
+    // The local resolver caches NXDOMAIN for the zone's SOA TTL (30 minutes), so a
+    // hostname can be live for everyone else while this machine still says no.
+    return publishedInDoh(host);
+  }
+}
+
+async function hostnameResolves(host, timeoutMs = 30_000) {
+  const deadline = Date.now() + timeoutMs;
+  for (;;) {
+    if (await hostnameIsPublished(host)) return true;
+    if (Date.now() >= deadline) return false;
+    await sleep(3000);
+  }
 }
 
 const children = new Set();
@@ -271,7 +311,19 @@ async function main() {
       if (match) {
         announced = true;
         rest = "";
-        banner({ origin, url: match[0], startedDev, json: options.json });
+        const url = match[0];
+        banner({ origin, url, startedDev, json: options.json });
+        hostnameResolves(new URL(url).hostname)
+          .then((ok) => {
+            if (ok) note(`${new URL(url).hostname} resolves. The public URL is live.`);
+            else
+              note(
+                `${new URL(url).hostname} does not resolve yet. Cloudflare can take a moment, and it throttles\n` +
+                  "       hostnames when several tunnels are created in quick succession. The tunnel is still\n" +
+                  "       running, so try the URL again shortly.",
+              );
+          })
+          .catch(() => {});
       } else if (rest.length > 8192) {
         rest = rest.slice(-1024);
       }
@@ -296,6 +348,11 @@ async function main() {
 
 function log(options, message) {
   if (!options.json) process.stdout.write(`${message}\n`);
+}
+
+// Status messages go to stderr so that --json keeps a single line on stdout.
+function note(message) {
+  process.stderr.write(`[share] ${message}\n`);
 }
 
 main().catch((error) => fail(error?.stack ?? String(error)));

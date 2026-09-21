@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { Search, Facebook, Instagram, Youtube, MapPin, Phone, Mail, Clock, ArrowRight, Home, Images, CalendarHeart, UsersRound, Sparkles, Baby, UserRound, Leaf, MessageCircle, Heart, Rainbow, GraduationCap, PartyPopper, Sprout } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useSite, telHref } from "@/components/site-context";
+import { useSite, useJoinModal, telHref } from "@/components/site-context";
 
 const MENU = [
   { href: "/", label: "Home", icon: Home },
@@ -57,6 +57,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
 
 export function CTABand() {
   const { cta } = useSite();
+  const { openJoin } = useJoinModal();
   return (
     <div className="cta-band">
       <div className="cta-confetti" aria-hidden><span/><span/><span/><span/><span/><span/></div>
@@ -65,7 +66,7 @@ export function CTABand() {
         <div style={{ textAlign: "center", position:"relative", zIndex:2 }}>
           <div className="cta-kicker"><Sparkles size={13}/> {cta.kicker} <Sparkles size={13}/></div>
           <b className="cta-title">{cta.title}</b><br />
-          <motion.a whileHover={{ scale: 1.06 }} whileTap={{ scale: .96 }} href="/contact" className="btn btn-pink" style={{ marginTop: 10 }}>{cta.button} <ArrowRight size={15} /></motion.a>
+          <motion.button whileHover={{ scale: 1.06 }} whileTap={{ scale: .96 }} type="button" onClick={openJoin} className="btn btn-pink" style={{ marginTop: 10 }}>{cta.button} <ArrowRight size={15} /></motion.button>
         </div>
         <motion.span animate={{ y: [0,-10,0], rotate: [4,-4,4] }} transition={{ repeat: Infinity, duration: 3.6, delay: .4 }} className="kid"><UserRound size={72} strokeWidth={1.8} /></motion.span>
       </div>

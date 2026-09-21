@@ -24,7 +24,7 @@ export default function Join({ data, section }: SectionProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           kind: "join",
-          data: { name: get("name"), place: get("place"), phone: get("phone"), email: get("email"), grade: get("grade"), message: get("message") },
+          data: { name: get("name"), unit: get("unit"), place: get("place"), phone: get("phone"), email: get("email"), grade: get("grade") },
         }),
       });
       if (!res.ok) throw new Error("failed");
@@ -52,17 +52,26 @@ export default function Join({ data, section }: SectionProps) {
             <h4>{join.formTitle}</h4>
             <div className="join-fields">
               <input required name="name" placeholder="പേര് *" aria-label="പേര്" />
-              <input required name="place" placeholder="യൂണിറ്റ് / സ്ഥലം *" aria-label="യൂണിറ്റ്" />
-              <input required name="phone" type="tel" placeholder="ഫോൺ നമ്പർ *" aria-label="ഫോൺ നമ്പർ" />
+              <input required name="unit" placeholder="യൂണിറ്റ് *" aria-label="യൂണിറ്റ്" />
+              <input required name="place" placeholder="സ്ഥലം *" aria-label="സ്ഥലം" />
+              <input
+                required
+                name="phone"
+                type="tel"
+                inputMode="numeric"
+                placeholder="ഫോൺ നമ്പർ (10 അക്കം) *"
+                aria-label="ഫോൺ നമ്പർ"
+                pattern="[0-9]{10}"
+                maxLength={10}
+                title="10 അക്ക ഫോൺ നമ്പർ നൽകുക"
+                onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "").slice(0, 10); }}
+              />
               <input name="email" type="email" placeholder="ഇമെയിൽ" aria-label="ഇമെയിൽ" />
               <select name="grade" aria-label="ക്ലാസ്" defaultValue="" required>
                 <option value="" disabled>ക്ലാസ് തിരഞ്ഞെടുക്കാം *</option>
                 <option>എൽ.കെ.ജി – 4</option>
                 <option>5 – 7</option>
-                <option>8 – 10</option>
-                <option>+1, +2</option>
               </select>
-              <textarea name="message" rows={3} placeholder="സന്ദേശം" aria-label="സന്ദേശം" />
             </div>
             <button type="submit" className="btn btn-pink join-submit" disabled={sending}>അയക്കാം <ArrowRight size={15} /></button>
             {joined && <p className="join-note"><Star size={13} /> നന്ദി! ഞങ്ങൾ ഉടൻ ബന്ധപ്പെടും.</p>}
