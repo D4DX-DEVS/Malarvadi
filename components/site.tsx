@@ -26,13 +26,14 @@ export function MobileFooterMenu() {
   );
 }
 
-export function Header() {
+/** `overlay` lifts the nav out of the flow so a full-bleed hero can sit under it. */
+export function Header({ overlay = false }: { overlay?: boolean }) {
   const path = usePathname();
   const link = (href: string, label: string, cls = "") => (
     <a key={href} href={href} className={`${path === href ? "active" : cls}`}>{label}</a>
   );
   return (
-    <header className="header">
+    <header className={overlay ? "header header-overlay" : "header"}>
       <div className="wrap">
         <motion.div initial={{ y: -22, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ type: "spring", stiffness: 180, damping: 20 }} className="nav-shell">
           <a href="/" className="logo" aria-label="Malarvadi home">

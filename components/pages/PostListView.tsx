@@ -25,7 +25,7 @@ export default function PostListView({ kind, page, posts }: {
             {posts.map((post, i) => (
               <motion.a
                 key={post._id} href={`${base}/${post.slug}`} className="blog-card card-link"
-                initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: (i % 3) * 0.08 }} whileHover={{ y: -8 }}
               >
                 {post.image && <img className="blog-photo" src={post.image} alt={post.title} loading="lazy" />}

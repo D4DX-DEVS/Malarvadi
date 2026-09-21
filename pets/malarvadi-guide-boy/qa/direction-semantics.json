@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "review": "All 16 look cells were reviewed in clockwise order at normal size.",
+  "directions": [
+    {"degrees":0,"label":"up","status":"pass"},
+    {"degrees":22.5,"label":"up-right","status":"pass"},
+    {"degrees":45,"label":"up-right","status":"pass"},
+    {"degrees":67.5,"label":"up-right","status":"pass"},
+    {"degrees":90,"label":"right","status":"pass"},
+    {"degrees":112.5,"label":"down-right","status":"pass"},
+    {"degrees":135,"label":"down-right","status":"pass"},
+    {"degrees":157.5,"label":"down-right","status":"pass"},
+    {"degrees":180,"label":"down","status":"pass"},
+    {"degrees":202.5,"label":"down-left","status":"pass"},
+    {"degrees":225,"label":"down-left","status":"pass"},
+    {"degrees":247.5,"label":"down-left","status":"pass"},
+    {"degrees":270,"label":"left","status":"pass"},
+    {"degrees":292.5,"label":"up-left","status":"pass"},
+    {"degrees":315,"label":"up-left","status":"pass"},
+    {"degrees":337.5,"label":"up-left","status":"pass"}
+  ]
+}

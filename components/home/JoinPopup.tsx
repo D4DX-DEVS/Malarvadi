@@ -83,7 +83,7 @@ export default function JoinPopup() {
                     <a key={c.label} href={c.href} target="_blank" rel="noreferrer" aria-label={c.label} title={c.label}>{c.icon}</a>
                   ))}
                 </div>}
-            {error && <p className="join-pop-thanks" style={{ color: "#ffd7d7" }}>{error}</p>}
+            {error && <p className="join-pop-thanks" style={{ color: "#ffd0cc" }}>{error}</p>}
           </motion.div>
           <button className="join-pop-close" onClick={close} aria-label="അടയ്ക്കാം"><X size={18} /></button>
         </motion.div>

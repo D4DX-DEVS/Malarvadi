@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "spriteVersionNumber": 2,
+  "run_dir": "/Users/d4-ceo/Documents/ChatGPT/malarvadi/pets/malarvadi-guide-boy",
+  "spritesheet": "/Users/d4-ceo/Documents/ChatGPT/malarvadi/pets/malarvadi-guide-boy/final/spritesheet-extended.webp",
+  "validation": "/Users/d4-ceo/Documents/ChatGPT/malarvadi/pets/malarvadi-guide-boy/final/validation-extended.json",
+  "chroma_despill": "/Users/d4-ceo/Documents/ChatGPT/malarvadi/pets/malarvadi-guide-boy/qa/chroma-despill-extended.json",
+  "contact_sheet": "/Users/d4-ceo/Documents/ChatGPT/malarvadi/pets/malarvadi-guide-boy/qa/contact-sheet-extended.png",
+  "direction_sheet": "/Users/d4-ceo/Documents/ChatGPT/malarvadi/pets/malarvadi-guide-boy/qa/look-directions.png",
+  "direction_semantics": "/Users/d4-ceo/Documents/ChatGPT/malarvadi/pets/malarvadi-guide-boy/qa/direction-semantics.json",
+  "blind_direction_validation": "/Users/d4-ceo/Documents/ChatGPT/malarvadi/pets/malarvadi-guide-boy/qa/direction-blind-validation.json",
+  "blind_review_resolution": "/Users/d4-ceo/Documents/ChatGPT/malarvadi/pets/malarvadi-guide-boy/qa/blind-review-resolution.json",
+  "continuity": "/Users/d4-ceo/Documents/ChatGPT/malarvadi/pets/malarvadi-guide-boy/qa/look-continuity.json",
+  "review": "/Users/d4-ceo/Documents/ChatGPT/malarvadi/pets/malarvadi-guide-boy/qa/review.json",
+  "package": "/Users/d4-ceo/.codex/pets/malarvadi-guide-boy"
+}

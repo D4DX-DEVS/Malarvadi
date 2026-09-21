@@ -3,7 +3,7 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(path, {
     ...init,
     headers:
-      init?.body != null
+      init?.body != null && !(init.body instanceof FormData)
         ? { "Content-Type": "application/json", ...(init?.headers || {}) }
         : init?.headers,
     cache: "no-store",

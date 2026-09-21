@@ -54,7 +54,7 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
       { name: "icon", label: "Icon", type: "icon", required: true, options: iconOptions },
       { name: "color", label: "Card colour", type: "color", required: true },
       { name: "image", label: "Image URL", type: "image" },
-      { name: "featured", label: "Show on home strip", type: "boolean", help: "First 3 featured (by order) appear on the home page" },
+      { name: "featured", label: "Show on home strip", type: "boolean", help: "Featured programs appear in the scrollable home logo rail" },
       { name: "desc", label: "Short description", type: "textarea", required: true },
       { name: "body", label: "Full description", type: "textarea", required: true },
     ],

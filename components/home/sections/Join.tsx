@@ -39,7 +39,7 @@ export default function Join({ data, section }: SectionProps) {
   return (
     <section id="join" className="join-band">
       <span className="join-spark s1" aria-hidden /><span className="join-spark s2" aria-hidden />
-      <div className="wrap">
+      <div className="wrap reveal rv-rotate">
         <div className="join-head">
           <div>
             <p className="join-eyebrow"><Sparkles size={13} /> {join.eyebrow || section.subtitle}</p>
@@ -66,7 +66,7 @@ export default function Join({ data, section }: SectionProps) {
             </div>
             <button type="submit" className="btn btn-pink join-submit" disabled={sending}>അയക്കാം <ArrowRight size={15} /></button>
             {joined && <p className="join-note"><Star size={13} /> നന്ദി! ഞങ്ങൾ ഉടൻ ബന്ധപ്പെടും.</p>}
-            {error && <p className="join-note"><span style={{ color: "#d63031" }}>{error}</span></p>}
+            {error && <p className="join-note"><span style={{ color: "#c62f2f" }}>{error}</span></p>}
           </form>
           <div className="join-faq">
             {faqs.map((f, i) => (

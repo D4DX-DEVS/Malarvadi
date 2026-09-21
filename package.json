@@ -6,6 +6,8 @@
     "dev": "next dev -p 3007",
     "build": "next build",
     "start": "next start -p 3007",
+    "share": "node scripts/share.mjs",
+    "tunnel": "node scripts/share.mjs --no-dev",
     "seed": "tsx scripts/seed.ts",
     "seed:reset": "tsx scripts/seed.ts --reset"
   },

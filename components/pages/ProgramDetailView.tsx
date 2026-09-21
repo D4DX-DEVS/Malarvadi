@@ -41,7 +41,7 @@ export default function ProgramDetailView({ program, others }: { program: Progra
             <div className="section-head"><h4>മറ്റ് പരിപാടികൾ</h4></div>
             <div className="prog-detail">
               {others.map((o, i) => (
-                <motion.a key={o._id} href={`/programs/${o.slug}`} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }} whileHover={{ y: -6 }} className="sub-card card-link" style={{ background: o.color }}>
+                <motion.a key={o._id} href={`/programs/${o.slug}`} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }} whileHover={{ y: -6 }} className="sub-card card-link" style={{ background: o.color }}>
                   <span className="big"><Icon name={o.icon} size={34} strokeWidth={1.7} /></span>
                   <h4 style={{ fontSize: 17 }}>{o.title}</h4>
                   <p style={{ fontSize: 12.5 }}>{o.tagline}</p>

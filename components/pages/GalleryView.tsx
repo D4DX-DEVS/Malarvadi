@@ -49,7 +49,7 @@ export default function GalleryView({ settings, gallery, videos, posters, initia
               {photos.map((item, i) => (
                 <motion.img
                   key={`${item.src}-${i}`} src={item.src} alt={item.caption || "gallery"} loading="lazy"
-                  initial={{ opacity: 0, scale: .94 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
+                  initial={{ opacity: 0, scale: .94 }} whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ delay: (i % 4) * 0.06 }} style={{ cursor: "pointer" }} onClick={() => setShot(i)}
                 />
               ))}

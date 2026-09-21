@@ -6,8 +6,8 @@ import type { SectionProps } from "@/components/home/section-types";
 export default function Blog({ data, section }: SectionProps) {
   if (!data.blog.length) return null;
   return (
-    <section className="blog-band reveal">
-      <div className="wrap">
+    <section className="blog-band">
+      <div className="wrap reveal rv-flip">
         <h4 className="blog-title">{section.title}</h4>
         <p className="blog-sub">{section.subtitle}</p>
         <div className="blog-grid">

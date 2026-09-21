@@ -1,0 +1,5 @@
+{
+  "ok": true,
+  "overrides": [],
+  "note": "Blind horizontal and vertical direction checks passed without overrides. Continuity warnings remain documented in look-continuity.json and do not block packaging."
+}

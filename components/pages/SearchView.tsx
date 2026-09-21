@@ -11,7 +11,7 @@ export interface SearchResults { news: Post[]; blog: Post[]; programs: Program[]
 
 function PostRow({ base, post, label }: { base: string; post: Post; label: string }) {
   return (
-    <motion.a href={`${base}/${post.slug}`} className="blog-card card-link" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} whileHover={{ y: -6 }}>
+    <motion.a href={`${base}/${post.slug}`} className="blog-card card-link" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} whileHover={{ y: -6 }}>
       <div className="blog-tags">{(post.tags || []).map((t) => <span key={t}>{t}</span>)}</div>
       <small style={{ display: "block", fontSize: 11.5, fontWeight: 800, color: "#6b7194", marginBottom: 6 }}>{longDate(post.date)}</small>
       <h4 style={{ fontSize: 19 }}>{post.title}</h4>
@@ -49,7 +49,7 @@ export default function SearchView({ q, results }: { q: string; results: SearchR
             <div className="section-head"><h4><CalendarHeart size={18} /> പരിപാടികൾ</h4></div>
             <div className="prog-detail">
               {results.programs.map((p, i) => (
-                <motion.a key={p._id} href={`/programs/${p.slug}`} className="sub-card card-link" style={{ background: p.color }} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: (i % 3) * 0.06 }} whileHover={{ y: -6 }}>
+                <motion.a key={p._id} href={`/programs/${p.slug}`} className="sub-card card-link" style={{ background: p.color }} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: (i % 3) * 0.06 }} whileHover={{ y: -6 }}>
                   <span className="big"><Icon name={p.icon} size={34} strokeWidth={1.7} /></span>
                   <h4 style={{ fontSize: 18 }}>{p.title}</h4>
                   <p style={{ fontSize: 12.5 }}>{p.desc}</p>

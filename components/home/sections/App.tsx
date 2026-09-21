@@ -10,16 +10,16 @@ export default function App({ data }: SectionProps) {
     <section className="app-band">
       <span className="app-cloud c1" aria-hidden /><span className="app-cloud c2" aria-hidden />
       <div className="wrap app-inner">
-        <div className="app-visual reveal">
+        <div className="app-visual reveal rv-left">
           <span className="app-phone" aria-hidden>
-            <img src="/zaitoon.png" alt="" />
+            <img src={app.image || "/zaitoon.png"} alt="" />
             <b>ZaiToon</b>
             <small>കഥ • പാട്ട് • കാർട്ടൂൺ</small>
           </span>
           <img className="app-kid-l" src="/kid-left.png" alt="" aria-hidden />
         </div>
-        <div className="app-copy">
-          <motion.span initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="app-eyebrow"><Sparkles size={13} /> {app.eyebrow}</motion.span>
+        <div className="app-copy reveal rv-zoom">
+          <motion.span initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} className="app-eyebrow"><Sparkles size={13} /> {app.eyebrow}</motion.span>
           <h4 className="app-title">{before}<span>{app.highlight}</span>{after}</h4>
           <p className="app-sub">{app.body}</p>
           <div className="app-badges">
@@ -38,7 +38,7 @@ export default function App({ data }: SectionProps) {
             </motion.a>
           </div>
         </div>
-        <div className="app-visual reveal">
+        <div className="app-visual reveal rv-right">
           <img className="app-kid-r" src="/kid-right.png" alt="" aria-hidden />
         </div>
       </div>

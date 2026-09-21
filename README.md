@@ -13,6 +13,26 @@ npm run dev                  # http://localhost:3007
 
 Admin panel: http://localhost:3007/admin (password = `ADMIN_PASSWORD` from `.env.local`).
 
+## Share it on the internet
+
+One command puts this local site on a public, encrypted `https://<random-words>.trycloudflare.com` URL, the same thing [try.cloudflare.com](https://try.cloudflare.com) does. No Cloudflare account, DNS record or router change is involved: `cloudflared` dials out, so the machine needs no open inbound port and its IP stays hidden. What the app serves does become public, though: every route, `/admin` included, is reachable by anyone holding the link.
+
+```bash
+brew install cloudflared   # once, official macOS install
+npm run share              # starts the site if needed, then the tunnel
+```
+
+The community npm wrapper (`npm install -g cloudflared`) is picked up too, as are `~/.npm-global/bin/cloudflared` and `~/.local/bin/cloudflared`. Ctrl+C ends both the site and the tunnel, and the URL disappears with them.
+
+| Command | What it does |
+| --- | --- |
+| `npm run share` | site + tunnel; reuses port 3007 when it is already serving |
+| `npm run share -- --port 3000` | tunnel a site running on another port |
+| `npm run share -- --json` | one JSON line (`{"url":"https://..."}`) on stdout for scripts and agents, logs on stderr |
+| `npm run tunnel` | tunnel only, for a site you already have running; errors out if nothing is listening on the port |
+
+The tunnel fronts the whole app, **`/admin` included**, and anyone with the link can attempt the admin login. Set a long random `ADMIN_PASSWORD` in `.env.local` before sharing, and close the tunnel when you are done. Quick Tunnels are built for development and demos: the URL is random, changes on every run, and Cloudflare gives no uptime guarantee. A stable hostname needs a named tunnel (Cloudflare account plus a DNS record) or a real deploy.
+
 ## Environment
 
 | Variable | Purpose |

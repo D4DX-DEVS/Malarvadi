@@ -135,6 +135,8 @@
 .adm-color { display: flex; gap: 8px; align-items: center; }
 .adm-color input[type="color"] { width: 46px; height: 40px; padding: 2px; border: 1px solid var(--adm-input); border-radius: 10px; background: #fff; flex: 0 0 auto; }
 .adm-thumb { margin-top: 8px; max-width: 170px; max-height: 110px; border-radius: 10px; border: 1px solid var(--adm-line); object-fit: cover; display: block; }
+.adm-imgrow { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.adm-imgrow input[type="file"] { font-size: 13px; }
 .adm-iconprev { display: flex; align-items: center; gap: 8px; margin-top: 8px; color: var(--adm-muted); font-size: 12px; }
 .adm-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
 .adm-chip { background: #eaf6f4; color: #0b4e46; border-radius: 999px; padding: 3px 10px; font-size: 12px; }

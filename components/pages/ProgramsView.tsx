@@ -19,7 +19,7 @@ export default function ProgramsView({ settings, programs, events }: { settings:
               <motion.a
                 key={item._id}
                 href={`/programs/${item.slug}`}
-                initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: (i % 3) * 0.08 }} whileHover={{ y: -6, rotate: -0.5 }}
                 className="sub-card card-link" style={{ background: item.color }}
               >

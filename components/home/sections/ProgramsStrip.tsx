@@ -1,57 +1,74 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Baby, UserRound, Sprout, Heart, ArrowRight } from "lucide-react";
-import { Icon } from "@/components/icons";
+import { ChevronLeft, ChevronRight, Sprout, Heart, ArrowRight } from "lucide-react";
 import { fadeUp, type SectionProps } from "@/components/home/section-types";
 
-const CARD_CLASS = ["pc-yellow", "pc-blue", "pc-pink"];
-const TITLE_STYLE: React.CSSProperties[] = [
-  { color: "#111" },
-  { color: "#e8590c", textShadow: "0 2px 0 #fff", letterSpacing: .5 },
-  { color: "#5c2e00", textShadow: "0 2px 0 #ffd43b, 0 4px 0 #fff" },
-];
-const PILL_BORDER = ["#f0d9a9", "#bfe3ff", "#ffc7d8"];
-const FOCUS_SCALE = [1.03, 1.045, 1.03];
+const CARD_CLASS = ["pc-yellow", "pc-blue", "pc-pink", "pc-mint", "pc-lavender"];
 
 export default function ProgramsStrip({ data }: SectionProps) {
-  const programs = data.programs.slice(0, 3);
-  const [progIdx, setProgIdx] = useState(1);
+  const programs = data.programs;
+  const [progIdx, setProgIdx] = useState(0);
+  const railRef = useRef<HTMLDivElement>(null);
   if (!programs.length) return null;
   const n = programs.length;
+
+  const moveRail = (direction: -1 | 1) => {
+    const rail = railRef.current;
+    if (!rail) return;
+    const card = rail.querySelector<HTMLElement>(".program-logo-card");
+    const distance = card ? card.offsetWidth + 18 : rail.clientWidth * 0.86;
+    rail.scrollBy({ left: direction * distance, behavior: "smooth" });
+    setProgIdx((current) => (current + direction + n) % n);
+  };
+
   return (
     <div className="wrap">
       <section className="strip reveal">
-        <div style={{ position: "relative" }}>
-          <span className="side-kid" style={{ left: -62 }}><Baby size={50} /><small><Sprout size={18} /></small></span>
-          <span className="side-kid" style={{ right: -60, animationDelay: "-1.4s" }}><UserRound size={50} /><small><Heart size={18} /></small></span>
-          <div className="strip-row">
-            {programs.map((p, i) => (
-              <motion.a
-                key={p._id}
-                href={`/programs/${p.slug}`}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="show"
-                custom={i}
-                viewport={{ once: true }}
-                className={`prog-card ${CARD_CLASS[i % 3]}`}
-                onMouseEnter={() => setProgIdx(i)}
-                style={{ opacity: progIdx === i ? 1 : 0.94, scale: progIdx === i ? FOCUS_SCALE[i % 3] : 1 }}
-              >
-                <motion.span animate={{ y: [0, -7, 0], rotate: [-5, 5, -5] }} transition={{ repeat: Infinity, duration: 3.4 }} style={{ display: "block" }}>
-                  <Icon name={p.icon} size={42} />
-                </motion.span>
-                <h4 style={TITLE_STYLE[i % 3]}>{p.title}</h4>
-                <p>{p.tagline}</p>
-                <span style={{ marginTop: 8, display: "inline-flex", alignItems: "center", gap: 5, fontSize: 11, fontWeight: 800, background: "#fff", borderRadius: 999, padding: "4px 12px", border: `1px solid ${PILL_BORDER[i % 3]}` }}>
-                  {p.meta} <ArrowRight size={13} />
-                </span>
-              </motion.a>
-            ))}
+        <div className="program-scene">
+          <span className="program-deco program-deco-left" aria-hidden="true"><img src="/kid-left.png" alt="" /></span>
+          <span className="program-deco program-deco-right" aria-hidden="true"><img src="/kid-right.png" alt="" /></span>
+          <span className="program-spark spark-left" aria-hidden="true"><Sprout size={23} /></span>
+          <span className="program-spark spark-right" aria-hidden="true"><Heart size={21} /></span>
+          <div className="program-rail-shell">
+            <div className="program-rail" ref={railRef} onScroll={(event) => {
+              const rail = event.currentTarget;
+              const card = rail.querySelector<HTMLElement>(".program-logo-card");
+              if (!card) return;
+              setProgIdx(Math.round(rail.scrollLeft / (card.offsetWidth + 18)) % n);
+            }}>
+              {programs.map((p, i) => (
+                <motion.a
+                  key={p._id}
+                  href={`/programs/${p.slug}`}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ amount: .35 }}
+                  custom={i}
+                  className={`program-logo-card ${CARD_CLASS[i % CARD_CLASS.length]}`}
+                  onMouseEnter={() => setProgIdx(i)}
+                  aria-label={`${p.title} — ${p.tagline}`}
+                >
+                  <span className="program-logo-frame">
+                    {p.image ? (
+                      <img src={p.image} alt={`${p.title} logo`} loading={i < 3 ? "eager" : "lazy"} />
+                    ) : (
+                      <span className="program-logo-fallback">{p.title}</span>
+                    )}
+                  </span>
+                  <span className="program-card-meta">
+                    <strong>{p.title}</strong>
+                    <small>{p.meta}</small>
+                    <span className="program-card-link">കാണാം <ArrowRight size={13} /></span>
+                  </span>
+                </motion.a>
+              ))}
+            </div>
           </div>
-          <span className="arrow l" onClick={() => setProgIdx((progIdx + n - 1) % n)}><ChevronLeft size={16} /></span>
-          <span className="arrow r" onClick={() => setProgIdx((progIdx + 1) % n)}><ChevronRight size={16} /></span>
+          <button className="arrow l" type="button" aria-label="Previous programs" onClick={() => moveRail(-1)}><ChevronLeft size={16} /></button>
+          <button className="arrow r" type="button" aria-label="Next programs" onClick={() => moveRail(1)}><ChevronRight size={16} /></button>
+          {n > 1 && <div className="program-dots" aria-hidden="true">{programs.map((p, i) => <i key={p._id} className={i === progIdx ? "on" : ""} />)}</div>}
         </div>
       </section>
     </div>

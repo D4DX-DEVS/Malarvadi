@@ -10,7 +10,7 @@ export default function Gallery({ data, section }: SectionProps) {
     <div className="cream-band">
       <div className="wrap">
         <section id="gallery" className="gallery-stack">
-          <div className="panel mint gallery-panel reveal">
+          <div className="panel mint gallery-panel reveal rv-blur">
             <Camera className="corner" size={22} style={{ left: 12, top: 8 }} />
             <Sparkles className="corner" size={17} style={{ right: 16, top: 6 }} />
             <div className="gallery-panel-head">
@@ -29,7 +29,7 @@ export default function Gallery({ data, section }: SectionProps) {
                 </a>
               ))}
             </div>
-            <p style={{ fontSize: 11.5, fontWeight: 800, color: "#0b6e4f", margin: "14px 0 0", display: "flex", alignItems: "center", gap: 5 }}><Camera size={14} /> ഓരോ ചിത്രവും ഒരു മധുര ഓർമ്മ...!</p>
+            <p style={{ fontSize: 11.5, fontWeight: 800, color: "#0d7f99", margin: "14px 0 0", display: "flex", alignItems: "center", gap: 5 }}><Camera size={14} /> ഓരോ ചിത്രവും ഒരു മധുര ഓർമ്മ...!</p>
             <Leaf className="corner" size={22} style={{ left: 14, bottom: 8 }} />
           </div>
         </section>

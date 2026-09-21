@@ -23,7 +23,7 @@ export function TreeHouse() {
   return (
     <div className="tree" aria-hidden>
       <svg viewBox="0 0 240 250" width="100%" height="100%">
-        <ellipse cx="118" cy="196" rx="62" ry="12" fill="rgba(30,70,30,.18)" />
+        <ellipse cx="118" cy="196" rx="62" ry="12" fill="rgba(16,58,70,.18)" />
         <path d="M104 200 Q106 150 98 118 Q120 112 138 120 Q132 155 136 200 Z" fill="#8a5a2b" />
         <path d="M108 195 Q110 150 104 122" stroke="#6f451f" strokeWidth="6" fill="none" strokeLinecap="round" opacity=".6" />
         <ellipse cx="118" cy="72" rx="102" ry="62" fill="#2f9e44" />
@@ -111,7 +111,7 @@ export function Kid({ variant = 0 }: { variant?: number }) {
   return (
     <motion.div className="kid-avatar" animate={{ y: [0, -8, 0], rotate: variant % 2 ? [2.5,-1.5,2.5] : [-2.5,1.5,-2.5] }} transition={{ repeat: Infinity, duration: 3.2 + variant * 0.25, ease: "easeInOut" }}>
       <svg viewBox="0 0 96 128" role="img" aria-label="Happy child cheering">
-        <ellipse cx="48" cy="121" rx="28" ry="5.5" fill="rgba(21,54,79,.18)" />
+        <ellipse cx="48" cy="121" rx="28" ry="5.5" fill="rgba(16,58,70,.18)" />
         <path d="M34 104 L32 118 L42 118 L44 105 Z" fill={skin} />
         <path d="M62 104 L64 118 L54 118 L52 105 Z" fill={skin} />
         <ellipse cx="37" cy="119" rx="7" ry="3.5" fill="#fff" stroke="#d9dee2" strokeWidth="1" />

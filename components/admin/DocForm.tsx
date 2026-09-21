@@ -58,10 +58,27 @@ export default function DocForm({
     return out;
   });
   const [imgBroken, setImgBroken] = useState<Record<string, boolean>>({});
+  const [uploading, setUploading] = useState<Record<string, boolean>>({});
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
   const set = (name: string, value: unknown) => setValues((p) => ({ ...p, [name]: value }));
+
+  async function uploadImage(name: string, file: File) {
+    setUploading((p) => ({ ...p, [name]: true }));
+    setError("");
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const { url } = await api<{ url: string }>("/api/upload", { method: "POST", body: fd });
+      set(name, url);
+      setImgBroken((p) => ({ ...p, [name]: false }));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploading((p) => ({ ...p, [name]: false }));
+    }
+  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -179,11 +196,25 @@ export default function DocForm({
         return (
           <div className="adm-field" key={f.name}>
             {label}
+            <div className="adm-imgrow">
+              <input
+                id={fid}
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"
+                disabled={uploading[f.name]}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = "";
+                  if (file) uploadImage(f.name, file);
+                }}
+              />
+              {uploading[f.name] ? <span className="adm-help">Uploading…</span> : null}
+            </div>
             <input
-              id={fid}
+              id={`${fid}-url`}
               type="url"
               value={str}
-              placeholder="https://…"
+              placeholder="or paste an image URL"
               onChange={(e) => {
                 set(f.name, e.target.value);
                 setImgBroken((p) => ({ ...p, [f.name]: false }));

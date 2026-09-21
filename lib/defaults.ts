@@ -8,7 +8,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   tagline: "കുട്ടികളുടെ സന്തോഷ ലോകം",
   seoTitle: "Malarvadi — Kids Learning & Joy",
   seoDescription: "Malarvadi children's collective — units, students, mentors, programs, gallery and more.",
-  hero: { over: "ബാലസംഘം • SINCE 1992", under: "കുട്ടികളുടെ സന്തോഷ ലോകം • 1500+ യൂണിറ്റുകൾ", badges: ["കല", "വായന", "ബാലസംഘം"] },
+  hero: { over: "ബാലസംഘം • SINCE 1992", under: "കുട്ടികളുടെ സന്തോഷ ലോകം • 1500+ യൂണിറ്റുകൾ", badges: ["കല", "വായന", "ബാലസംഘം"], image: "" },
   ticker: [
     "മഴവില്ല് വായനോത്സവം — ജൂണിൽ എല്ലാ യൂണിറ്റുകളിലും",
     "Little Scholar 2025 രജിസ്ട്രേഷൻ ആരംഭിച്ചു",
@@ -46,6 +46,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     body: "കഥകളും പാട്ടുകളും കാർട്ടൂണുകളും — പരസ്യങ്ങളില്ലാത്ത, കുട്ടികൾക്ക് സുരക്ഷിതമായ ഒരിടം. മലർവാടിയുടെ എല്ലാ യൂണിറ്റുകൾക്കും സൗജന്യം.",
     appStore: "https://apps.apple.com/",
     playStore: "https://play.google.com/store",
+    image: "",
   },
   join: { eyebrow: "ചേരാം • Join Us", title: "മലർവാടിയിൽ അംഗമാവാം", formTitle: "ഫോം പൂരിപ്പിക്കൂ, ഞങ്ങൾ ബന്ധപ്പെടാം!" },
   popup: { enabled: true, eyebrow: "ബാലസംഘം • Join Us", title: "മലർവാടിയിൽ ചേരാം", body: "പുതിയ പരിപാടികളും വാർത്തകളും അറിയാൻ ഇമെയിൽ നൽകൂ — ആഴ്ചയിൽ ഒരിക്കൽ മാത്രം." },

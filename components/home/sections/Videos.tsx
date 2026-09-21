@@ -10,11 +10,11 @@ export default function Videos({ data, section }: SectionProps) {
     <div className="cream-band">
       <div className="wrap">
         <div className="media-stack">
-          <div className="panel lav video-panel reveal">
+          <div className="panel lav video-panel reveal rv-clip">
             <Plane className="corner" size={28} style={{ right: 2, top: -2 }} />
             <div className="gallery-panel-head">
               <div>
-                <h4><span style={{ background: "#f4558d", color: "#fff", borderRadius: "50%", width: 30, height: 30, display: "grid", placeItems: "center", fontSize: 14 }}>▶</span> {section.title}</h4>
+                <h4><span style={{ background: "#ef3f3f", color: "#fff", borderRadius: "50%", width: 30, height: 30, display: "grid", placeItems: "center", fontSize: 14 }}>▶</span> {section.title}</h4>
                 <p className="sub">{section.subtitle}</p>
               </div>
               <a href="/gallery?f=videos" className="mini">എല്ലാം കാണാം <ArrowRight size={13} /></a>
@@ -35,7 +35,7 @@ export default function Videos({ data, section }: SectionProps) {
                 </motion.article>
               ))}
             </div>
-            <p style={{ fontSize: 11, fontWeight: 800, color: "#0b6aa5", textAlign: "right", margin: "12px 0 0", display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 5 }}>കാണൂ... ചിരിക്കൂ... വളരൂ... <Plane size={14} /></p>
+            <p style={{ fontSize: 11, fontWeight: 800, color: "#0d5f72", textAlign: "right", margin: "12px 0 0", display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 5 }}>കാണൂ... ചിരിക്കൂ... വളരൂ... <Plane size={14} /></p>
           </div>
         </div>
       </div>

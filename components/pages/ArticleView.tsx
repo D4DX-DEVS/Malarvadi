@@ -41,7 +41,7 @@ export default function ArticleView({ kind, post, others }: { kind: "news" | "bl
             <div className="section-head"><h4>{moreLabel}</h4></div>
             <div className="blog-grid">
               {others.map((o, i) => (
-                <motion.a key={o._id} href={`${base}/${o.slug}`} className="blog-card card-link" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }} whileHover={{ y: -8 }}>
+                <motion.a key={o._id} href={`${base}/${o.slug}`} className="blog-card card-link" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }} whileHover={{ y: -8 }}>
                   {o.image && <img className="blog-photo" src={o.image} alt={o.title} loading="lazy" />}
                   <div className="blog-tags">{(o.tags || []).map((t) => <span key={t}>{t}</span>)}</div>
                   <h4>{o.title}</h4>

@@ -33,7 +33,7 @@ export interface BlogPost extends BaseDoc {
   date: string;
 }
 
-/** Programs. `featured` ones (max 3) drive the home strip cards. */
+/** Programs. Featured ones drive the scrollable home strip rail. */
 export interface Program extends BaseDoc {
   title: string;
   slug: string;
@@ -141,13 +141,13 @@ export interface SiteSettings {
   tagline: string;
   seoTitle: string;
   seoDescription: string;
-  hero: { over: string; under: string; badges: string[] };
+  hero: { over: string; under: string; badges: string[]; image: string };
   ticker: string[];
   about: { kicker: string; title: string; body: string; badge: string; image: string; chips: string[] };
   stats: Stat[];
   contact: ContactInfo;
   social: SocialLinks;
-  app: { eyebrow: string; title: string; highlight: string; body: string; appStore: string; playStore: string };
+  app: { eyebrow: string; title: string; highlight: string; body: string; appStore: string; playStore: string; image: string };
   join: { eyebrow: string; title: string; formTitle: string };
   popup: { enabled: boolean; eyebrow: string; title: string; body: string };
   cta: { kicker: string; title: string; button: string };

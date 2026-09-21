@@ -21,11 +21,11 @@ export default function AboutView({ settings, timeline, mentors }: { settings: S
       <div className="wrap">
         <PageHero kicker={p.kicker} title={p.title} sub={p.sub} icon={<TreePine size={56} strokeWidth={1.8} />} />
         <div className="sub-grid">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="sub-card">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="sub-card">
             <h4><Flower2 size={20} /> ഞങ്ങളുടെ കഥ</h4>
             {p.story.map((para, i) => <p key={i}>{para}</p>)}
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="sub-card" style={{ overflow: "hidden", padding: 0 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="sub-card" style={{ overflow: "hidden", padding: 0 }}>
             {p.image && <img src={p.image} alt={p.title} loading="lazy" style={{ height: 240, width: "100%", objectFit: "cover" }} />}
             <div style={{ padding: 14 }}>
               <b>{p.sundayNote}</b>
@@ -36,7 +36,7 @@ export default function AboutView({ settings, timeline, mentors }: { settings: S
         {timeline.length > 0 && (
           <div className="timeline">
             {timeline.map((t, i) => (
-              <motion.div key={t._id} initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }} className="t-item">
+              <motion.div key={t._id} initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }} className="t-item">
                 <span className="dot" style={{ background: "#eafff1" }}><Icon name={t.icon} size={20} /></span>
                 <span><b style={{ fontSize: 14 }}>{`${t.year} — ${t.title}`}</b><br /><small style={{ color: "#666" }}>{t.desc}</small></span>
               </motion.div>
@@ -63,7 +63,7 @@ export default function AboutView({ settings, timeline, mentors }: { settings: S
             <p className="mentors-sub">{p.mentorsSub}</p>
             <div className="mentors-grid">
               {mentors.map((m, i) => (
-                <motion.div key={m._id} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.09, duration: .55 }} whileHover={{ y: -8 }} className="mentor-card">
+                <motion.div key={m._id} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.09, duration: .55 }} whileHover={{ y: -8 }} className="mentor-card">
                   <span className={`mentor-shape ${m.shape} ${m.tone}`} style={{ animationDelay: `${-i * 1.2}s` }}>
                     <img src={m.photo} alt={m.name} loading="lazy" />
                   </span>

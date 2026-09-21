@@ -8,12 +8,12 @@ export default function Features({ data, section }: SectionProps) {
   if (!items.length) return null;
   return (
     <section className="features-bg">
-      <div className="wrap">
+      <div className="wrap reveal rv-zoom">
         <p className="feat-kicker"><Star size={13} /> {section.subtitle}</p>
         <h4 className="sec-title">{section.title}</h4>
       </div>
       {/* Cards ride a continuous right-moving marquee, duplicated once for a seamless loop. */}
-      <div className="blob-marquee">
+      <div className="blob-marquee reveal rv-rise">
         <div className="blob-track">
           {[0, 1].map((copy) =>
             items.map((f) => (
@@ -28,7 +28,7 @@ export default function Features({ data, section }: SectionProps) {
       <div className="wrap">
         <div className="feat-actions">
           <a href="/programs" className="btn btn-green"><Trophy size={15} /> പരിപാടികൾ കാണാം</a>
-          <a href="/gallery" className="btn" style={{ background: "#fff", border: "1.5px solid #ffe0b8" }}>ഗാലറി <ArrowRight size={15} /></a>
+          <a href="/gallery" className="btn" style={{ background: "#fff", border: "1.5px solid #fff8ec" }}>ഗാലറി <ArrowRight size={15} /></a>
         </div>
       </div>
     </section>

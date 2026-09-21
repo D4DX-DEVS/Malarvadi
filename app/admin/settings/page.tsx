@@ -51,6 +51,8 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [uploading, setUploading] = useState<Record<string, boolean>>({});
+  const [imgBroken, setImgBroken] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     (async () => {
@@ -67,6 +69,23 @@ export default function SettingsPage() {
   }, []);
 
   const update = (path: Path, value: unknown) => setSettings((prev) => (prev ? setIn(prev, path, value) : prev));
+
+  async function uploadImage(path: Path, file: File) {
+    const key = id(path);
+    setUploading((p) => ({ ...p, [key]: true }));
+    setError("");
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const { url } = await api<{ url: string }>("/api/upload", { method: "POST", body: fd });
+      update(path, url);
+      setImgBroken((p) => ({ ...p, [key]: false }));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setUploading((p) => ({ ...p, [key]: false }));
+    }
+  }
 
   async function save() {
     if (!settings) return;
@@ -118,6 +137,44 @@ export default function SettingsPage() {
     }
 
     const str = value == null ? "" : String(value);
+
+    if (key === "image") {
+      const fkey = id(path);
+      return (
+        <div className="adm-field" key={fkey}>
+          <label htmlFor={fkey}>{label}</label>
+          <div className="adm-imgrow">
+            <input
+              id={fkey}
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"
+              disabled={uploading[fkey]}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                e.target.value = "";
+                if (file) uploadImage(path, file);
+              }}
+            />
+            {uploading[fkey] ? <span className="adm-help">Uploading…</span> : null}
+          </div>
+          <input
+            id={`${fkey}-url`}
+            type="url"
+            value={str}
+            placeholder="or paste an image URL"
+            onChange={(e) => {
+              update(path, e.target.value);
+              setImgBroken((p) => ({ ...p, [fkey]: false }));
+            }}
+          />
+          {str && !imgBroken[fkey] ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img className="adm-thumb" src={str} alt="" onError={() => setImgBroken((p) => ({ ...p, [fkey]: true }))} />
+          ) : null}
+        </div>
+      );
+    }
+
     const multiline = str.length > 80 || str.includes("\n");
     const hasHighlight = str.includes("{highlight}");
     return (

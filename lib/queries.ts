@@ -79,7 +79,9 @@ export async function getHomeData(): Promise<HomeData> {
   const [settings, sections, programs, news, videos, posters, gallery, features, blog, faqs] = await Promise.all([
     getSettings(),
     getHomeSections(),
-    listDocs<Program>("programs", { filter: { featured: true }, limit: 3 }),
+    // Keep the home rail extensible: the UI shows three at once and lets visitors scroll
+    // through every featured program logo.
+    listDocs<Program>("programs", { filter: { featured: true }, limit: 12 }),
     listDocs<NewsItem>("news", { limit: 3 }),
     listDocs<Video>("videos", { limit: 3 }),
     listDocs<Poster>("posters", { limit: 3 }),
