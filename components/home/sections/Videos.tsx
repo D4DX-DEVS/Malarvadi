@@ -1,11 +1,26 @@
 "use client";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Plane, ArrowRight } from "lucide-react";
+import { Plane, ArrowRight, Play } from "lucide-react";
 import type { SectionProps } from "@/components/home/section-types";
+import Lightbox, { type LightboxItem } from "@/components/pages/Lightbox";
+import { platformLabel, videoEmbedSrc, videoThumbnail } from "@/lib/video";
 
 export default function Videos({ data, section }: SectionProps) {
-  if (!data.videos.length) return null;
-  const featuredIdx = Math.max(0, data.videos.findIndex((v) => v.featured));
+  const [clip, setClip] = useState<number | null>(null);
+  // Only videos we can actually embed reach the grid, so card index and
+  // lightbox index stay in step.
+  const playable = useMemo(
+    () => data.videos.map((v) => ({ v, src: videoEmbedSrc(v) })).filter((x) => x.src),
+    [data.videos],
+  );
+  const items = useMemo<LightboxItem[]>(
+    () => playable.map(({ v, src }) => ({ embedSrc: src!, caption: v.title })),
+    [playable],
+  );
+  if (!playable.length) return null;
+  const featuredIdx = Math.max(0, playable.findIndex(({ v }) => v.featured));
+
   return (
     <div className="cream-band">
       <div className="wrap">
@@ -15,30 +30,36 @@ export default function Videos({ data, section }: SectionProps) {
             <div className="gallery-panel-head">
               <div>
                 <h4><span style={{ background: "#ef3f3f", color: "#fff", borderRadius: "50%", width: 30, height: 30, display: "grid", placeItems: "center", fontSize: 14 }}>▶</span> {section.title}</h4>
-                <p className="sub">{section.subtitle}</p>
               </div>
               <a href="/gallery?f=videos" className="mini">എല്ലാം കാണാം <ArrowRight size={13} /></a>
             </div>
             <div className="youtube-grid">
-              {data.videos.map((video, i) => (
-                <motion.article key={video._id} className={`youtube-card ${i === featuredIdx ? "featured" : ""}`} whileHover={{ y: -6 }}>
-                  <div className="youtube-frame">
-                    <iframe
-                      src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?rel=0&modestbranding=1`}
-                      title={video.title}
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  </div>
-                  <div className="youtube-caption"><b>{video.title}</b><small>{video.meta}</small></div>
-                </motion.article>
-              ))}
+              {playable.map(({ v }, i) => {
+                const thumb = videoThumbnail(v);
+                return (
+                  <motion.button
+                    type="button"
+                    key={v._id}
+                    className={`youtube-card ${i === featuredIdx ? "featured" : ""}`}
+                    whileHover={{ y: -6 }}
+                    onClick={() => setClip(i)}
+                    aria-label={v.title}
+                  >
+                    <div className="youtube-frame">
+                      {thumb
+                        ? <img src={thumb} alt={v.title} loading="lazy" />
+                        : <span className="media-thumb-fallback">{platformLabel(v)}</span>}
+                      <span className="youtube-play"><Play size={22} fill="currentColor" /></span>
+                    </div>
+                    <div className="youtube-caption"><b>{v.title}</b><small>{v.meta}</small></div>
+                  </motion.button>
+                );
+              })}
             </div>
-            <p style={{ fontSize: 11, fontWeight: 800, color: "#0d5f72", textAlign: "right", margin: "12px 0 0", display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 5 }}>കാണൂ... ചിരിക്കൂ... വളരൂ... <Plane size={14} /></p>
           </div>
         </div>
       </div>
+      <Lightbox items={items} index={clip} onClose={() => setClip(null)} onIndex={setClip} />
     </div>
   );
 }

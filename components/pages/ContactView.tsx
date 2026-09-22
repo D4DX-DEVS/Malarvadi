@@ -50,7 +50,7 @@ export default function ContactView() {
   const igHandle = handleOf(social.instagram);
 
   return (
-    <div className="page">
+    <div className="page page-inner">
       <Header />
       <div className="wrap">
         <PageHero kicker={p.kicker} title={p.title} sub={p.sub} icon={<Hand size={56} strokeWidth={1.8} />} />
@@ -59,7 +59,7 @@ export default function ContactView() {
             {!sent ? (
               <form onSubmit={submit}>
                 <h4 style={{ margin: "0 0 4px", display: "flex", alignItems: "center", gap: 7 }}><FileText size={20} /> സന്ദേശം അയക്കൂ</h4>
-                <p style={{ fontSize: 12, color: "#777", margin: "0 0 6px" }}>24 മണിക്കൂറിനുള്ളിൽ മറുപടി നൽകും.</p>
+                <p style={{ fontSize: 13.5, color: "#777", margin: "0 0 6px" }}>24 മണിക്കൂറിനുള്ളിൽ മറുപടി നൽകും.</p>
                 <label>പേര് *</label><input name="name" required placeholder="നിങ്ങളുടെ പേര്" />
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                   <span><label>ഫോൺ *</label><input name="phone" required placeholder="+91 ..." /></span>
@@ -69,7 +69,7 @@ export default function ContactView() {
                 <select name="subject" defaultValue={SUBJECTS[0]}>{SUBJECTS.map((s) => <option key={s}>{s}</option>)}</select>
                 <label>സന്ദേശം *</label><textarea name="message" required rows={4} placeholder="എഴുതൂ..." />
                 {error && (
-                  <p style={{ display: "flex", alignItems: "center", gap: 6, margin: "12px 0 0", fontSize: 12.5, fontWeight: 800, color: "#d93a72" }}>
+                  <p style={{ display: "flex", alignItems: "center", gap: 6, margin: "12px 0 0", fontSize: 14, fontWeight: 800, color: "#d93a72" }}>
                     <AlertCircle size={15} /> {error}
                   </p>
                 )}
@@ -81,7 +81,7 @@ export default function ContactView() {
               <motion.div initial={{ scale: .92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} style={{ textAlign: "center", padding: "30px 10px" }}>
                 <CheckCircle size={52} color="#1f9d55" />
                 <h4 style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 7 }}>നന്ദി! സന്ദേശം ലഭിച്ചു <Heart size={18} fill="currentColor" /></h4>
-                <p style={{ fontSize: 13, color: "#666" }}>ഞങ്ങളുടെ ടീം ഉടൻ ബന്ധപ്പെടും. മലർവാടിയിലേക്ക് സ്വാഗതം!</p>
+                <p style={{ fontSize: 15, color: "#666" }}>ഞങ്ങളുടെ ടീം ഉടൻ ബന്ധപ്പെടും. മലർവാടിയിലേക്ക് സ്വാഗതം!</p>
                 <button className="btn btn-pink" onClick={() => setSent(false)}>വേറൊന്ന് അയക്കൂ</button>
               </motion.div>
             )}
@@ -91,8 +91,8 @@ export default function ContactView() {
             <div className="sub-card" style={{ background: "#0a3d2e", color: "#d8efe3", borderColor: "#0a3d2e" }}>
               <h4 style={{ color: "#ffd23f", display: "flex", alignItems: "center", gap: 7 }}><MapPin size={20} /> {contact.orgName}</h4>
               <p style={{ color: "#bfe3cf" }}>
-                <MapPin size={13} /> {contact.address} {contact.pincode}<br />
-                <Phone size={13} /> {contact.phone} ({contact.phoneNote})<br />
+                <MapPin size={13} /> {contact.address}<br />
+                <Phone size={13} /> {contact.phone}<br />
                 <Mail size={13} /> {contact.email}<br />
                 <Clock size={13} /> {contact.hours}
               </p>
@@ -104,7 +104,7 @@ export default function ContactView() {
             <div className="sub-card" style={{ marginTop: 12 }}>
               <h4 style={{ display: "flex", alignItems: "center", gap: 7 }}><Map size={20} /> യൂണിറ്റ് കണ്ടെത്തൂ</h4>
               <p>1500+ യൂണിറ്റുകൾ — നിങ്ങളുടെ അടുത്തുള്ളത് അറിയാൻ സ്ഥലം അയക്കൂ. ഉദാ: <b>“{contact.address}”</b> എന്ന് <b>{contact.whatsapp}</b>-ലേക്ക് വാട്ട്സ്ആപ്പ് ചെയ്യൂ.</p>
-              <div style={{ background: "#fff7dd", borderRadius: 14, padding: 12, fontSize: 13, lineHeight: 1.9 }}>
+              <div style={{ background: "#fff7dd", borderRadius: 14, padding: 14, fontSize: 14.5, lineHeight: 1.95 }}>
                 <MessageCircle size={14} /> വാട്ട്സ്ആപ്പ്: <a href={waHref(contact.whatsapp)} target="_blank" rel="noreferrer"><b>{contact.whatsapp}</b></a><br />
                 <Camera size={14} /> ഇൻസ്റ്റാഗ്രാം: <a href={social.instagram} target="_blank" rel="noreferrer"><b>{igHandle}</b></a><br />
                 <Youtube size={14} /> യൂട്യൂബ്: <a href={social.youtube} target="_blank" rel="noreferrer"><b>YouTube</b></a>

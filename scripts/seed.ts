@@ -1,13 +1,13 @@
 /**
  * Standalone seeder: `npm run seed` (or `npm run seed:reset`).
- * Loads .env.local by hand (no dotenv dependency) and runs lib/seed.ts.
+ * Loads .env.local / .env by hand (no dotenv dependency) and runs lib/seed.ts.
  */
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { MongoClient } from "mongodb";
 import { runSeed } from "../lib/seed";
 
-function loadEnvLocal(file: string) {
+function loadEnvFile(file: string) {
   let raw: string;
   try {
     raw = readFileSync(file, "utf8");
@@ -30,7 +30,10 @@ function loadEnvLocal(file: string) {
 
 async function main() {
   const root = resolve(__dirname, "..");
-  loadEnvLocal(resolve(root, ".env.local"));
+  // Next.js precedence: .env.local wins over .env. loadEnvFile only fills keys
+  // that are still unset, so load them in that order.
+  loadEnvFile(resolve(root, ".env.local"));
+  loadEnvFile(resolve(root, ".env"));
 
   const uri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/malarvadi";
   const reset = process.argv.includes("--reset");

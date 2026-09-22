@@ -2,7 +2,8 @@
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CalendarDays, Megaphone, BookOpen } from "lucide-react";
 import { Header, Footer, CTABand, PageHero } from "@/components/site";
-import { longDate, paragraphs } from "./format";
+import { longDate } from "./format";
+import RichBody from "./RichBody";
 import type { Post } from "./PostListView";
 
 export default function ArticleView({ kind, post, others }: { kind: "news" | "blog"; post: Post; others: Post[] }) {
@@ -13,9 +14,8 @@ export default function ArticleView({ kind, post, others }: { kind: "news" | "bl
   const moreLabel = kind === "news" ? "മറ്റ് വാർത്തകൾ" : "മറ്റ് പോസ്റ്റുകൾ";
   const icon = kind === "news" ? <Megaphone size={56} strokeWidth={1.8} /> : <BookOpen size={56} strokeWidth={1.8} />;
   const sub = [longDate(post.date), ...(post.tags || [])].filter(Boolean).join(" • ");
-  const body = paragraphs(post.body || post.excerpt);
   return (
-    <div className="page">
+    <div className="page page-inner">
       <Header />
       <div className="wrap">
         <PageHero kicker={kicker} title={post.title} sub={sub} icon={icon} />
@@ -27,9 +27,7 @@ export default function ArticleView({ kind, post, others }: { kind: "news" | "bl
           {(post.tags || []).length > 0 && (
             <div className="blog-tags">{post.tags.map((t) => <span key={t}>{t}</span>)}</div>
           )}
-          <div className="article-body">
-            {body.map((para, i) => <p key={i}>{para}</p>)}
-          </div>
+          <RichBody className="article-body" body={post.body || post.excerpt} />
           <div className="article-actions">
             <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: .96 }} href={base} className="btn btn-green"><ArrowLeft size={15} /> {backLabel}</motion.a>
             <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: .96 }} href="/contact" className="btn btn-pink">ബന്ധപ്പെടാം <ArrowRight size={15} /></motion.a>

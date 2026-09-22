@@ -43,7 +43,10 @@ export interface Program extends BaseDoc {
   meta: string; // e.g. "Class 3–7 • September"
   icon: string; // lucide icon name, see components/icons.tsx
   color: string; // card bg hex e.g. #fff3c4
-  image?: string;
+  image?: string; // programme logo - home rail + detail hero
+  photo?: string; // supporting photo on the detail hero
+  slogan?: string; // handwritten note, top right of the detail hero
+  slogan2?: string; // handwritten note, lower left of the detail hero
   featured: boolean;
 }
 
@@ -56,7 +59,15 @@ export interface GalleryItem extends BaseDoc {
 }
 
 export interface Video extends BaseDoc {
-  youtubeId: string;
+  /** "youtube" | "facebook" | "instagram" - see lib/video.ts */
+  platform?: string;
+  /** Share URL for the video on that platform. */
+  url?: string;
+  /** Legacy: bare YouTube id, still honoured when `url` is empty. */
+  youtubeId?: string;
+  /** Optional cover image. Required in practice for Facebook/Instagram,
+   *  which expose no public thumbnail without an API token. */
+  thumb?: string;
   title: string;
   meta: string;
   featured?: boolean;
@@ -79,7 +90,6 @@ export interface Mentor extends BaseDoc {
   name: string;
   role: string;
   photo: string;
-  shape: "scallop" | "star";
   tone: "m-teal" | "m-orange" | "m-purple" | "m-green";
 }
 
@@ -97,6 +107,10 @@ export interface Faq extends BaseDoc {
 
 export interface Feature extends BaseDoc {
   title: string;
+  slug?: string; // its own page at /why/<slug>
+  desc?: string; // optional line under the title on the marquee card
+  body?: string; // rich text for the item's own page
+  image?: string;
   icon: string;
   tone: "f-blue" | "f-pink" | "f-mint" | "f-cream" | "f-lav" | "f-peach";
 }
@@ -113,7 +127,7 @@ export interface Stat {
   value: number;
   suffix: string;
   icon: string;
-  tone: "s-blue" | "s-green" | "s-red";
+  tone: "s-blue" | "s-green" | "s-red" | "s-cream";
 }
 
 export interface SocialLinks {
@@ -153,13 +167,48 @@ export interface SiteSettings {
   cta: { kicker: string; title: string; button: string };
   footer: { blurb: string; copyright: string };
   pages: {
-    about: { kicker: string; title: string; sub: string; story: string[]; sundayNote: string; sundayLine: string; image: string; mentorsTitle: string; mentorsHighlight: string; mentorsSub: string };
+    about: {
+      kicker: string; title: string; sub: string; story: string[]; blocks?: AboutBlock[];
+      sundayNote: string; sundayLine: string; image: string;
+      /** About hero: the floating bubble, the handwritten note and the call to action. */
+      heroBubble: string; heroNote: string; heroCta: string; heroCtaHref: string;
+      /** Short line under the hero title. Blank by default - the long copy
+       *  lives in the intro card, not the hero. */
+      heroSub: string;
+      /** Line under the heading in the blue intro card. */
+      introSub: string;
+      /** Section link labels, and the "Our Objectives" strap line. */
+      objectivesSub: string;
+      objectivesLink: string; objectivesLinkHref: string;
+      globalLink: string; globalLinkHref: string;
+      /** Pins on the world map as "x y" pairs in a 200x104 viewBox. */
+      globalMarkers: string;
+      /** Figures beside the map. Empty falls back to the site-wide stats. */
+      globalStats: Stat[];
+      /** Short callouts shown beside the history section, set as the
+       *  handwritten note next to the hero copy. */
+      historyCards: { note: string }[];
+      /** History hero: button label and target, and an optional picture. */
+      historyCta: string; historyCtaHref: string; historyImage: string;
+    };
     programs: { kicker: string; title: string; sub: string };
     gallery: { kicker: string; title: string; sub: string };
     contact: { kicker: string; title: string; sub: string };
     news: { kicker: string; title: string; sub: string };
     blog: { kicker: string; title: string; sub: string };
+    /** State committee page. `title` carries a {highlight} placeholder. */
+    leaders: { kicker: string; title: string; highlight: string; sub: string };
   };
+}
+
+/** One piece of the long-form About page copy. */
+export interface AboutBlock {
+  type: "h2" | "h3" | "p" | "ul" | "quote";
+  text?: string;
+  items?: string[];
+  /** Optional short heading per list item, matched by index. Blank entries
+   *  simply render no heading, so the slot can be filled in later. */
+  titles?: string[];
 }
 
 export type HomeSectionKey =

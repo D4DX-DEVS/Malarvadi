@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { CollectionDef, FieldDef } from "@/lib/content-registry";
 import { Icon } from "@/components/icons";
+import RichText from "./RichText";
 import { api } from "./api";
 
 type Values = Record<string, unknown>;
@@ -157,6 +158,15 @@ export default function DocForm({
           <div className="adm-field" key={f.name}>
             {label}
             <textarea id={fid} rows={6} value={str} onChange={(e) => set(f.name, e.target.value)} />
+            {help}
+          </div>
+        );
+
+      case "richtext":
+        return (
+          <div className="adm-field" key={f.name}>
+            {label}
+            <RichText id={fid} value={str} onChange={(html) => set(f.name, html)} />
             {help}
           </div>
         );

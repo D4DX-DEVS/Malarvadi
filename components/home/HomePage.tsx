@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { motion } from "framer-motion";
 import { Leaf, Heart, Star } from "lucide-react";
 import { Header, Footer, CTABand, Ticker } from "@/components/site";
@@ -37,25 +37,7 @@ const SECTIONS: Record<HomeSectionKey, React.ComponentType<SectionProps>> = {
   join: Join,
 };
 
-function useReveal() {
-  useEffect(() => {
-    const els = Array.from(document.querySelectorAll(".reveal"));
-    if (!els.length) return;
-    // Toggle (not add) so a segment re-plays its intro every time it
-    // scrolls back in. The negative bottom margin delays the trigger
-    // until the segment is properly on screen, and lets tall segments
-    // stay revealed until they have fully scrolled away.
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.target.classList.toggle("in", e.isIntersecting)),
-      { threshold: 0, rootMargin: "0px 0px -12% 0px" }
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-}
-
 export default function HomePage({ data }: { data: HomeData }) {
-  useReveal();
   // The hero covers the first viewport only while it is the first thing on the
   // page: then the nav floats over it and the ticker moves below it. If an
   // admin reorders or disables the hero, everything stays in normal flow.
@@ -94,7 +76,6 @@ export default function HomePage({ data }: { data: HomeData }) {
 
       <JoinPopup />
 
-      <motion.a href="#" className="to-top" onClick={(e)=>{e.preventDefault();window.scrollTo({top:0,behavior:"smooth"});}} whileHover={{ scale: 1.12, rotate: -8 }} style={{ position: "fixed", right: 16, bottom: 16, zIndex: 60, width: 48, height: 48, borderRadius: "50%", background: "#ef3f3f", color: "#fff", display: "grid", placeItems: "center", boxShadow: "0 14px 28px rgba(239,63,63,.4)", fontWeight:800, border:"3px solid #fff" }}>↑</motion.a>
     </div>
   );
 }

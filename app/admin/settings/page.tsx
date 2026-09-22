@@ -210,8 +210,12 @@ export default function SettingsPage() {
   }
 
   function renderObjectList(key: string, rows: Json[], path: Path) {
-    const sample = rows[0] || {};
-    const cols = Object.keys(sample);
+    // Columns are the union of every row's keys, in first-seen order. Taking
+    // them from row 0 alone hides fields that only some rows carry - an About
+    // block's `items`/`titles`, for instance, which only list blocks have.
+    const cols: string[] = [];
+    for (const row of rows) for (const k of Object.keys(row)) if (!cols.includes(k)) cols.push(k);
+    const sample = rows.find((r) => Object.keys(r).length === cols.length) || rows[0] || {};
     return (
       <div className="adm-field" key={id(path)}>
         <label>{humanize(key)}</label>
@@ -258,6 +262,21 @@ export default function SettingsPage() {
                       return (
                         <td key={c}>
                           <input type="checkbox" checked={cell} onChange={(e) => update(cellPath, e.target.checked)} />
+                        </td>
+                      );
+                    }
+                    if (Array.isArray(cell)) {
+                      // One entry per line. Without this the array would be
+                      // stringified into the text input and saved back as a
+                      // single comma-joined string, destroying the list.
+                      return (
+                        <td key={c}>
+                          <textarea
+                            rows={Math.min(Math.max(cell.length, 2), 10)}
+                            value={cell.map((v) => String(v ?? "")).join("\n")}
+                            placeholder="one per line"
+                            onChange={(e) => update(cellPath, e.target.value.split("\n").map((l) => l.trim()).filter((l, i, a) => l !== "" || i < a.length - 1))}
+                          />
                         </td>
                       );
                     }

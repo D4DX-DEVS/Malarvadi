@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Image as ImageIcon, ArrowRight, Pencil, Trophy, BookOpen } from "lucide-react";
+import { Image as ImageIcon, Pencil, Trophy, BookOpen } from "lucide-react";
 import { Icon } from "@/components/icons";
 import type { Poster } from "@/lib/types";
 import type { SectionProps } from "@/components/home/section-types";
@@ -60,7 +60,6 @@ export default function Posters({ data, section }: SectionProps) {
             <div className="section-head">
               <span style={{ color: "#fff", background: "#6d8a1e", borderRadius: "50%", width: 30, height: 30, display: "grid", placeItems: "center" }}><ImageIcon size={16} /></span>
               <h4>{section.title}</h4>
-              <a href="/gallery?f=posters" className="mini">എല്ലാം കാണാം <ArrowRight size={13} /></a>
             </div>
             <div className="poster-grid">
               {data.posters.map((p, i) => (

@@ -11,6 +11,10 @@ export const programsSeed = [
     meta: "എല്ലാ യൂണിറ്റുകളിലും • 4 ആഴ്ച",
     icon: "Rainbow",
     color: "#fff3c4",
+    image: "/mazhavillu.png",
+    photo: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=900&q=75",
+    slogan: "Colour Your Imagination",
+    slogan2: "Every Child An Artist",
     featured: true,
     desc: "വായനാ വസന്തം — പുസ്തക പരിചയം, കഥപറയൽ, വായനാ മത്സരങ്ങൾ. എല്ലാ വർഷവും ജൂണിൽ.",
     body: "വായനാ വസന്തം — പുസ്തക പരിചയം, കഥപറയൽ, വായനാ മത്സരങ്ങൾ. എല്ലാ വർഷവും ജൂണിൽ നാല് ആഴ്ചകളിലായി എല്ലാ യൂണിറ്റുകളിലും മഴവില്ല് വായനോത്സവം നടക്കുന്നു.\n\nഓരോ കുട്ടിയും കുറഞ്ഞത് നാല് പുസ്തകങ്ങൾ വായിച്ച് വായനക്കുറിപ്പ് തയ്യാറാക്കുന്നു. കഥപറയൽ, പുസ്തക പരിചയം, കവിതാ പാരായണം എന്നീ മത്സരങ്ങൾ യൂണിറ്റ് തലം മുതൽ സംസ്ഥാന തലം വരെ നടത്തുന്നു.\n\nപുസ്തകങ്ങളോടുള്ള സ്നേഹം കുട്ടിക്കാലത്തേ വളർത്തുക എന്നതാണ് മഴവില്ലിന്റെ ലക്ഷ്യം. മെന്റർമാരുടെ നേതൃത്വത്തിൽ ഓരോ യൂണിറ്റിലും ഒരു കൊച്ചു വായനശാലയും ഒരുക്കുന്നു.",
@@ -22,6 +26,10 @@ export const programsSeed = [
     meta: "Class 3–7 • സെപ്റ്റംബർ",
     icon: "GraduationCap",
     color: "#dcf2ff",
+    image: "/little.png",
+    photo: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900&q=75",
+    slogan: "Small Steps Bright Futures",
+    slogan2: "Curious Minds Brighter Tomorrow",
     featured: true,
     desc: "സ്കോളർഷിപ്പ് പരീക്ഷ — ഗണിതം, ശാസ്ത്രം, ഭാഷ, പൊതുവിജ്ഞാനം. ജില്ലാതല ഫൈനൽ.",
     body: "സ്കോളർഷിപ്പ് പരീക്ഷ — ഗണിതം, ശാസ്ത്രം, ഭാഷ, പൊതുവിജ്ഞാനം എന്നീ വിഷയങ്ങളിലായി മൂന്ന് മുതൽ ഏഴ് വരെ ക്ലാസുകളിലെ കുട്ടികൾക്കായി സെപ്റ്റംബറിൽ നടത്തുന്നു.\n\nയൂണിറ്റ് തലത്തിൽ ആരംഭിച്ച് സോൺ, ജില്ലാതല ഫൈനൽ വരെ എത്തുന്ന മത്സരത്തിൽ വിജയികൾക്ക് സ്കോളർഷിപ്പും പുസ്തകങ്ങളും സമ്മാനിക്കുന്നു.\n\nപഠനത്തിൽ മികവ് കാണിക്കുന്ന കുട്ടികളെ കണ്ടെത്തി പ്രോത്സാഹിപ്പിക്കുകയാണ് Little Scholar ന്റെ ലക്ഷ്യം. പരീക്ഷയ്ക്ക് മുന്നോടിയായി സൗജന്യ മാതൃകാ ചോദ്യപേപ്പറുകളും പരിശീലന ക്ലാസുകളും ലഭ്യമാണ്.",
@@ -33,6 +41,10 @@ export const programsSeed = [
     meta: "സോൺ തലം → സംസ്ഥാനം",
     icon: "PartyPopper",
     color: "#ffe1e8",
+    image: "/balolsavam.png",
+    photo: "https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=900&q=75",
+    slogan: "Play Sing Celebrate",
+    slogan2: "Every Child A Star",
     featured: true,
     desc: "കല, സാഹിത്യം, കായികം — മെഗാ കിഡ്സ് ഫെസ്റ്റ്. നാടകം, പാട്ട്, ചിത്രരചന, ഓട്ടം.",
     body: "കല, സാഹിത്യം, കായികം — മെഗാ കിഡ്സ് ഫെസ്റ്റ്. നാടകം, പാട്ട്, ചിത്രരചന, ഓട്ടം തുടങ്ങി അമ്പതിലേറെ ഇനങ്ങളിൽ കുട്ടികൾ മാറ്റുരയ്ക്കുന്നു.\n\nസോൺ തലത്തിൽ തുടങ്ങി സംസ്ഥാന തലം വരെ നീളുന്ന ബാലോത്സവത്തിൽ 10,000+ കുട്ടികൾ പങ്കെടുക്കുന്നു. ഓരോ കുട്ടിക്കും തന്റെ കഴിവ് പ്രകടിപ്പിക്കാൻ ഒരു വേദി എന്നതാണ് ഞങ്ങളുടെ വാഗ്ദാനം.\n\nമത്സരങ്ങൾക്കൊപ്പം പ്രദർശനങ്ങളും കളിക്കളങ്ങളും ഭക്ഷ്യമേളയും ഉൾപ്പെടുന്ന ഒരു ദിവസം നീളുന്ന ആഘോഷമാണ് ബാലോത്സവം.",
@@ -133,9 +145,9 @@ export const blogSeed = [
 ];
 
 export const videosSeed = [
-  { youtubeId: "M7lc1UVf-VE", title: "വീഡിയോ വിശേഷങ്ങൾ • Embedded YouTube", meta: "YouTube • വീഡിയോ പ്ലെയർ", featured: true },
-  { youtubeId: "aqz-KE-bpKQ", title: "കളിച്ചും പഠിച്ചും മുന്നോട്ട്", meta: "YouTube • കുട്ടികൾക്കായുള്ള ഷോർട്ട് ഫിലിം", featured: false },
-  { youtubeId: "ScMzIvxBSi4", title: "നമ്മുടെ ഓർമ്മകളിൽ നിന്നൊരു ഫ്രെയിം", meta: "YouTube • വീഡിയോ", featured: false },
+  { platform: "youtube", url: "https://www.youtube.com/watch?v=M7lc1UVf-VE", youtubeId: "M7lc1UVf-VE", title: "വീഡിയോ വിശേഷങ്ങൾ • Embedded YouTube", meta: "YouTube • വീഡിയോ പ്ലെയർ", featured: true },
+  { platform: "youtube", url: "https://www.youtube.com/watch?v=aqz-KE-bpKQ", youtubeId: "aqz-KE-bpKQ", title: "കളിച്ചും പഠിച്ചും മുന്നോട്ട്", meta: "YouTube • കുട്ടികൾക്കായുള്ള ഷോർട്ട് ഫിലിം", featured: false },
+  { platform: "youtube", url: "https://www.youtube.com/watch?v=ScMzIvxBSi4", youtubeId: "ScMzIvxBSi4", title: "നമ്മുടെ ഓർമ്മകളിൽ നിന്നൊരു ഫ്രെയിം", meta: "YouTube • വീഡിയോ", featured: false },
 ];
 
 export const postersSeed = [
@@ -171,26 +183,36 @@ export const postersSeed = [
   },
 ];
 
-// gallery.tsx `all` (8 items) + the home `photos` entries that are not already listed.
+// The photo gallery: files live in public/, shown on the home grid and /gallery.
 export const gallerySeed = [
-  { src: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=70", category: "photos", caption: "കൂട്ടുകാർക്കൊപ്പം" },
-  { src: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&q=70", category: "photos", caption: "ക്ലാസ് മുറിയിലെ ചിരി" },
-  { src: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=70", category: "events", caption: "ബാലപ്രതിഭാ സംഗമം" },
-  { src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=70", category: "events", caption: "സമ്മാന വിതരണം" },
-  { src: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=600&q=70", category: "photos", caption: "കളിനിമിഷങ്ങൾ" },
-  { src: "https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=600&q=70", category: "posters", caption: "വായനോത്സവ പോസ്റ്റർ" },
-  { src: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=70", category: "events", caption: "ഫാമിലി ക്വിസ് വേദി" },
-  { src: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=70", category: "posters", caption: "ബാലോത്സവ പോസ്റ്റർ" },
-  // extra photos that appear only on the home page grid
-  { src: "https://images.unsplash.com/photo-1544717302-de2939b7ef71?w=600&q=70", category: "photos", caption: "പഠനവും കളിയും" },
-  { src: "https://images.unsplash.com/photo-1526634332515-d56c5fd16991?w=600&q=70", category: "photos", caption: "ഒരുമിച്ചൊരു ദിനം" },
+  { src: "/g1.jpeg", category: "photos", caption: "" },
+  { src: "/g2.jpeg", category: "photos", caption: "" },
+  { src: "/g3.jpeg", category: "photos", caption: "" },
+  { src: "/g4.jpeg", category: "photos", caption: "" },
+  { src: "/g5.jpeg", category: "photos", caption: "" },
+  { src: "/g6.jpeg", category: "photos", caption: "" },
+  { src: "/g7.jpeg", category: "photos", caption: "" },
+  { src: "/g8.jpeg", category: "photos", caption: "" },
+  { src: "/g9.jpeg", category: "photos", caption: "" },
+  { src: "/g10.jpeg", category: "photos", caption: "" },
+  { src: "/g11.jpeg", category: "photos", caption: "" },
+  { src: "/g12.jpeg", category: "photos", caption: "" },
+  { src: "/g13.jpeg", category: "photos", caption: "" },
+  { src: "/g14.jpeg", category: "photos", caption: "" },
+  { src: "/g15.jpeg", category: "photos", caption: "" },
+  { src: "/g16.jpeg", category: "photos", caption: "" },
+  { src: "/g17.jpeg", category: "photos", caption: "" },
+  { src: "/g18.jpeg", category: "photos", caption: "" },
+  { src: "/g19.jpeg", category: "photos", caption: "" },
+  { src: "/g20.jpeg", category: "photos", caption: "" },
+  { src: "/g21.jpeg", category: "photos", caption: "" },
 ];
 
 export const mentorsSeed = [
-  { name: "ഫാത്തിമ ടീച്ചർ", role: "സോൺ മെന്റർ", photo: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&q=75", shape: "scallop", tone: "m-teal" },
-  { name: "അബ്ദുൽ സലാം സാർ", role: "കലാ മെന്റർ", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=75", shape: "star", tone: "m-orange" },
-  { name: "സുമയ്യ ടീച്ചർ", role: "ശാസ്ത്ര മെന്റർ", photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&q=75", shape: "scallop", tone: "m-purple" },
-  { name: "ആരിഫ് സാർ", role: "കായിക മെന്റർ", photo: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=500&q=75", shape: "star", tone: "m-green" },
+  { name: "ഫാത്തിമ ടീച്ചർ", role: "സോൺ മെന്റർ", photo: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&q=75", tone: "m-teal" },
+  { name: "അബ്ദുൽ സലാം സാർ", role: "കലാ മെന്റർ", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=75", tone: "m-orange" },
+  { name: "സുമയ്യ ടീച്ചർ", role: "ശാസ്ത്ര മെന്റർ", photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&q=75", tone: "m-purple" },
+  { name: "ആരിഫ് സാർ", role: "കായിക മെന്റർ", photo: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=500&q=75", tone: "m-green" },
 ];
 
 export const timelineSeed = [

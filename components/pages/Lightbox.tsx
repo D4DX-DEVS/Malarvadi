@@ -4,9 +4,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 export interface LightboxItem {
-  /** Image source — used when `youtubeId` is absent. */
+  /** Image source — used when `embedSrc` is absent. */
   src?: string;
-  youtubeId?: string;
+  /** Ready-built player URL (YouTube, Facebook or Instagram). */
+  embedSrc?: string;
   caption?: string;
 }
 
@@ -52,10 +53,10 @@ export default function Lightbox({ items, index, onClose, onIndex }: {
                 <button className="lightbox-btn next" aria-label="അടുത്തത്" onClick={() => go(1)}><ChevronRight size={22} /></button>
               </>
             )}
-            {item.youtubeId ? (
+            {item.embedSrc ? (
               <div className="lightbox-frame">
                 <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${item.youtubeId}?autoplay=1&rel=0`}
+                  src={item.embedSrc}
                   title={item.caption || "video"} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
                 />
               </div>

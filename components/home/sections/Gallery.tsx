@@ -1,10 +1,17 @@
 "use client";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Camera, Sparkles, Leaf, ArrowRight } from "lucide-react";
 import type { SectionProps } from "@/components/home/section-types";
+import Lightbox, { type LightboxItem } from "@/components/pages/Lightbox";
 
 export default function Gallery({ data, section }: SectionProps) {
   const photos = data.gallery.slice(0, 8);
+  const [shot, setShot] = useState<number | null>(null);
+  const items = useMemo<LightboxItem[]>(
+    () => photos.map((g) => ({ src: g.src, caption: g.caption })),
+    [photos],
+  );
   if (!photos.length) return null;
   return (
     <div className="cream-band">
@@ -23,10 +30,10 @@ export default function Gallery({ data, section }: SectionProps) {
               </div>
             </div>
             <div className="photo-grid photo-grid-wide">
-              {photos.map((g) => (
-                <a key={g._id} href="/gallery">
+              {photos.map((g, i) => (
+                <button type="button" key={g._id} onClick={() => setShot(i)} aria-label={g.caption || "ചിത്രം"}>
                   <motion.img src={g.src} alt={g.caption || "gallery"} loading="lazy" whileHover={{ scale: 1.08, rotate: -1.5 }} />
-                </a>
+                </button>
               ))}
             </div>
             <p style={{ fontSize: 11.5, fontWeight: 800, color: "#0d7f99", margin: "14px 0 0", display: "flex", alignItems: "center", gap: 5 }}><Camera size={14} /> ഓരോ ചിത്രവും ഒരു മധുര ഓർമ്മ...!</p>
@@ -34,6 +41,7 @@ export default function Gallery({ data, section }: SectionProps) {
           </div>
         </section>
       </div>
+      <Lightbox items={items} index={shot} onClose={() => setShot(null)} onIndex={setShot} />
     </div>
   );
 }

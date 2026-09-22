@@ -32,7 +32,15 @@ export async function listDocs<T>(collection: string, opts: { limit?: number; fi
 
 export async function getDocBySlug<T>(collection: string, slug: string): Promise<T | null> {
   const db = await getDb();
-  return serialize<T>(await db.collection(collection).findOne({ slug, published: { $ne: false } }));
+  // A non-ASCII slug (Malayalam titles produce them) can reach us still
+  // percent-encoded, so try the decoded form too. decodeURIComponent only
+  // touches %XX sequences, so an already-decoded slug is unchanged.
+  const forms = [slug];
+  try {
+    const decoded = decodeURIComponent(slug);
+    if (decoded !== slug) forms.push(decoded);
+  } catch { /* malformed escape - the raw form is all we have */ }
+  return serialize<T>(await db.collection(collection).findOne({ slug: { $in: forms }, published: { $ne: false } }));
 }
 
 export async function getDocById<T>(collection: string, id: string): Promise<T | null> {
@@ -95,6 +103,8 @@ export async function getHomeData(): Promise<HomeData> {
 
 export const getPrograms = () => listDocs<Program>("programs");
 export const getProgram = (slug: string) => getDocBySlug<Program>("programs", slug);
+export const getFeatures = () => listDocs<Feature>("features");
+export const getFeature = (slug: string) => getDocBySlug<Feature>("features", slug);
 export const getNews = (limit?: number) => listDocs<NewsItem>("news", { limit });
 export const getNewsItem = (slug: string) => getDocBySlug<NewsItem>("news", slug);
 export const getBlogPosts = (limit?: number) => listDocs<BlogPost>("blog", { limit });

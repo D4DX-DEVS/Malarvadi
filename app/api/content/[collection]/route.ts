@@ -1,5 +1,7 @@
 import { getDb } from "@/lib/db";
 import { validateDoc } from "@/lib/content-registry";
+import { resolveFacebookShareUrl } from "@/lib/video";
+import { ensureVideoThumb } from "@/lib/video-thumb";
 import { listDocs } from "@/lib/queries";
 import { err, getCollectionDef, json, nextOrder, readJson, requireAdmin, revalidateAll, serializeDoc, uniqueSlug } from "@/lib/api";
 import { isAdmin } from "@/lib/auth";
@@ -28,6 +30,13 @@ export async function POST(req: Request, { params }: Ctx) {
 
   const { doc, errors } = validateDoc(def, body);
   if (errors || !doc) return err(errors!.join(", "));
+
+  // A Facebook share link cannot be embedded; store the permalink instead,
+  // then grab a cover image for platforms that give us no free thumbnail.
+  if (def.key === "videos" && typeof doc.url === "string" && doc.url) {
+    doc.url = await resolveFacebookShareUrl(doc.url);
+    await ensureVideoThumb(doc);
+  }
 
   const db = await getDb();
   if (Object.prototype.hasOwnProperty.call(doc, "slug")) {

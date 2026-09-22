@@ -48,7 +48,7 @@ export default function ProgramsStrip({ data }: SectionProps) {
                   custom={i}
                   className={`program-logo-card ${CARD_CLASS[i % CARD_CLASS.length]}`}
                   onMouseEnter={() => setProgIdx(i)}
-                  aria-label={`${p.title} — ${p.tagline}`}
+                  aria-label={p.tagline ? `${p.title} — ${p.tagline}` : p.title}
                 >
                   <span className="program-logo-frame">
                     {p.image ? (
@@ -59,7 +59,7 @@ export default function ProgramsStrip({ data }: SectionProps) {
                   </span>
                   <span className="program-card-meta">
                     <strong>{p.title}</strong>
-                    <small>{p.meta}</small>
+                    {p.meta && <small>{p.meta}</small>}
                     <span className="program-card-link">കാണാം <ArrowRight size={13} /></span>
                   </span>
                 </motion.a>

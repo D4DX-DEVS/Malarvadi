@@ -1,7 +1,5 @@
-import { mkdir, writeFile } from "fs/promises";
-import path from "path";
-import { randomUUID } from "crypto";
 import { err, json, requireAdmin } from "@/lib/api";
+import { saveUpload } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
 
@@ -27,12 +25,12 @@ export async function POST(req: Request) {
   if (!ext) return err("Unsupported file type. Use JPG, PNG, WEBP, GIF or SVG.");
   if (file.size > MAX_BYTES) return err("File too large (max 8MB)");
 
-  const dir = path.join(process.cwd(), "public", "uploads");
-  await mkdir(dir, { recursive: true });
-
-  const name = `${randomUUID()}.${ext}`;
   const bytes = Buffer.from(await file.arrayBuffer());
-  await writeFile(path.join(dir, name), bytes);
-
-  return json({ url: `/uploads/${name}` }, 201);
+  try {
+    const url = await saveUpload(bytes, ext, file.type);
+    return json({ url }, 201);
+  } catch (e) {
+    console.error("upload failed", e);
+    return err("Could not store the file. Check the storage settings.", 500);
+  }
 }

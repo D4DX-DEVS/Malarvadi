@@ -11,12 +11,8 @@ export default function App({ data }: SectionProps) {
       <span className="app-cloud c1" aria-hidden /><span className="app-cloud c2" aria-hidden />
       <div className="wrap app-inner">
         <div className="app-visual reveal rv-left">
-          <span className="app-phone" aria-hidden>
-            <img src={app.image || "/zaitoon.png"} alt="" />
-            <b>ZaiToon</b>
-            <small>കഥ • പാട്ട് • കാർട്ടൂൺ</small>
-          </span>
           <img className="app-kid-l" src="/kid-left.png" alt="" aria-hidden />
+          <img className="app-phone" src={app.image || "/phone-z.png"} alt="" aria-hidden />
         </div>
         <div className="app-copy reveal rv-zoom">
           <motion.span initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} className="app-eyebrow"><Sparkles size={13} /> {app.eyebrow}</motion.span>

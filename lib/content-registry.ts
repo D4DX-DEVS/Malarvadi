@@ -1,7 +1,10 @@
 // Single source of truth for every editable collection: field definitions
 // drive both server-side validation (app/api) and the generic admin form.
 
-export type FieldType = "text" | "textarea" | "number" | "boolean" | "select" | "image" | "tags" | "date" | "slug" | "icon" | "color";
+import { VIDEO_PLATFORMS } from "./video";
+import { sanitizeHtml } from "./richtext";
+
+export type FieldType = "text" | "textarea" | "richtext" | "number" | "boolean" | "select" | "image" | "tags" | "date" | "slug" | "icon" | "color";
 
 export interface FieldDef {
   name: string;
@@ -38,7 +41,7 @@ const article = (): FieldDef[] => [
   { name: "image", label: "Image URL", type: "image", required: true },
   { name: "tags", label: "Tags", type: "tags", help: "comma separated" },
   { name: "excerpt", label: "Excerpt", type: "textarea", required: true },
-  { name: "body", label: "Body", type: "textarea", required: true, help: "Blank line = new paragraph" },
+  { name: "body", label: "Body", type: "richtext", required: true, help: "Headings, lists and links are available in the toolbar" },
 ];
 
 export const COLLECTIONS: Record<string, CollectionDef> = {
@@ -49,14 +52,17 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
     fields: [
       { name: "title", label: "Title", type: "text", required: true },
       { name: "slug", label: "Slug", type: "slug" },
-      { name: "tagline", label: "Tagline", type: "text", required: true, help: "Short line on the home card, e.g. SCHOLARSHIP EXAM • 2025" },
-      { name: "meta", label: "Meta", type: "text", required: true, help: "e.g. Class 3–7 • September" },
+      { name: "tagline", label: "Tagline", type: "text", help: "Short line on the home card, e.g. SCHOLARSHIP EXAM • 2025" },
+      { name: "meta", label: "Meta", type: "text", help: "e.g. Class 3–7 • September" },
       { name: "icon", label: "Icon", type: "icon", required: true, options: iconOptions },
       { name: "color", label: "Card colour", type: "color", required: true },
-      { name: "image", label: "Image URL", type: "image" },
+      { name: "image", label: "Logo image", type: "image", help: "The programme logo - shown on the home rail and in the detail-page hero. Transparent or white-background PNG works best." },
+      { name: "photo", label: "Hero photo", type: "image", help: "Supporting photo beside the logo on the detail page. Leave empty to show the logo on its own." },
+      { name: "slogan", label: "Handwritten note (top)", type: "text", help: "Short script line above the logo, e.g. Small Steps Bright Futures" },
+      { name: "slogan2", label: "Handwritten note (bottom)", type: "text", help: "Short script line below the logo, e.g. Curious Minds Brighter Tomorrow" },
       { name: "featured", label: "Show on home strip", type: "boolean", help: "Featured programs appear in the scrollable home logo rail" },
       { name: "desc", label: "Short description", type: "textarea", required: true },
-      { name: "body", label: "Full description", type: "textarea", required: true },
+      { name: "body", label: "Full description", type: "richtext", required: true, help: "Headings, lists and links are available in the toolbar" },
     ],
   },
   gallery: {
@@ -70,7 +76,10 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
   videos: {
     key: "videos", label: "Videos", singular: "Video", sortable: true, publishable: true, listTitle: "title",
     fields: [
-      { name: "youtubeId", label: "YouTube ID", type: "text", required: true, help: "The part after v= in the URL" },
+      { name: "platform", label: "Platform", type: "select", required: true, options: VIDEO_PLATFORMS.map((p) => ({ value: p.value, label: p.label })) },
+      { name: "url", label: "Video link", type: "text", required: true, help: "Paste the full share URL - YouTube, Facebook or Instagram" },
+      { name: "thumb", label: "Cover image", type: "image", help: "Optional for YouTube. Facebook and Instagram give no public thumbnail, so upload one here." },
+      { name: "youtubeId", label: "YouTube ID", type: "text", help: "Optional fallback; only used for YouTube when the link above is empty" },
       { name: "title", label: "Title", type: "text", required: true },
       { name: "meta", label: "Meta", type: "text", help: "e.g. YouTube • 02:45" },
       { name: "featured", label: "Featured (large card)", type: "boolean" },
@@ -90,12 +99,11 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
     ],
   },
   mentors: {
-    key: "mentors", label: "Mentors", singular: "Mentor", sortable: true, publishable: true, listTitle: "name",
+    key: "mentors", label: "State Leaders", singular: "Leader", sortable: true, publishable: true, listTitle: "name",
     fields: [
       { name: "name", label: "Name", type: "text", required: true },
-      { name: "role", label: "Role", type: "text", required: true },
+      { name: "role", label: "Role", type: "text" },
       { name: "photo", label: "Photo URL", type: "image", required: true },
-      { name: "shape", label: "Shape", type: "select", required: true, options: [{ value: "scallop", label: "Scallop" }, { value: "star", label: "Star" }] },
       { name: "tone", label: "Colour", type: "select", required: true, options: [{ value: "m-teal", label: "Teal" }, { value: "m-orange", label: "Orange" }, { value: "m-purple", label: "Purple" }, { value: "m-green", label: "Green" }] },
     ],
   },
@@ -116,9 +124,13 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
     ],
   },
   features: {
-    key: "features", label: "Why Malarvadi", singular: "Feature", sortable: true, publishable: true, listTitle: "title",
+    key: "features", label: "Why Malarvadi", singular: "Feature", sortable: true, publishable: true, slugFrom: "title", listTitle: "title",
     fields: [
       { name: "title", label: "Title", type: "text", required: true },
+      { name: "slug", label: "Slug", type: "slug", help: "URL id for its own page, auto-filled from the title if empty" },
+      { name: "desc", label: "Description", type: "textarea", help: "Optional line shown under the title on the card" },
+      { name: "body", label: "Full text", type: "richtext", help: "Shown on the item's own page" },
+      { name: "image", label: "Image", type: "image", help: "Optional picture for the item's own page" },
       { name: "icon", label: "Icon", type: "icon", required: true, options: iconOptions },
       { name: "tone", label: "Colour", type: "select", required: true, options: ["f-blue", "f-pink", "f-mint", "f-cream", "f-lav", "f-peach"].map((v) => ({ value: v, label: v.slice(2) })) },
     ],
@@ -151,6 +163,7 @@ export function validateDoc(def: CollectionDef, input: Record<string, unknown>):
       case "boolean": v = v === true || v === "true" || v === "on" || v === 1; break;
       case "tags": v = Array.isArray(v) ? v.map(String) : typeof v === "string" ? v.split(",").map((s) => s.trim()).filter(Boolean) : []; break;
       case "select": case "icon": if (v != null && v !== "" && f.options && !f.options.some((o) => o.value === v)) errors.push(`${f.label} has an invalid value`); break;
+      case "richtext": v = sanitizeHtml(v == null ? "" : String(v)); break;
       case "slug": v = typeof v === "string" && v.trim() ? slugify(v) : (def.slugFrom && typeof input[def.slugFrom] === "string" ? slugify(input[def.slugFrom] as string) : ""); break;
       default: v = v == null ? "" : String(v).trim();
     }

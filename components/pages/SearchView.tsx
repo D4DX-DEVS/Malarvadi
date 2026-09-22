@@ -13,7 +13,7 @@ function PostRow({ base, post, label }: { base: string; post: Post; label: strin
   return (
     <motion.a href={`${base}/${post.slug}`} className="blog-card card-link" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} whileHover={{ y: -6 }}>
       <div className="blog-tags">{(post.tags || []).map((t) => <span key={t}>{t}</span>)}</div>
-      <small style={{ display: "block", fontSize: 11.5, fontWeight: 800, color: "#6b7194", marginBottom: 6 }}>{longDate(post.date)}</small>
+      <small style={{ display: "block", fontSize: 12.5, fontWeight: 800, color: "#6b7194", marginBottom: 6 }}>{longDate(post.date)}</small>
       <h4 style={{ fontSize: 19 }}>{post.title}</h4>
       <p className="blog-text">{post.excerpt}</p>
       <span className="keiki-more" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>{label} <ArrowRight size={14} /></span>
@@ -24,7 +24,7 @@ function PostRow({ base, post, label }: { base: string; post: Post; label: strin
 export default function SearchView({ q, results }: { q: string; results: SearchResults }) {
   const total = results.news.length + results.blog.length + results.programs.length;
   return (
-    <div className="page">
+    <div className="page page-inner">
       <Header />
       <div className="wrap">
         <PageHero kicker="തിരയുക • Search" title={q ? `"${q}"` : "എന്ത് തിരയണം?"} sub="വാർത്തകൾ, ബ്ലോഗ്, പരിപാടികൾ — എല്ലാം ഒരിടത്ത് തിരയാം." icon={<Search size={56} strokeWidth={1.8} />} />
@@ -52,7 +52,7 @@ export default function SearchView({ q, results }: { q: string; results: SearchR
                 <motion.a key={p._id} href={`/programs/${p.slug}`} className="sub-card card-link" style={{ background: p.color }} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: (i % 3) * 0.06 }} whileHover={{ y: -6 }}>
                   <span className="big"><Icon name={p.icon} size={34} strokeWidth={1.7} /></span>
                   <h4 style={{ fontSize: 18 }}>{p.title}</h4>
-                  <p style={{ fontSize: 12.5 }}>{p.desc}</p>
+                  <p style={{ fontSize: 14.5 }}>{p.desc}</p>
                   <span className="meta-pill">{p.meta}</span>
                 </motion.a>
               ))}

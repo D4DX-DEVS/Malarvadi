@@ -2,38 +2,37 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Camera, Play } from "lucide-react";
+import { platformLabel, videoEmbedSrc, videoThumbnail } from "@/lib/video";
 import { Header, Footer, CTABand, PageHero } from "@/components/site";
 import Lightbox, { type LightboxItem } from "./Lightbox";
-import type { GalleryItem, Poster, SiteSettings, Video } from "@/lib/types";
+import type { GalleryItem, SiteSettings, Video } from "@/lib/types";
 
-const FILTERS: [string, string][] = [
-  ["all", "എല്ലാം"], ["photos", "ചിത്രങ്ങൾ"], ["videos", "വീഡിയോകൾ"], ["events", "പരിപാടികൾ"], ["posters", "പോസ്റ്ററുകൾ"],
-];
+// The page carries photographs and videos only.
+const FILTERS: [string, string][] = [["all", "എല്ലാം"], ["photos", "ചിത്രങ്ങൾ"], ["videos", "വീഡിയോകൾ"]];
 
-export default function GalleryView({ settings, gallery, videos, posters, initialFilter }: {
-  settings: SiteSettings; gallery: GalleryItem[]; videos: Video[]; posters: Poster[]; initialFilter: string;
+export default function GalleryView({ settings, gallery, videos, initialFilter }: {
+  settings: SiteSettings; gallery: GalleryItem[]; videos: Video[]; initialFilter: string;
 }) {
   const p = settings.pages.gallery;
   const [f, setF] = useState(FILTERS.some(([v]) => v === initialFilter) ? initialFilter : "all");
   const [shot, setShot] = useState<number | null>(null);
   const [clip, setClip] = useState<number | null>(null);
 
-  /** Photo strip for the current filter — posters also pull in the posters collection. */
-  const photos = useMemo<LightboxItem[]>(() => {
-    const fromGallery = gallery
-      .filter((g) => f === "all" || g.category === f)
-      .map((g) => ({ src: g.src, caption: g.caption }));
-    if (f !== "posters") return fromGallery;
-    const fromPosters = posters.filter((po) => !!po.image).map((po) => ({ src: po.image!, caption: po.title }));
-    return [...fromGallery, ...fromPosters];
-  }, [gallery, posters, f]);
+  /** Every photograph in the collection - the categories no longer split them up. */
+  const photos = useMemo<LightboxItem[]>(
+    () => gallery.map((g) => ({ src: g.src, caption: g.caption })),
+    [gallery],
+  );
 
-  const clips = useMemo<LightboxItem[]>(() => videos.map((v) => ({ youtubeId: v.youtubeId, caption: v.title })), [videos]);
+  const clips = useMemo<LightboxItem[]>(
+    () => videos.map((v) => ({ embedSrc: videoEmbedSrc(v) ?? undefined, caption: v.title })).filter((c) => c.embedSrc),
+    [videos],
+  );
   const showPhotos = f !== "videos";
   const showVideos = f === "all" || f === "videos";
 
   return (
-    <div className="page">
+    <div className="page page-inner">
       <Header />
       <div className="wrap">
         <PageHero kicker={p.kicker} title={p.title} sub={p.sub} icon={<Camera size={56} strokeWidth={1.8} />} />
@@ -45,13 +44,18 @@ export default function GalleryView({ settings, gallery, videos, posters, initia
 
         {showPhotos && (
           photos.length > 0 ? (
-            <div className="g-grid">
+            <div className="masonry-gallery">
               {photos.map((item, i) => (
-                <motion.img
-                  key={`${item.src}-${i}`} src={item.src} alt={item.caption || "gallery"} loading="lazy"
-                  initial={{ opacity: 0, scale: .94 }} whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: (i % 4) * 0.06 }} style={{ cursor: "pointer" }} onClick={() => setShot(i)}
-                />
+                <motion.button
+                  key={`${item.src}-${i}`} type="button" className="masonry-item" onClick={() => setShot(i)}
+                  aria-label={item.caption || "ചിത്രം തുറക്കുക"}
+                  initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-40px" }}
+                  transition={{ delay: (i % 4) * 0.06 }}
+                >
+                  {/* Height comes from the picture itself - that is what staggers the columns. */}
+                  <img src={item.src} alt={item.caption || "gallery"} loading="lazy" />
+                  {item.caption && <span className="masonry-cap">{item.caption}</span>}
+                </motion.button>
               ))}
             </div>
           ) : (
@@ -65,7 +69,9 @@ export default function GalleryView({ settings, gallery, videos, posters, initia
               {videos.map((v, i) => (
                 <motion.button key={v._id} type="button" whileHover={{ y: -5 }} className="sub-card media-card" onClick={() => setClip(i)} aria-label={v.title}>
                   <div className="media-thumb">
-                    <img src={`https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`} alt={v.title} loading="lazy" />
+                    {videoThumbnail(v)
+                      ? <img src={videoThumbnail(v)!} alt={v.title} loading="lazy" />
+                      : <span className="media-thumb-fallback">{platformLabel(v)}</span>}
                     <span className="play"><i><Play size={22} fill="currentColor" /></i></span>
                   </div>
                   <div className="media-body"><b>{v.title}</b><small>{v.meta}</small></div>
