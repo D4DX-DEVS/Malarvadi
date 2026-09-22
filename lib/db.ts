@@ -1,6 +1,13 @@
 import { MongoClient, Db } from "mongodb";
 
-const uri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/malarvadi";
+function connectionUri(): string {
+  const env = process.env.MONGODB_URI;
+  if (env) return env;
+  // A production container has no local mongod: fail loudly instead of making
+  // every page time out against 127.0.0.1.
+  if (process.env.NODE_ENV === "production") throw new Error("MONGODB_URI env var is required in production");
+  return "mongodb://127.0.0.1:27017/malarvadi";
+}
 
 declare global {
   // eslint-disable-next-line no-var
@@ -9,7 +16,7 @@ declare global {
 
 function clientPromise(): Promise<MongoClient> {
   if (!global.__mvMongo) {
-    global.__mvMongo = new MongoClient(uri, { serverSelectionTimeoutMS: 5000 }).connect();
+    global.__mvMongo = new MongoClient(connectionUri(), { serverSelectionTimeoutMS: 5000 }).connect();
   }
   return global.__mvMongo;
 }

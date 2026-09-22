@@ -35,6 +35,30 @@ The tunnel fronts the whole app, **`/admin` included**, and anyone with the link
 
 Quick Tunnels are built for development and demos: the URL is random, changes on every run, and Cloudflare gives no uptime guarantee. Creating several in a row can also make Cloudflare withhold DNS for the new hostname for a while, in which case the connector registers but the public URL does not resolve yet; `npm run share` checks for that and says so. A stable hostname needs a named tunnel (Cloudflare account plus a DNS record) or a real deploy.
 
+## Deploy (DigitalOcean App Platform)
+
+The spec lives in [`.do/app.yaml`](.do/app.yaml). Apply it with
+`doctl apps update <APP_ID> --spec .do/app.yaml`, or paste it under
+**App → Settings → App Spec**.
+
+The one rule the platform enforces: the container must listen on `$PORT`, which
+App Platform sets from `http_port` (8080). `npm start` runs
+`next start -H 0.0.0.0 -p ${PORT:-3007}`, so it follows whatever the platform
+hands it and still defaults to 3007 locally. A hardcoded port makes every
+readiness probe fail with `connection refused` and the deploy roll back.
+
+Health check: `GET /api/health` returns `{"ok":true}` without touching MongoDB,
+so a database blip does not get the container killed and restarted.
+
+Set `MONGODB_URI`, `ADMIN_PASSWORD` and `AUTH_SECRET` as **encrypted** env vars
+in the console before the first deploy — the app refuses to start a production
+build without `MONGODB_URI`, and `/admin` throws without `AUTH_SECRET`.
+
+Uploads need a Space in production. The container filesystem is ephemeral: with
+`DO_SPACES_BUCKET` unset, uploads land in `public/uploads` and disappear on the
+next deploy. Set the `DO_SPACES_*` variables so images go to the Space and are
+served from its CDN.
+
 ## Environment
 
 | Variable | Purpose |
