@@ -52,18 +52,18 @@ export default function Join({ data, section }: SectionProps) {
             <h4>{join.formTitle}</h4>
             <div className="join-fields">
               <input required name="name" placeholder="പേര് *" aria-label="പേര്" />
-              <input required name="unit" placeholder="യൂണിറ്റ് *" aria-label="യൂണിറ്റ്" />
+              <input name="unit" placeholder="യൂണിറ്റ്" aria-label="യൂണിറ്റ്" />
               <input required name="place" placeholder="സ്ഥലം *" aria-label="സ്ഥലം" />
               <input
                 required
                 name="phone"
                 type="tel"
                 inputMode="numeric"
-                placeholder="ഫോൺ നമ്പർ (10 അക്കം) *"
-                aria-label="ഫോൺ നമ്പർ"
+                placeholder="മൊബൈൽ നമ്പർ *"
+                aria-label="മൊബൈൽ നമ്പർ"
                 pattern="[0-9]{10}"
                 maxLength={10}
-                title="10 അക്ക ഫോൺ നമ്പർ നൽകുക"
+                title="10 അക്ക മൊബൈൽ നമ്പർ നൽകുക"
                 onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "").slice(0, 10); }}
               />
               <input name="email" type="email" placeholder="ഇമെയിൽ" aria-label="ഇമെയിൽ" />

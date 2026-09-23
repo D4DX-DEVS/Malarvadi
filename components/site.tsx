@@ -118,7 +118,7 @@ export function Footer() {
         <div><h4>ബന്ധപ്പെടാം</h4><p><MapPin size={12} /> {contact.orgName}, {contact.address}<br /><Phone size={12} /> <a href={telHref(contact.phone)}>{contact.phone}</a><br /><Mail size={12} /> <a href={`mailto:${contact.email}`}>{contact.email}</a><br /><Clock size={12} /> {contact.hours}</p></div>
       </div>
       <div className="wrap foot-bottom">
-        <span>{footer.copyright}</span><span>Powered by: <a href="https://d4dx.co/" target="_blank" rel="noreferrer">d4dx.co</a></span>
+        <span>{footer.copyright}</span><span>Powered by: <a href="https://d4dx.co/" target="_blank" rel="noreferrer">D4DX Innovations</a></span>
       </div>
       <MobileFooterMenu />
     </footer>

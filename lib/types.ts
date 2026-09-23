@@ -115,6 +115,18 @@ export interface Feature extends BaseDoc {
   tone: "f-blue" | "f-pink" | "f-mint" | "f-cream" | "f-lav" | "f-peach";
 }
 
+/** Monthly program spotlight. Shown on home "monthlyPrograms" section (3 cards)
+ *  and its own /monthly-programs archive + detail pages. */
+export interface MonthlyProgram extends BaseDoc {
+  title: string;
+  slug: string;
+  desc: string;
+  body?: string;
+  image: string;
+  month: string;
+  year: string;
+}
+
 /** Calendar entries shown on /programs. */
 export interface EventItem extends BaseDoc {
   date: string; // ISO yyyy-mm-dd
@@ -163,7 +175,7 @@ export interface SiteSettings {
   social: SocialLinks;
   app: { eyebrow: string; title: string; highlight: string; body: string; appStore: string; playStore: string; image: string };
   join: { eyebrow: string; title: string; formTitle: string };
-  popup: { enabled: boolean; eyebrow: string; title: string; body: string };
+  popup: { enabled: boolean; eyebrow: string; title: string; body: string; image: string };
   cta: { kicker: string; title: string; button: string };
   footer: { blurb: string; copyright: string };
   pages: {
@@ -212,7 +224,7 @@ export interface AboutBlock {
 }
 
 export type HomeSectionKey =
-  | "hero" | "programs" | "about" | "stats" | "news" | "videos" | "posters"
+  | "hero" | "programs" | "about" | "stats" | "monthlyPrograms" | "news" | "videos" | "posters"
   | "gallery" | "features" | "app" | "blog" | "join";
 
 /** One row per home section; the page renders them sorted by `order`. */
@@ -237,6 +249,7 @@ export interface HomeData {
   settings: SiteSettings;
   sections: HomeSection[];
   programs: Program[]; // featured only
+  monthlyPrograms: MonthlyProgram[];
   news: NewsItem[];
   videos: Video[];
   posters: Poster[];

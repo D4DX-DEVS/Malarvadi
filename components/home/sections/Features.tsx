@@ -43,7 +43,6 @@ export default function Features({ data, section }: SectionProps) {
       <div className="wrap">
         <div className="feat-actions">
           <a href="/programs" className="btn btn-green"><Trophy size={15} /> പരിപാടികൾ കാണാം</a>
-          <a href="/gallery" className="btn" style={{ background: "#fff", border: "1.5px solid #fff8ec" }}>ഗാലറി <ArrowRight size={15} /></a>
         </div>
       </div>
     </section>

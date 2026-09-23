@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { motion } from "framer-motion";
 import { Leaf, Heart, Star } from "lucide-react";
 import { Header, Footer, CTABand, Ticker } from "@/components/site";
-import JoinPopup from "@/components/home/JoinPopup";
+import AppPromoPopup from "@/components/home/AppPromoPopup";
 import CharacterGuide from "@/components/home/CharacterGuide";
 import type { SectionProps } from "@/components/home/section-types";
 import type { HomeData, HomeSectionKey } from "@/lib/types";
@@ -12,6 +12,7 @@ import Hero from "@/components/home/sections/Hero";
 import ProgramsStrip from "@/components/home/sections/ProgramsStrip";
 import About from "@/components/home/sections/About";
 import Stats from "@/components/home/sections/Stats";
+import MonthlyPrograms from "@/components/home/sections/MonthlyPrograms";
 import News from "@/components/home/sections/News";
 import Videos from "@/components/home/sections/Videos";
 import Posters from "@/components/home/sections/Posters";
@@ -27,6 +28,7 @@ const SECTIONS: Record<HomeSectionKey, React.ComponentType<SectionProps>> = {
   programs: ProgramsStrip,
   about: About,
   stats: Stats,
+  monthlyPrograms: MonthlyPrograms,
   news: News,
   videos: Videos,
   posters: Posters,
@@ -74,7 +76,7 @@ export default function HomePage({ data }: { data: HomeData }) {
 
       <Footer />
 
-      <JoinPopup />
+      <AppPromoPopup />
 
     </div>
   );

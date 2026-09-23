@@ -42,7 +42,6 @@ export default function News({ data, section }: SectionProps) {
                   className="blog-card"
                 >
                   <img className="blog-photo" src={item.image} alt={item.title} loading="lazy" />
-                  <div className="blog-tags">{item.tags.map((t) => <span key={t}>{t}</span>)}</div>
                   <h4>{item.title}</h4>
                   <p className="blog-text">{item.excerpt}</p>
                   <a className="keiki-more" href={`/news/${item.slug}`}>കൂടുതൽ വായിക്കാം <ArrowRight size={14} /></a>

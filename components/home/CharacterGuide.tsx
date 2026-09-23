@@ -24,6 +24,7 @@ const GUIDE_STOPS: GuideStop[] = [
   { selector: ".program-scene", title: "നിന്റെ പരിപാടി തിരഞ്ഞെടുക്കൂ", copy: "ലോഗോയിൽ ക്ലിക്ക് ചെയ്ത് ഓരോ ലോകവും കാണാം.", action: "പരിപാടികളിലേക്ക്", pose: "point", anchor: "right" },
   { selector: ".about", title: "ഇവിടെയാണ് ഞങ്ങളുടെ കൂട്ടം", copy: "കളിച്ചും പഠിച്ചും വളരുന്ന ഒരു സ്നേഹക്കൂട്ടം.", action: "കൂടുതൽ അറിയാം", pose: "peek", anchor: "left" },
   { selector: ".stats", title: "നമ്മുടെ കൂട്ടുകാർ", copy: "ആയിരക്കണക്കിന് കുട്ടികളും മെന്റർമാരും ഒരുമിച്ച്.", action: "വാർത്തകളിലേക്ക്", pose: "celebrate", anchor: "center" },
+  { selector: ".monthly-band", title: "ഈ മാസത്തെ പരിപാടി", copy: "ഏറ്റവും പുതിയ പരിപാടിയെ ഇവിടെ കണ്ടെത്താം.", action: "പരിപാടി കാണാം", pose: "point", anchor: "left" },
   { selector: ".news-band", title: "പുതിയ വിശേഷങ്ങൾ", copy: "ഇവിടെ മലർവാടിയിലെ പുതിയ കഥകൾ കാത്തിരിക്കുന്നു.", action: "വായിക്കാം", pose: "read", anchor: "right" },
   { selector: ".gallery-stack", title: "ഓർമ്മകളുടെ ഗാലറി", copy: "ഒരു ചിത്രം, ഒരു ചിരി, ഒരു മധുര ഓർമ്മ.", action: "ചിത്രങ്ങൾ കാണാം", pose: "spark", anchor: "left" },
   { selector: ".features-bg", title: "എന്തുകൊണ്ട് മലർവാടി?", copy: "ഓരോ കുട്ടിക്കും തിളങ്ങാൻ ഒരു വേദി.", action: "അടുത്തത്", pose: "celebrate", anchor: "center" },

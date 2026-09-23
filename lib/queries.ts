@@ -5,7 +5,7 @@ import { getDb } from "./db";
 import { COLLECTIONS, HOME_SECTION_DEFS } from "./content-registry";
 import { DEFAULT_SETTINGS } from "./defaults";
 import type {
-  BlogPost, EventItem, Faq, Feature, GalleryItem, HomeData, HomeSection, Mentor, NewsItem, Poster, Program,
+  BlogPost, EventItem, Faq, Feature, GalleryItem, HomeData, HomeSection, Mentor, MonthlyProgram, NewsItem, Poster, Program,
   SiteSettings, TimelineItem, Video,
 } from "./types";
 
@@ -84,12 +84,14 @@ export async function getHomeSections(): Promise<HomeSection[]> {
 }
 
 export async function getHomeData(): Promise<HomeData> {
-  const [settings, sections, programs, news, videos, posters, gallery, features, blog, faqs] = await Promise.all([
+  const [settings, sections, programs, monthlyPrograms, news, videos, posters, gallery, features, blog, faqs] = await Promise.all([
     getSettings(),
     getHomeSections(),
     // Keep the home rail extensible: the UI shows three at once and lets visitors scroll
     // through every featured program logo.
     listDocs<Program>("programs", { filter: { featured: true }, limit: 12 }),
+    // Home shows only the single most recently uploaded program.
+    listDocs<MonthlyProgram>("monthlyPrograms", { limit: 1, sort: { createdAt: -1 } }),
     listDocs<NewsItem>("news", { limit: 3 }),
     listDocs<Video>("videos", { limit: 3 }),
     listDocs<Poster>("posters", { limit: 3 }),
@@ -98,13 +100,15 @@ export async function getHomeData(): Promise<HomeData> {
     listDocs<BlogPost>("blog", { limit: 3 }),
     listDocs<Faq>("faqs"),
   ]);
-  return { settings, sections, programs, news, videos, posters, gallery, features, blog, faqs };
+  return { settings, sections, programs, monthlyPrograms, news, videos, posters, gallery, features, blog, faqs };
 }
 
 export const getPrograms = () => listDocs<Program>("programs");
 export const getProgram = (slug: string) => getDocBySlug<Program>("programs", slug);
 export const getFeatures = () => listDocs<Feature>("features");
 export const getFeature = (slug: string) => getDocBySlug<Feature>("features", slug);
+export const getMonthlyPrograms = () => listDocs<MonthlyProgram>("monthlyPrograms");
+export const getMonthlyProgram = (slug: string) => getDocBySlug<MonthlyProgram>("monthlyPrograms", slug);
 export const getNews = (limit?: number) => listDocs<NewsItem>("news", { limit });
 export const getNewsItem = (slug: string) => getDocBySlug<NewsItem>("news", slug);
 export const getBlogPosts = (limit?: number) => listDocs<BlogPost>("blog", { limit });

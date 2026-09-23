@@ -33,7 +33,6 @@ export default function StateLeadersView({ settings, leaders }: { settings: Site
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .5 }}>
             {p.kicker && <p className="mentors-eyebrow">{p.kicker}</p>}
             <LeadersTitle title={p.title} highlight={p.highlight} />
-            {p.sub && <p className="mentors-sub">{p.sub}</p>}
           </motion.div>
 
           {leaders.length > 0 ? (

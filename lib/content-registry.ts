@@ -34,6 +34,16 @@ export const ICON_OPTIONS = [
 
 const iconOptions = ICON_OPTIONS.map((v) => ({ value: v, label: v }));
 
+export const MONTH_OPTIONS = [
+  "ജനുവരി", "ഫെബ്രുവരി", "മാർച്ച്", "ഏപ്രിൽ", "മെയ്", "ജൂൺ",
+  "ജൂലൈ", "ഓഗസ്റ്റ്", "സെപ്റ്റംബർ", "ഒക്ടോബർ", "നവംബർ", "ഡിസംബർ",
+].map((v) => ({ value: v, label: v }));
+
+// A rolling window around the current year - covers past archive entries and
+// a few years of future planning without needing a code change each January.
+const CURRENT_YEAR = new Date().getFullYear();
+export const YEAR_OPTIONS = Array.from({ length: 8 }, (_, i) => String(CURRENT_YEAR - 2 + i)).map((v) => ({ value: v, label: v }));
+
 const article = (): FieldDef[] => [
   { name: "title", label: "Title", type: "text", required: true },
   { name: "slug", label: "Slug", type: "slug", help: "URL id, auto-filled from title if empty" },
@@ -143,6 +153,18 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
       { name: "note", label: "Note", type: "text" },
     ],
   },
+  monthlyPrograms: {
+    key: "monthlyPrograms", label: "Monthly Programs", singular: "Monthly Program", sortable: true, publishable: true, slugFrom: "title", listTitle: "title",
+    fields: [
+      { name: "title", label: "Title", type: "text", required: true },
+      { name: "slug", label: "Slug", type: "slug", help: "URL id for its own page, auto-filled from the title if empty" },
+      { name: "desc", label: "Description", type: "textarea", required: true, help: "Short blurb shown on the home card and archive listing" },
+      { name: "body", label: "Full details", type: "richtext", help: "Shown on the program's own page. Headings, lists and links are available in the toolbar - leave empty to fall back to the description." },
+      { name: "image", label: "Image", type: "image", required: true },
+      { name: "month", label: "Month", type: "select", required: true, options: MONTH_OPTIONS },
+      { name: "year", label: "Year", type: "select", required: true, options: YEAR_OPTIONS },
+    ],
+  },
 };
 
 export const COLLECTION_KEYS = Object.keys(COLLECTIONS);
@@ -180,6 +202,7 @@ export const HOME_SECTION_DEFS: { key: string; label: string; title: string; sub
   { key: "programs", label: "Program strip", title: "", subtitle: "", fixedTitle: true },
   { key: "about", label: "About", title: "", subtitle: "", fixedTitle: true },
   { key: "stats", label: "Stats", title: "", subtitle: "", fixedTitle: true },
+  { key: "monthlyPrograms", label: "Monthly Programs", title: "ഏറ്റവും പുതിയ പരിപാടി", subtitle: "മലർവാടിയുടെ ഏറ്റവും പുതിയ പരിപാടിയെ അറിയൂ" },
   { key: "news", label: "News", title: "വാർത്തകളും വിശേഷങ്ങളും", subtitle: "മലർവാടിയിലെ പുതിയ വാർത്തകളും വിശേഷങ്ങളും എല്ലാം ഒരിടത്ത്" },
   { key: "videos", label: "Videos", title: "വീഡിയോകൾ", subtitle: "YouTube-ൽ നിന്നുള്ള മലർവാടി വിശേഷങ്ങൾ..." },
   { key: "posters", label: "Posters", title: "പോസ്റ്ററുകൾ", subtitle: "" },
