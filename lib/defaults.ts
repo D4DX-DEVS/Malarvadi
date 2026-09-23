@@ -8,7 +8,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   tagline: "കുട്ടികളുടെ സന്തോഷ ലോകം",
   seoTitle: "Malarvadi — Kids Learning & Joy",
   seoDescription: "Malarvadi children's collective — units, students, mentors, programs, gallery and more.",
-  hero: { over: "ബാലസംഘം • SINCE 1992", under: "കുട്ടികളുടെ സന്തോഷ ലോകം • 1500+ യൂണിറ്റുകൾ", badges: ["കല", "വായന", "ബാലസംഘം"], image: "" },
+  hero: { over: "ബാലസംഘം • SINCE 2003", under: "കുട്ടികളുടെ സന്തോഷ ലോകം • 1500+ യൂണിറ്റുകൾ", badges: ["കല", "വായന", "ബാലസംഘം"], image: "" },
   ticker: [
     "മഴവില്ല് — സംസ്ഥാന ബാലചിത്രരചനാ മത്സരം",
     "Little Scholar 2025 രജിസ്ട്രേഷൻ ആരംഭിച്ചു",
@@ -34,11 +34,11 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     pincode: "673004",
     phone: "+91 98765 43210",
     phoneNote: "രാവിലെ 9 – വൈകിട്ട് 5",
-    whatsapp: "+91 99464 05330",
+    whatsapp: "+91 98765 43210",
     email: "malarvadizone@gmail.com",
     hours: "തിങ്കൾ – ശനി, 9:00 AM – 5:00 PM",
   },
-  social: { facebook: "https://facebook.com/malarvadi", instagram: "https://www.instagram.com/malarvadikeralaofficial/", youtube: "https://www.youtube.com/@malarvadibalasangamkerala4883s", whatsapp: "https://wa.me/+919946405330" },
+  social: { facebook: "https://facebook.com/malarvadi", instagram: "https://www.instagram.com/malarvadikeralaofficial/", youtube: "https://www.youtube.com/@malarvadibalasangamkerala4883s", whatsapp: "https://wa.me/+919876543210" },
   app: {
     eyebrow: "മലർവാടി ആപ്പ്",
     title: "കുട്ടികൾക്കായി {highlight} ആപ്പ്",
@@ -49,7 +49,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     image: "",
   },
   join: { eyebrow: "ചേരാം • Join Us", title: "മലർവാടിയിൽ അംഗമാവാം", formTitle: "ഫോം പൂരിപ്പിക്കൂ, ഞങ്ങൾ ബന്ധപ്പെടാം!" },
-  popup: { enabled: true, eyebrow: "ബാലസംഘം • Join Us", title: "മലർവാടിയിൽ ചേരാം", body: "പുതിയ പരിപാടികളും വാർത്തകളും അറിയാൻ ഇമെയിൽ നൽകൂ — ആഴ്ചയിൽ ഒരിക്കൽ മാത്രം." },
+  popup: { enabled: true, eyebrow: "ബാലസംഘം • Join Us", title: "മലർവാടിയിൽ ചേരാം", body: "പുതിയ പരിപാടികളും വാർത്തകളും അറിയാൻ ഇമെയിൽ നൽകൂ — ആഴ്ചയിൽ ഒരിക്കൽ മാത്രം.", image: "/popup.png" },
   cta: { kicker: "ചേരൂ, കളിക്കൂ, വളരൂ", title: "മലർവാടിയിൽ അണിചേരാം", button: "അംഗമാവുക" },
   footer: { blurb: "കുരുന്നുകളുടെ സന്തോഷ ലോകം.\nസ്നേഹവും അറിവും പങ്കിടാം.", copyright: "© 2026 Malarvadi. All rights reserved." },
   pages: {
@@ -126,9 +126,9 @@ export const DEFAULT_SETTINGS: SiteSettings = {
       // Kerala, Gulf, Europe, USA, SE Asia - see WorldMap for the projection.
       globalMarkers: "142 44, 131 37, 100 22, 47 29, 157 48",
       globalStats: [
+        { label: "കേന്ദ്രങ്ങൾ", value: 250, suffix: "+", icon: "Building2", tone: "s-cream" },
+        { label: "കുട്ടികൾ", value: 10000, suffix: "+", icon: "UsersRound", tone: "s-green" },
         { label: "രാജ്യങ്ങളിൽ പ്രവർത്തനം", value: 10, suffix: "+", icon: "Globe", tone: "s-blue" },
-        { label: "കേന്ദ്രങ്ങൾ", value: 100, suffix: "+", icon: "Building2", tone: "s-cream" },
-        { label: "കുട്ടികൾ", value: 1000, suffix: "+", icon: "UsersRound", tone: "s-green" },
       ],
       heroNote: "",
       heroCta: "ഞങ്ങളെ അറിയുക",

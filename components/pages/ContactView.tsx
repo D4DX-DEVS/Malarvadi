@@ -103,7 +103,7 @@ export default function ContactView() {
             </div>
             <div className="sub-card" style={{ marginTop: 12 }}>
               <h4 style={{ display: "flex", alignItems: "center", gap: 7 }}><Map size={20} /> യൂണിറ്റ് കണ്ടെത്തൂ</h4>
-              <p>1500+ യൂണിറ്റുകൾ — നിങ്ങളുടെ അടുത്തുള്ളത് അറിയാൻ സ്ഥലം അയക്കൂ. ഉദാ: <b>“{contact.address}”</b> എന്ന് <b>{contact.whatsapp}</b>-ലേക്ക് വാട്ട്സ്ആപ്പ് ചെയ്യൂ.</p>
+              <p>1500+ യൂണിറ്റുകൾ — നിങ്ങളുടെ അടുത്തുള്ളത് അറിയാൻ നിങ്ങളുടെ സ്ഥലം <b>{contact.whatsapp}</b> -നമ്പറിലേക്ക് വാട്ട്സ്ആപ്പ് ചെയ്യൂ.</p>
               <div style={{ background: "#fff7dd", borderRadius: 14, padding: 14, fontSize: 14.5, lineHeight: 1.95 }}>
                 <MessageCircle size={14} /> വാട്ട്സ്ആപ്പ്: <a href={waHref(contact.whatsapp)} target="_blank" rel="noreferrer"><b>{contact.whatsapp}</b></a><br />
                 <Camera size={14} /> ഇൻസ്റ്റാഗ്രാം: <a href={social.instagram} target="_blank" rel="noreferrer"><b>{igHandle}</b></a><br />

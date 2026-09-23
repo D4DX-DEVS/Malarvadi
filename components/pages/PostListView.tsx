@@ -29,9 +29,11 @@ export default function PostListView({ kind, page, posts }: {
                 transition={{ delay: (i % 3) * 0.08 }} whileHover={{ y: -8 }}
               >
                 {post.image && <img className="blog-photo" src={post.image} alt={post.title} loading="lazy" />}
-                <div className="blog-tags">
-                  {(post.tags || []).map((t) => <span key={t}>{t}</span>)}
-                </div>
+                {kind === "blog" && (
+                  <div className="blog-tags">
+                    {(post.tags || []).map((t) => <span key={t}>{t}</span>)}
+                  </div>
+                )}
                 <small style={{ display: "block", fontSize: 12.5, fontWeight: 800, color: "#6b7194", marginBottom: 6 }}>{longDate(post.date)}</small>
                 <h4>{post.title}</h4>
                 <p className="blog-text">{post.excerpt}</p>
