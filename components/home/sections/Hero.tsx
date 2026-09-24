@@ -27,8 +27,8 @@ export default function Hero({ data }: SectionProps) {
               ) : (
                 <img
                   className="hero-scene"
-                  src="/hero-scene-full.jpg"
-                  srcSet="/hero-scene-mobile.jpg 990w, /hero-scene-full.jpg 1983w"
+                  src="/hero-banner-new.png"
+                  srcSet="/hero-banner-new-mobile.jpg 990w, /hero-banner-new.png 1983w"
                   sizes="100vw"
                   alt=""
                   fetchPriority="high"
@@ -84,30 +84,18 @@ export default function Hero({ data }: SectionProps) {
             <img className="hero-kid hero-kid-cycle" src="/cycle.png" alt="" />
             <img className="hero-kid hero-kid-girl" src="/ms-girl.png" alt="" />
           </motion.div>
-          {/* Same scene again, clipped to the flower band and drawn over the kids
-              so they read as standing behind the flowers. Geometry and both
-              animations must mirror .hero-art exactly or the copy drifts apart. */}
-          <div className="hero-foreground" aria-hidden="true">
-            <motion.div
-              className="hero-art-in"
-              initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.16 }}
-              animate={reduce ? { opacity: 1 } : { opacity: 1, scale: 1 }}
-              transition={reduce ? { duration: 0.3 } : { duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {hero.image ? (
-                <img className="hero-scene" src={hero.image} alt="" decoding="async" />
-              ) : (
-                <img
-                  className="hero-scene"
-                  src="/hero-scene-full.jpg"
-                  srcSet="/hero-scene-mobile.jpg 990w, /hero-scene-full.jpg 1983w"
-                  sizes="100vw"
-                  alt=""
-                  decoding="async"
-                />
-              )}
-            </motion.div>
-          </div>
+          {/* Flower band across the foot of the banner, drawn over the kids so
+              they read as standing behind it. Two nested sways at different
+              speeds give the breeze its unevenness. */}
+          <motion.div
+            className="hero-flowers"
+            aria-hidden="true"
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={reduce ? { duration: 0.3 } : { duration: 0.9, delay: 0.45, ease: "easeOut" }}
+          >
+            <img src="/hero-flowers.png" alt="" decoding="async" />
+          </motion.div>
         </div>
       </div>
       <div className="hero-dots"><i /><i /><i className="on" /><i /><i /></div>

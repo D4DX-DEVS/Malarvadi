@@ -28,7 +28,7 @@ const GUIDE_STOPS: GuideStop[] = [
   { selector: ".news-band", title: "പുതിയ വിശേഷങ്ങൾ", copy: "ഇവിടെ മലർവാടിയിലെ പുതിയ കഥകൾ കാത്തിരിക്കുന്നു.", action: "വായിക്കാം", pose: "read", anchor: "right" },
   { selector: ".gallery-stack", title: "ഓർമ്മകളുടെ ഗാലറി", copy: "ഒരു ചിത്രം, ഒരു ചിരി, ഒരു മധുര ഓർമ്മ.", action: "ചിത്രങ്ങൾ കാണാം", pose: "spark", anchor: "left" },
   { selector: ".features-bg", title: "എന്തുകൊണ്ട് മലർവാടി?", copy: "ഓരോ കുട്ടിക്കും തിളങ്ങാൻ ഒരു വേദി.", action: "അടുത്തത്", pose: "celebrate", anchor: "center" },
-  { selector: ".app-band", title: "കഥകൾ കൈയ്യിലൊതുങ്ങട്ടെ", copy: "സൈത്തൂൺ ആപ്പിൽ കളിയും പാട്ടും പഠനവും.", action: "ആപ്പ് കാണാം", pose: "point", anchor: "right" },
+  { selector: ".app-band", title: "കഥകൾ കൈയ്യിലൊതുങ്ങട്ടെ", copy: "സെയ്‌ടൂൺ ആപ്പിൽ കളിയും പാട്ടും പഠനവും.", action: "ആപ്പ് കാണാം", pose: "point", anchor: "right" },
   { selector: ".join-band", title: "നമ്മളോടൊപ്പം ചേരൂ", copy: "നിന്റെ കൂട്ടുകാരെ ഇവിടെ കാത്തിരിക്കുന്നു.", action: "ചേരാം", pose: "wave", anchor: "left" },
 ];
 

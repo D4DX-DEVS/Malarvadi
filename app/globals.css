@@ -169,6 +169,16 @@ section{scroll-margin-top:96px}
 .nav-links a.nav-sub.active{background:var(--tone);color:#fff;box-shadow:none}
 .icon-btn{width:31px;height:31px;border-radius:50%;display:inline-grid;place-items:center;background:#fff;border:1.5px solid #e4f7fc;transition:.2s;cursor:pointer;font-size:13px;color:#5d7c88}
 .icon-btn:hover{transform:scale(1.14) rotate(-8deg);border-color:#ffd979}
+/* Language switch (Malayalam / English) in the header. */
+.lang-toggle{display:inline-flex;align-items:center;gap:2px;padding:2px;border-radius:999px;background:#fff;border:1.5px solid #e4f7fc}
+.lang-toggle button{border:0;background:none;cursor:pointer;font:inherit;font-size:11.5px;font-weight:800;letter-spacing:.2px;color:#5d7c88;padding:4px 9px;border-radius:999px;line-height:1;transition:.2s}
+.lang-toggle button:hover{color:#0d3945}
+.lang-toggle button.on{background:#0d3945;color:#fff}
+.lang-toggle #google_translate_element{display:none}
+/* Google's own chrome: the banner iframe and the body offset it forces. */
+.skiptranslate{display:none!important}
+body{top:0!important}
+font[style]{background:none!important;box-shadow:none!important}
 .socials{display:flex;gap:6px;align-items:center}
 .menu-btn{display:none;width:32px;height:32px;border-radius:10px;border:1.5px solid #eaf1f4;background:#fff;cursor:pointer;place-items:center}
 .mobile-nav{flex-basis:100%;display:flex;flex-direction:column;gap:4px;padding:6px 4px 4px;border-top:1px dashed #ffd979;margin-top:6px}
@@ -236,13 +246,27 @@ section{scroll-margin-top:96px}
 .hero-kite-img{animation:kiteDrift 9s ease-in-out infinite;transform-origin:top center}
 .hero-btr{animation:btrFly 13s ease-in-out infinite}
 .hero-btr img{animation:btrFlap .34s ease-in-out infinite}
-/* foreground flower band - must match .hero-art geometry and animation */
-.hero-bleed .hero-foreground{position:absolute;inset:0;z-index:6;pointer-events:none;
-  animation:heroDrift 28s ease-in-out infinite alternate;clip-path:inset(85% 0 0 0)}
-/* narrow screens crop the scene horizontally to its middle, where the flowers
-   are sparser - so take a shallower band or the cut reads as a hard slice */
-@media(max-width:900px){.hero-bleed .hero-foreground{clip-path:inset(90% 0 0 0)}}
-@media(max-width:600px){.hero-bleed .hero-foreground{clip-path:inset(93% 0 0 0)}}
+/* --- foreground flower band ---------------------------------------------
+   Its own artwork, sitting over the kids so they stand among the flowers. It
+   is always taller than the kids' offset from the floor, so they never float
+   in front of it. Wider than the frame so the sway cannot open a gap. */
+.hero-flowers{position:absolute;left:-3%;right:-3%;bottom:0;z-index:6;pointer-events:none;
+  height:max(17vw,150px);transform-origin:50% 100%;
+  animation:flowerBreeze 7.4s ease-in-out infinite}
+.hero-flowers img{width:100%;height:100%;object-fit:cover;object-position:center bottom;display:block;
+  transform-origin:50% 100%;animation:flowerBreezeIn 4.3s ease-in-out infinite -1.6s}
+/* Two sways at different speeds: the pair never repeats on the beat, which is
+   what stops it reading as a loop. */
+@keyframes flowerBreeze{
+  0%,100%{transform:skewX(0deg) translateX(0)}
+  35%{transform:skewX(-1.1deg) translateX(-.35%)}
+  70%{transform:skewX(.8deg) translateX(.3%)}
+}
+@keyframes flowerBreezeIn{
+  0%,100%{transform:skewX(0deg) scaleY(1)}
+  45%{transform:skewX(.55deg) scaleY(1.014)}
+}
+
 .bfly svg{display:block;filter:drop-shadow(0 3px 3px rgba(0,0,0,.12))}
 .bird{position:absolute;z-index:2;color:#0d5f72;opacity:.7;animation:drift 9s ease-in-out infinite;font-weight:800}
 .hero-title{text-align:center;z-index:4;animation:bob 6s ease-in-out infinite;max-width:560px}
@@ -290,11 +314,14 @@ section{scroll-margin-top:96px}
 .hero-bleed .hero-kid{width:clamp(96px,10.5vw,152px)}
 .hero-bleed .hero-kid-cycle{width:clamp(132px,15vw,214px)}
 .hero-bleed .hero-kid-girl{width:clamp(72px,7.8vw,114px)}
+/* The cyclist rides a little higher up the slope than the girl walking down it. */
+.hero-bleed .hero-kid-cycle{margin-bottom:clamp(14px,3.4vh,42px);margin-left:13vw}
+.hero-bleed .hero-kid-girl{margin-bottom:clamp(-30px,-2.4vh,-12px)}
 .hero-bleed .hero-dots{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);margin:0;z-index:8}
 .hero-bleed .hero-dots i{background:rgba(255,255,255,.72);box-shadow:0 2px 7px rgba(16,58,70,.28)}
 @media(max-width:900px){:root{--nav-h:94px}}
 @media(max-width:600px){:root{--nav-h:118px}}
-@media (prefers-reduced-motion:reduce){.hero-bleed .hero-art,.hero-bleed .hero-kid,.hero-bleed .hero-title,.hero-bleed .hero-shape,.hero-bleed .hero-badge,.hero-kite-img,.hero-btr,.hero-btr img,.hero-bleed .hero-foreground{animation:none}}
+@media (prefers-reduced-motion:reduce){.hero-bleed .hero-art,.hero-bleed .hero-kid,.hero-bleed .hero-title,.hero-bleed .hero-shape,.hero-bleed .hero-badge,.hero-kite-img,.hero-btr,.hero-btr img,.hero-flowers,.hero-flowers img{animation:none}}
 
 /* ---- About page long-form copy ---------------------------------------- */
 .about-doc{max-width:1100px;margin:0 auto 42px;display:flex;flex-direction:column;gap:20px}
@@ -664,6 +691,12 @@ button.youtube-card{padding:0;font:inherit;text-align:left;cursor:pointer;appear
 .foot-grid h4{margin:0 0 8px;color:#fff;font-size:15px}
 .foot-grid a,.foot-grid p{font-size:12.5px;line-height:1.9;margin:0;color:#f1f8dd}
 .foot-grid a:hover{color:#ffd979}
+/* Footer nav links: pill chips instead of a plain stacked list. */
+.foot-links-nav{display:flex;flex-wrap:wrap;gap:9px;margin-top:2px}
+.foot-links-nav a{font-family:"Fredoka","Baloo 2",system-ui,sans-serif;font-size:12px;font-weight:600;letter-spacing:.2px;line-height:1;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);color:#f1f8dd;transition:background .2s,color .2s,border-color .2s,transform .2s}
+.foot-links-nav a:hover{background:#ffd979;border-color:#ffd979;color:#0d3945;transform:translateY(-2px)}
+/* Contact column: larger, rounder type matching the main navigation font. */
+.foot-contact p{font-family:"Fredoka","Baloo 2",system-ui,sans-serif;font-size:14.5px;font-weight:600;line-height:2.1}
 .foot-social{display:flex;gap:10px;margin-top:12px}
 .foot-social .icon-btn{position:relative;width:36px;height:36px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.22);color:#fff;animation:floaty 4.6s ease-in-out infinite}
 .foot-social .icon-btn:nth-child(2){animation-delay:-1.15s}
@@ -674,6 +707,16 @@ button.youtube-card{padding:0;font:inherit;text-align:left;cursor:pointer;appear
 .foot-social .fs-yt{background:rgba(255,0,0,.28);border-color:rgba(255,138,125,.5)}
 .foot-social .fs-wa{background:rgba(37,211,102,.28);border-color:rgba(140,240,180,.5)}
 .foot-social .icon-btn:hover{transform:translateY(-5px) scale(1.16) rotate(-10deg);animation-play-state:paused}
+/* Contact page: social icon row + membership call to action. */
+.contact-social{display:flex;gap:10px;margin:12px 0 4px}
+.contact-social .icon-btn{width:40px;height:40px;color:#fff;border:0}
+.contact-social .cs-fb{background:#1877f2}
+.contact-social .cs-ig{background:linear-gradient(45deg,#f9ce34,#ee2a7b 55%,#6228d7)}
+.contact-social .cs-yt{background:#ff0000}
+.contact-social .icon-btn:hover{transform:translateY(-3px) scale(1.12) rotate(-8deg);border:0}
+.contact-join{margin-top:14px;background:#fff7dd;border-radius:14px;padding:14px;text-align:center}
+.contact-join b{display:flex;align-items:center;justify-content:center;gap:6px;font-size:16px;color:#0d3945;letter-spacing:-.2px}
+.contact-join .btn{margin-top:10px}
 .foot-social .fs-fb:hover{background:#1877f2;border-color:#1877f2;box-shadow:0 12px 22px rgba(24,119,242,.45)}
 .foot-social .fs-ig:hover{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);border-color:transparent;box-shadow:0 12px 22px rgba(220,39,67,.45)}
 .foot-social .fs-yt:hover{background:#ff0000;border-color:#ff0000;box-shadow:0 12px 22px rgba(255,0,0,.4)}
@@ -681,6 +724,13 @@ button.youtube-card{padding:0;font:inherit;text-align:left;cursor:pointer;appear
 .foot-bottom{margin-top:14px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px;display:flex;justify-content:space-between;font-size:11.5px;color:#93b83c;flex-wrap:wrap;gap:6px}
 .foot-bottom a{color:#f1f8dd;font-weight:700;transition:color .2s}
 .foot-bottom a:hover{color:#ffd979}
+/* On a phone the dock already carries the menu, so the footer is trimmed to
+   the address, the copyright and the credit. */
+@media(max-width:900px){
+  .foot-brand,.foot-links{display:none}
+  .foot-grid{grid-template-columns:1fr;padding-top:6px}
+  .foot-contact h4{margin-bottom:4px}
+}
 .leaf{position:absolute;font-size:26px;opacity:.9;animation:wiggle 4s ease-in-out infinite}
 
 /* ------------------------------------------------------------------
@@ -1377,7 +1427,6 @@ button.youtube-card{padding:0;font:inherit;text-align:left;cursor:pointer;appear
   body{padding-bottom:78px}
   .nav-links{display:none}
   .socials{margin-left:auto}
-  .to-top{bottom:92px !important}
   .mobile-dock{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;position:fixed;left:0;right:0;bottom:0;z-index:80;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid #fff8ec;box-shadow:0 -10px 26px rgba(16,58,70,.12);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
   .mobile-dock a{--tone:var(--logo-cyan);--tone-d:var(--cyan-d);--tone-t:var(--cyan-t);
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 2px;border-radius:14px;
@@ -1418,6 +1467,11 @@ button.youtube-card{padding:0;font:inherit;text-align:left;cursor:pointer;appear
 .join-fields input::placeholder,.join-fields textarea::placeholder{color:#5d7c88;font-weight:600}
 .join-fields input:focus,.join-fields select:focus,.join-fields textarea:focus{border-color:#0d7f99;background:#fff;box-shadow:0 0 0 3px rgba(13,127,153,.14)}
 .join-fields select,.join-fields textarea{grid-column:1/-1}
+/* District sits beside Place rather than spanning the row. */
+.join-fields select.fld-half{grid-column:auto}
+/* The class box is a datalist: keep its picker arrow always visible. */
+.join-fields input[list]{padding-right:34px}
+.join-fields input[list]::-webkit-calendar-picker-indicator{opacity:.65;cursor:pointer}
 .join-fields textarea{resize:vertical;min-height:88px}
 .join-submit{margin-top:14px;width:100%;justify-content:center}
 .join-note{display:flex;align-items:center;gap:6px;margin:12px 0 0;font-size:12.5px;font-weight:800;color:#6d8a1e}
@@ -1598,12 +1652,37 @@ html.cursor-on, html.cursor-on *{cursor:none !important}
 .cur-ring.hot{border-color:rgba(239,47,131,.8);background:rgba(255,95,162,.12)}
 @keyframes curBob{0%,100%{transform:rotate(0)}50%{transform:rotate(-7deg)}}
 @keyframes curTap{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(-5deg)}}
+/* Hover confetti over the nav links and buttons. The layer never takes the
+   pointer; each piece flies out along its own --dx/--dy and then removes itself. */
+.cur-parts{position:fixed;inset:0;z-index:62;pointer-events:none;overflow:hidden}
+.cur-parts i{position:absolute;width:var(--s,6px);height:var(--s,6px);margin:calc(var(--s,6px) / -2) 0 0 calc(var(--s,6px) / -2);
+  border-radius:50%;background:var(--c,#ff5fa2);will-change:transform,opacity;
+  animation:curSpark var(--d,620ms) cubic-bezier(.16,.72,.3,1) forwards}
+.cur-parts i:nth-child(3n){border-radius:2px}
+@keyframes curSpark{
+  0%{opacity:0;transform:translate3d(0,0,0) scale(.3)}
+  15%{opacity:1}
+  65%{opacity:1}
+  100%{opacity:0;transform:translate3d(var(--dx,0),var(--dy,0),0) scale(1.1) rotate(140deg)}
+}
+@media (prefers-reduced-motion:reduce){.cur-parts{display:none}}
+/* Back-to-top pencil. */
+.to-top{position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:50%;
+  background:#ef3f3f;color:#fff;display:grid;place-items:center;border:3px solid #fff;
+  box-shadow:0 14px 28px rgba(239,63,63,.4)}
+.to-top svg{display:block}
+/* On a phone it stacks above the bottom dock, with the sound switch above it. */
+@media (max-width:900px){
+  .to-top{width:44px;height:44px;right:16px;bottom:calc(74px + env(safe-area-inset-bottom))}
+}
 /* The sound switch sits above the back-to-top button. */
 .cur-sound{position:fixed;right:16px;bottom:72px;z-index:61;width:40px;height:40px;border-radius:50%;
   display:grid;place-items:center;background:#fff;color:#0d5f72;border:2px solid #ffd979;cursor:pointer;
   box-shadow:0 10px 20px rgba(16,58,70,.16);transition:transform .2s,background .2s,color .2s}
 .cur-sound:hover{transform:scale(1.1);background:#0d7f99;color:#fff;border-color:#0d7f99}
-@media (max-width:900px){.cur-sound{display:none}}
+/* On a phone the notes play while scrolling, so the switch has to stay
+   reachable - it just moves clear of the bottom dock. */
+@media (max-width:900px){.cur-sound{width:36px;height:36px;right:16px;bottom:calc(126px + env(safe-area-inset-bottom))}}
 
 /* Scroll-reveal entrances (rv-left/rv-right, the drifting news cards) start
    up to 90px outside the viewport. Desktop clips that at the body, but phone
@@ -1777,7 +1856,6 @@ html.cursor-on, html.cursor-on *{cursor:none !important}
   .guide-card p{font-size:9.5px;margin:3px 0 6px}
   .guide-next{font-size:10px;padding:4px 8px}
   .guide-tail{width:24px;height:24px;bottom:-12px}
-  .page:has(.character-guide) .to-top{display:none!important}
 
   /* --- inner pages ------------------------------------------------- */
   .page-hero{padding:16px 14px;margin:14px 0 20px;gap:12px;border-radius:22px;border-width:2px}

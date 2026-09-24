@@ -13,7 +13,8 @@
     "settings:sync": "tsx scripts/settings-sync.ts",
     "features:slugs": "tsx scripts/backfill-feature-slugs.ts",
     "uploads:migrate": "tsx scripts/migrate-uploads-to-spaces.ts",
-    "gallery:reset": "tsx scripts/reset-gallery.ts"
+    "gallery:reset": "tsx scripts/reset-gallery.ts",
+    "text:replace": "tsx scripts/replace-text.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1137.0",

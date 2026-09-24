@@ -1,9 +1,10 @@
 "use client";
 import { motion } from "framer-motion";
-import { Search, Facebook, Instagram, Youtube, MapPin, Phone, Mail, Clock, ArrowRight, Home, Images, CalendarHeart, UsersRound, Sparkles, Baby, UserRound, Leaf, MessageCircle, Rainbow, GraduationCap, PartyPopper, Sprout } from "lucide-react";
+import { Search, Facebook, Instagram, Youtube, MapPin, Phone, Mail, ArrowRight, Home, Images, CalendarHeart, UsersRound, Sparkles, Baby, UserRound, Leaf, MessageCircle, Rainbow, GraduationCap, PartyPopper, Sprout } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useSite, useJoinModal, telHref } from "@/components/site-context";
+import { useSite, useJoinModal } from "@/components/site-context";
 import PageEffects from "@/components/PageEffects";
+import LanguageToggle from "@/components/LanguageToggle";
 
 const MENU = [
   { href: "/", label: "Home", icon: Home, tone: "nav-red" },
@@ -46,7 +47,8 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
     );
   };
   return (
-    <header className={overlay ? "header header-overlay" : "header"}>
+    // `notranslate` keeps the menu in its own wording when the page is in English.
+    <header className={`${overlay ? "header header-overlay" : "header"} notranslate`} translate="no">
       <div className="wrap">
         <motion.div initial={{ y: -22, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ type: "spring", stiffness: 180, damping: 20 }} className="nav-shell">
           <a href="/" className="logo" aria-label="Malarvadi home">
@@ -66,6 +68,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
             {link("/contact", "Contact Us", "nav-cyan")}
           </nav>
           <div className="socials">
+            <LanguageToggle />
             <a href="/search" className="icon-btn" aria-label="Search"><Search size={14} /></a>
           </div>
         </motion.div>
@@ -97,12 +100,12 @@ export function CTABand() {
 export function Footer() {
   const { footer, social, contact } = useSite();
   return (
-    <footer id="contact" className="footer">
+    <footer id="contact" className="footer notranslate" translate="no">
       <div className="foot-scallop" aria-hidden />
       <Leaf className="leaf" size={30} style={{ left: 18, bottom: 26 }} />
       <Leaf className="leaf" size={30} style={{ right: 20, bottom: 30 }} />
       <div className="wrap foot-grid">
-        <div>
+        <div className="foot-brand">
           <a href="/" className="logo foot-logo" aria-label="Malarvadi home">
             <img className="logo-img" src="/logo-new.png" alt="മലർവാടി — ബാലസംഘം" width={557} height={154} />
           </a>
@@ -114,8 +117,19 @@ export function Footer() {
             <a className="icon-btn fs-wa" href={social.whatsapp} target="_blank" rel="noreferrer" aria-label="WhatsApp" title="WhatsApp"><MessageCircle size={15} /></a>
           </div>
         </div>
-        <div><h4>പ്രധാന ലിങ്കുകൾ</h4><p><a href="/">ഹോം</a><br /><a href="/about">ഞങ്ങളെക്കുറിച്ച്</a><br /><a href="/state-leaders">സംസ്ഥാന സമിതി</a><br /><a href="/programs">പരിപാടികൾ</a><br /><a href="/news">വാർത്തകൾ</a><br /><a href="/blog">ബ്ലോഗ്</a><br /><a href="/gallery">ഗാലറി</a><br /><a href="/contact">ബന്ധപ്പെടാം</a></p></div>
-        <div><h4>ബന്ധപ്പെടാം</h4><p><MapPin size={12} /> {contact.orgName}, {contact.address}<br /><Phone size={12} /> <a href={telHref(contact.phone)}>{contact.phone}</a><br /><Mail size={12} /> <a href={`mailto:${contact.email}`}>{contact.email}</a><br /><Clock size={12} /> {contact.hours}</p></div>
+        <div className="foot-links">
+          <h4>പ്രധാന ലിങ്കുകൾ</h4>
+          <nav className="foot-links-nav" aria-label="Footer links">
+            <a href="/">ഹോം</a>
+            <a href="/about">ഞങ്ങളെക്കുറിച്ച്</a>
+            <a href="/state-leaders">സംസ്ഥാന സമിതി</a>
+            <a href="/programs">പരിപാടികൾ</a>
+            <a href="/news">വാർത്തകൾ</a>
+            <a href="/gallery">ഗാലറി</a>
+            <a href="/contact">ബന്ധപ്പെടാം</a>
+          </nav>
+        </div>
+        <div className="foot-contact"><h4>ബന്ധപ്പെടാം</h4><p><MapPin size={12} /> {contact.orgName}, {contact.address}<br /><Mail size={12} /> <a href={`mailto:${contact.email}`}>{contact.email}</a></p></div>
       </div>
       <div className="wrap foot-bottom">
         <span>{footer.copyright}</span><span>Powered by: <a href="https://d4dx.co/" target="_blank" rel="noreferrer">D4DX Innovations</a></span>

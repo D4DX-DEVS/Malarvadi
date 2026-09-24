@@ -6,3 +6,6 @@ node_modules
 tsconfig.tsbuildinfo
 .DS_Store
 /public/uploads
+
+# scratch output for verification builds
+.next-verify
