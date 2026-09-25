@@ -32,16 +32,19 @@ export default function PageEffects() {
       href="#"
       className="to-top"
       aria-label="മുകളിലേക്ക്"
+      title="മുകളിലേക്ക്"
       onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
       whileHover={{ scale: 1.12, rotate: -8 }}
-      style={{
-        position: "fixed", right: 16, bottom: 16, zIndex: 60, width: 48, height: 48,
-        borderRadius: "50%", background: "#ef3f3f", color: "#fff", display: "grid",
-        placeItems: "center", boxShadow: "0 14px 28px rgba(239,63,63,.4)",
-        fontWeight: 800, border: "3px solid #fff",
-      }}
     >
-      ↑
+      {/* A pencil standing on its eraser - the sharpened tip is the "up". */}
+      <svg viewBox="0 0 24 24" width="23" height="23" fill="none" aria-hidden focusable="false">
+        <path d="M12 2.4 16.4 9.4H7.6L12 2.4Z" fill="#fff8ec" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round" />
+        <path d="M10.4 6.9h3.2l1.2 2.5H9.2l1.2-2.5Z" fill="#0d3945" />
+        <path d="M7.6 9.4h8.8v7.4H7.6z" fill="#ffd23f" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round" />
+        <path d="M12 11v4" stroke="#e8a900" strokeWidth="1.4" strokeLinecap="round" />
+        <path d="M8.6 16.8h6.8a1.2 1.2 0 0 1 1.2 1.2v1.4a2 2 0 0 1-2 2h-5.2a2 2 0 0 1-2-2V18a1.2 1.2 0 0 1 1.2-1.2Z"
+          fill="#ff9dc6" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round" />
+      </svg>
     </motion.a>
   );
 }

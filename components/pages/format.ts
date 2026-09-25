@@ -30,11 +30,6 @@ export function paragraphs(body?: string): string[] {
   return body.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 }
 
-/** Digits-only WhatsApp link from a display phone number. */
-export function waHref(phone: string): string {
-  return `https://wa.me/${(phone || "").replace(/\D/g, "")}`;
-}
-
 /** Last path segment of a social URL → "@handle". */
 export function handleOf(url: string): string {
   const seg = (url || "").replace(/\/+$/, "").split("/").pop() || "";

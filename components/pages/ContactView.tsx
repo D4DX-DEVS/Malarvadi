@@ -1,16 +1,16 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Hand, FileText, Heart, Map, MessageCircle, Camera, Youtube, AlertCircle } from "lucide-react";
+import { MapPin, Mail, Send, CheckCircle, Hand, FileText, Heart, Share2, Facebook, Instagram, Youtube, ArrowRight, Sparkles, AlertCircle } from "lucide-react";
 import { Header, Footer, PageHero } from "@/components/site";
-import { useSite, telHref } from "@/components/site-context";
-import { handleOf, waHref } from "./format";
+import { useSite, useJoinModal } from "@/components/site-context";
 
 const SUBJECTS = ["അഡ്മിഷൻ", "പുതിയ യൂണിറ്റ്", "വളണ്ടിയർ / മെന്റർ", "മറ്റുള്ളവ"];
 
 export default function ContactView() {
   const settings = useSite();
-  const { contact, social, pages } = settings;
+  const { contact, social, pages, cta } = settings;
+  const { openJoin } = useJoinModal();
   const p = pages.contact;
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
@@ -47,10 +47,9 @@ export default function ContactView() {
     }
   }
 
-  const igHandle = handleOf(social.instagram);
-
   return (
-    <div className="page page-inner">
+    // The contact details and form copy stay in Malayalam in either language.
+    <div className="page page-inner notranslate" translate="no">
       <Header />
       <div className="wrap">
         <PageHero kicker={p.kicker} title={p.title} sub={p.sub} icon={<Hand size={56} strokeWidth={1.8} />} />
@@ -92,22 +91,25 @@ export default function ContactView() {
               <h4 style={{ color: "#ffd23f", display: "flex", alignItems: "center", gap: 7 }}><MapPin size={20} /> {contact.orgName}</h4>
               <p style={{ color: "#bfe3cf" }}>
                 <MapPin size={13} /> {contact.address}<br />
-                <Phone size={13} /> {contact.phone}<br />
-                <Mail size={13} /> {contact.email}<br />
-                <Clock size={13} /> {contact.hours}
+                <Mail size={13} /> {contact.email}
               </p>
               <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
-                <a className="btn btn-pink" href={telHref(contact.phone)}><Phone size={14} /> വിളിക്കൂ</a>
-                <a className="btn" style={{ background: "#fff" }} href={`mailto:${contact.email}`}><Mail size={14} /> മെയിൽ</a>
+                <a className="btn btn-pink" href={`mailto:${contact.email}`}><Mail size={14} /> മെയിൽ</a>
               </div>
             </div>
             <div className="sub-card" style={{ marginTop: 12 }}>
-              <h4 style={{ display: "flex", alignItems: "center", gap: 7 }}><Map size={20} /> യൂണിറ്റ് കണ്ടെത്തൂ</h4>
-              <p>1500+ യൂണിറ്റുകൾ — നിങ്ങളുടെ അടുത്തുള്ളത് അറിയാൻ നിങ്ങളുടെ സ്ഥലം <b>{contact.whatsapp}</b> -നമ്പറിലേക്ക് വാട്ട്സ്ആപ്പ് ചെയ്യൂ.</p>
-              <div style={{ background: "#fff7dd", borderRadius: 14, padding: 14, fontSize: 14.5, lineHeight: 1.95 }}>
-                <MessageCircle size={14} /> വാട്ട്സ്ആപ്പ്: <a href={waHref(contact.whatsapp)} target="_blank" rel="noreferrer"><b>{contact.whatsapp}</b></a><br />
-                <Camera size={14} /> ഇൻസ്റ്റാഗ്രാം: <a href={social.instagram} target="_blank" rel="noreferrer"><b>{igHandle}</b></a><br />
-                <Youtube size={14} /> യൂട്യൂബ്: <a href={social.youtube} target="_blank" rel="noreferrer"><b>YouTube</b></a>
+              <h4 style={{ display: "flex", alignItems: "center", gap: 7 }}><Share2 size={20} /> സോഷ്യൽ മീഡിയയിൽ പിന്തുടരൂ</h4>
+              <p>പുതിയ പരിപാടികളും വിശേഷങ്ങളും അറിയാൻ ഞങ്ങളെ ഫോളോ ചെയ്യൂ.</p>
+              {/* Icons in place of the old handle list - one link per network. */}
+              <div className="contact-social">
+                <a className="icon-btn cs-fb" href={social.facebook} target="_blank" rel="noreferrer" aria-label="Facebook" title="Facebook"><Facebook size={18} /></a>
+                <a className="icon-btn cs-ig" href={social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram" title="Instagram"><Instagram size={18} /></a>
+                <a className="icon-btn cs-yt" href={social.youtube} target="_blank" rel="noreferrer" aria-label="YouTube" title="YouTube"><Youtube size={18} /></a>
+              </div>
+              {/* Membership call to action, same copy and popup as the CTA band. */}
+              <div className="contact-join">
+                <b><Sparkles size={15} /> {cta.title}</b>
+                <button type="button" className="btn btn-pink" onClick={openJoin}>{cta.button} <ArrowRight size={15} /></button>
               </div>
             </div>
           </motion.div>

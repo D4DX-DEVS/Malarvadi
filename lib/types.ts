@@ -152,11 +152,7 @@ export interface SocialLinks {
 export interface ContactInfo {
   orgName: string;
   address: string;
-  phone: string;
-  phoneNote: string;
-  whatsapp: string;
   email: string;
-  hours: string;
   pincode: string;
 }
 

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, ArrowRight, Star, Plus, Minus } from "lucide-react";
 import type { SectionProps } from "@/components/home/section-types";
+import JoinFields, { joinPayload } from "@/components/home/JoinFields";
 
 export default function Join({ data, section }: SectionProps) {
   const { join } = data.settings;
@@ -15,7 +16,6 @@ export default function Join({ data, section }: SectionProps) {
   const handleJoin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    const get = (k: string) => String(fd.get(k) ?? "");
     setSending(true);
     setError("");
     try {
@@ -24,7 +24,7 @@ export default function Join({ data, section }: SectionProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           kind: "join",
-          data: { name: get("name"), unit: get("unit"), place: get("place"), phone: get("phone"), email: get("email"), grade: get("grade") },
+          data: joinPayload(fd),
         }),
       });
       if (!res.ok) throw new Error("failed");
@@ -50,29 +50,7 @@ export default function Join({ data, section }: SectionProps) {
         <div className="join-grid">
           <form className="join-card" onSubmit={handleJoin}>
             <h4>{join.formTitle}</h4>
-            <div className="join-fields">
-              <input required name="name" placeholder="പേര് *" aria-label="പേര്" />
-              <input name="unit" placeholder="യൂണിറ്റ്" aria-label="യൂണിറ്റ്" />
-              <input required name="place" placeholder="സ്ഥലം *" aria-label="സ്ഥലം" />
-              <input
-                required
-                name="phone"
-                type="tel"
-                inputMode="numeric"
-                placeholder="മൊബൈൽ നമ്പർ *"
-                aria-label="മൊബൈൽ നമ്പർ"
-                pattern="[0-9]{10}"
-                maxLength={10}
-                title="10 അക്ക മൊബൈൽ നമ്പർ നൽകുക"
-                onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "").slice(0, 10); }}
-              />
-              <input name="email" type="email" placeholder="ഇമെയിൽ" aria-label="ഇമെയിൽ" />
-              <select name="grade" aria-label="ക്ലാസ്" defaultValue="" required>
-                <option value="" disabled>ക്ലാസ് തിരഞ്ഞെടുക്കാം *</option>
-                <option>എൽ.കെ.ജി – 4</option>
-                <option>5 – 7</option>
-              </select>
-            </div>
+            <JoinFields id="join-home" />
             <button type="submit" className="btn btn-pink join-submit" disabled={sending}>അയക്കാം <ArrowRight size={15} /></button>
             {joined && <p className="join-note"><Star size={13} /> നന്ദി! ഞങ്ങൾ ഉടൻ ബന്ധപ്പെടും.</p>}
             {error && <p className="join-note"><span style={{ color: "#c62f2f" }}>{error}</span></p>}
