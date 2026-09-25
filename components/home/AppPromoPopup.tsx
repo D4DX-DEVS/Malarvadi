@@ -63,11 +63,11 @@ export default function AppPromoPopup() {
             transition={{ type: "spring", stiffness: 190, damping: 20 }}
             onClick={(e) => e.stopPropagation()}
           >
+            <button className="join-pop-close" onClick={close} aria-label="അടയ്ക്കാം"><X size={18} /></button>
             <img className="app-pop-img" src={popup.image} alt={app.eyebrow || "മലർവാടി ആപ്പ്"} />
             {app.appStore && <a className="app-pop-hotspot app-pop-hs-l" href={app.appStore} target="_blank" rel="noreferrer" aria-label="Download on the App Store" />}
             {app.playStore && <a className="app-pop-hotspot app-pop-hs-r" href={app.playStore} target="_blank" rel="noreferrer" aria-label="Get it on Google Play" />}
           </motion.div>
-          <button className="join-pop-close" onClick={close} aria-label="അടയ്ക്കാം"><X size={18} /></button>
         </motion.div>
       )}
     </AnimatePresence>

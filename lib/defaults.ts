@@ -40,7 +40,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     eyebrow: "മലർവാടി ആപ്പ്",
     title: "കുട്ടികൾക്കായി {highlight} ആപ്പ്",
     highlight: "സെയ്‌ടൂൺ ആപ്പ്",
-    body: "കഥകളും പാട്ടുകളും കാർട്ടൂണുകളും  പ്രശ്നോത്തരിയും — പരസ്യങ്ങളില്ലാത്ത, കുട്ടികൾക്ക് സുരക്ഷിതമായ ഒരിടം.",
+    body: "കഥകളും പാട്ടുകളും കാർട്ടൂണുകളും, പ്രശ്നോത്തരിയും\nകുട്ടികൾക്ക് സുരക്ഷിതമായ ഒരിടം.",
     appStore: "https://apps.apple.com/in/app/zai-toon-kids/id6737912105",
     playStore: "https://play.google.com/store/apps/details?id=co.d4dx.zaitoon",
     image: "",

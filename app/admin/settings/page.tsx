@@ -35,6 +35,15 @@ function getIn(root: unknown, path: Path): unknown {
 
 const id = (path: Path) => `set-${path.join("-")}`;
 
+/** Recommended pixel size per image field, keyed by its settings path, shown under the upload input. */
+const IMAGE_HINTS: Record<string, string> = {
+  "hero.image": "Recommended size: 1920 x 1080 px (wide, full-bleed background)",
+  "about.image": "Recommended size: 1140 x 600 px",
+  "app.image": "Recommended size: 500 x 1000 px (phone mockup, transparent PNG)",
+  "popup.image": "Recommended size: 1000 x 560 px",
+  "pages.about.image": "Recommended size: 1140 x 600 px",
+};
+
 /** Blank row shaped like an existing one (used by the repeatable tables). */
 function blankLike(sample: Json): Json {
   const out: Json = {};
@@ -167,6 +176,7 @@ export default function SettingsPage() {
               setImgBroken((p) => ({ ...p, [fkey]: false }));
             }}
           />
+          {IMAGE_HINTS[path.join(".")] ? <p className="adm-help">{IMAGE_HINTS[path.join(".")]}</p> : null}
           {str && !imgBroken[fkey] ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img className="adm-thumb" src={str} alt="" onError={() => setImgBroken((p) => ({ ...p, [fkey]: true }))} />

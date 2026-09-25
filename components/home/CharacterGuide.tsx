@@ -54,6 +54,7 @@ function getActiveIndex() {
 export default function CharacterGuide() {
   const [active, setActive] = useState(0);
   const [visible, setVisible] = useState(false);
+  const [nearFooter, setNearFooter] = useState(false);
   const [x, setX] = useState(20);
   const [walk, setWalk] = useState<"left" | "right" | null>(null);
   const [near, setNear] = useState(false);
@@ -68,6 +69,11 @@ export default function CharacterGuide() {
     const update = () => {
       setActive(getActiveIndex());
       setVisible(true);
+      // Step out of the way once the footer is about to come into view, so
+      // the floating guide never sits on top of it.
+      const footer = document.querySelector(".footer");
+      const rect = footer?.getBoundingClientRect();
+      setNearFooter(!!rect && rect.top < window.innerHeight + 160);
     };
     let raf = 0;
     const onScroll = () => {
@@ -141,10 +147,10 @@ export default function CharacterGuide() {
   return (
     <motion.aside
       ref={groupRef}
-      className={`character-guide guide-${stop.pose}${near ? " guide-near" : ""}`}
+      className={`character-guide guide-${stop.pose}${near ? " guide-near" : ""}${nearFooter ? " guide-hidden" : ""}`}
       aria-label="മലർവാടി ഗൈഡ്"
       initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: visible ? 1 : 0, x }}
+      animate={{ opacity: visible && !nearFooter ? 1 : 0, x }}
       transition={
         reduced
           ? { duration: .2 }

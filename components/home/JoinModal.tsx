@@ -71,6 +71,7 @@ export default function JoinModal({ open, onClose }: { open: boolean; onClose: (
             transition={{ type: "spring", stiffness: 190, damping: 20 }}
             onClick={(e) => e.stopPropagation()}
           >
+            <button className="join-pop-close" onClick={onClose} aria-label="അടയ്ക്കാം"><X size={18} /></button>
             <p className="join-pop-eyebrow" style={{ background: "#e4f7fc", color: "#0d7f99", border: "1px solid #cdeef7" }}>
               <Sparkles size={13} /> ചേരാം • Join Us
             </p>
@@ -89,7 +90,6 @@ export default function JoinModal({ open, onClose }: { open: boolean; onClose: (
               </form>
             )}
           </motion.div>
-          <button className="join-pop-close" onClick={onClose} aria-label="അടയ്ക്കാം"><X size={18} /></button>
         </motion.div>
       )}
     </AnimatePresence>

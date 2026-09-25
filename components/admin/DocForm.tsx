@@ -230,6 +230,7 @@ export default function DocForm({
                 setImgBroken((p) => ({ ...p, [f.name]: false }));
               }}
             />
+            {f.hint ? <p className="adm-help">{f.hint}</p> : null}
             {help}
             {str && !imgBroken[f.name] ? (
               /* eslint-disable-next-line @next/next/no-img-element */

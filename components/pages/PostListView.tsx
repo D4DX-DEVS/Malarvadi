@@ -30,11 +30,13 @@ export default function PostListView({ kind, page, posts }: {
               >
                 {post.image && <img className="blog-photo" src={post.image} alt={post.title} loading="lazy" />}
                 {kind === "blog" && (
-                  <div className="blog-tags">
-                    {(post.tags || []).map((t) => <span key={t}>{t}</span>)}
-                  </div>
+                  <>
+                    <div className="blog-tags">
+                      {(post.tags || []).map((t) => <span key={t}>{t}</span>)}
+                    </div>
+                    <small style={{ display: "block", fontSize: 12.5, fontWeight: 800, color: "#6b7194", marginBottom: 6 }}>{longDate(post.date)}</small>
+                  </>
                 )}
-                <small style={{ display: "block", fontSize: 12.5, fontWeight: 800, color: "#6b7194", marginBottom: 6 }}>{longDate(post.date)}</small>
                 <h4>{post.title}</h4>
                 <p className="blog-text">{post.excerpt}</p>
                 <span className="keiki-more" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>{readLabel} <ArrowRight size={14} /></span>
