@@ -17,7 +17,7 @@ export default function App({ data }: SectionProps) {
         <div className="app-copy reveal rv-zoom">
           <motion.span initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} className="app-eyebrow"><Sparkles size={13} /> {app.eyebrow}</motion.span>
           <h4 className="app-title">{before}<span>{app.highlight}</span>{after}</h4>
-          <p className="app-sub">{app.body}</p>
+          <p className="app-sub">{app.body.split("\n").map((l, i) => <span key={i}>{i > 0 && <br />}{l}</span>)}</p>
           <div className="app-badges">
             <motion.a whileHover={{ y: -4 }} whileTap={{ scale: .96 }} className="store-badge" href={app.appStore} target="_blank" rel="noreferrer" aria-label="Download on the App Store">
               <Apple size={24} />

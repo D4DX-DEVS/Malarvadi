@@ -13,6 +13,8 @@ export interface FieldDef {
   required?: boolean;
   options?: { value: string; label: string }[];
   help?: string;
+  /** Recommended pixel size for an `image` field, shown under the upload input, e.g. "1200 x 675 px". */
+  hint?: string;
 }
 
 export interface CollectionDef {
@@ -48,7 +50,7 @@ const article = (): FieldDef[] => [
   { name: "title", label: "Title", type: "text", required: true },
   { name: "slug", label: "Slug", type: "slug", help: "URL id, auto-filled from title if empty" },
   { name: "date", label: "Date", type: "date", required: true },
-  { name: "image", label: "Image URL", type: "image", required: true },
+  { name: "image", label: "Image URL", type: "image", required: true, hint: "Recommended size: 1200 x 675 px" },
   { name: "tags", label: "Tags", type: "tags", help: "comma separated" },
   { name: "excerpt", label: "Excerpt", type: "textarea", required: true },
   { name: "body", label: "Body", type: "richtext", required: true, help: "Headings, lists and links are available in the toolbar" },
@@ -66,8 +68,8 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
       { name: "meta", label: "Meta", type: "text", help: "e.g. Class 3–7 • September" },
       { name: "icon", label: "Icon", type: "icon", required: true, options: iconOptions },
       { name: "color", label: "Card colour", type: "color", required: true },
-      { name: "image", label: "Logo image", type: "image", help: "The programme logo - shown on the home rail and in the detail-page hero. Transparent or white-background PNG works best." },
-      { name: "photo", label: "Hero photo", type: "image", help: "Supporting photo beside the logo on the detail page. Leave empty to show the logo on its own." },
+      { name: "image", label: "Logo image", type: "image", help: "The programme logo - shown on the home rail and in the detail-page hero. Transparent or white-background PNG works best.", hint: "Recommended size: 600 x 400 px" },
+      { name: "photo", label: "Hero photo", type: "image", help: "Supporting photo beside the logo on the detail page. Leave empty to show the logo on its own.", hint: "Recommended size: 960 x 800 px" },
       { name: "slogan", label: "Handwritten note (top)", type: "text", help: "Short script line above the logo, e.g. Small Steps Bright Futures" },
       { name: "slogan2", label: "Handwritten note (bottom)", type: "text", help: "Short script line below the logo, e.g. Curious Minds Brighter Tomorrow" },
       { name: "featured", label: "Show on home strip", type: "boolean", help: "Featured programs appear in the scrollable home logo rail" },
@@ -78,7 +80,7 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
   gallery: {
     key: "gallery", label: "Gallery", singular: "Photo", sortable: true, publishable: true, listTitle: "caption",
     fields: [
-      { name: "src", label: "Image URL", type: "image", required: true },
+      { name: "src", label: "Image URL", type: "image", required: true, hint: "Any size works, e.g. 1200 x 900 px" },
       { name: "category", label: "Category", type: "select", required: true, options: [{ value: "photos", label: "Photos" }, { value: "events", label: "Events" }, { value: "posters", label: "Posters" }] },
       { name: "caption", label: "Caption", type: "text" },
     ],
@@ -88,7 +90,7 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
     fields: [
       { name: "platform", label: "Platform", type: "select", required: true, options: VIDEO_PLATFORMS.map((p) => ({ value: p.value, label: p.label })) },
       { name: "url", label: "Video link", type: "text", required: true, help: "Paste the full share URL - YouTube, Facebook or Instagram" },
-      { name: "thumb", label: "Cover image", type: "image", help: "Optional for YouTube. Facebook and Instagram give no public thumbnail, so upload one here." },
+      { name: "thumb", label: "Cover image", type: "image", help: "Optional for YouTube. Facebook and Instagram give no public thumbnail, so upload one here.", hint: "Recommended size: 1280 x 720 px" },
       { name: "youtubeId", label: "YouTube ID", type: "text", help: "Optional fallback; only used for YouTube when the link above is empty" },
       { name: "title", label: "Title", type: "text", required: true },
       { name: "meta", label: "Meta", type: "text", help: "e.g. YouTube • 02:45" },
@@ -103,7 +105,7 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
       { name: "note", label: "Note", type: "text", help: "e.g. September 14 • Online • Free" },
       { name: "cta", label: "Button label", type: "text" },
       { name: "ctaHref", label: "Button link", type: "text" },
-      { name: "image", label: "Poster image URL", type: "image", help: "If set, the image is shown instead of the styled card" },
+      { name: "image", label: "Poster image URL", type: "image", help: "If set, the image is shown instead of the styled card", hint: "Recommended size: 900 x 1200 px (portrait)" },
       { name: "tone", label: "Style", type: "select", required: true, options: [{ value: "dark", label: "Dark" }, { value: "light", label: "Light" }, { value: "gradient", label: "Gradient" }] },
       { name: "icon", label: "Icon", type: "icon", options: iconOptions },
     ],
@@ -113,7 +115,7 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
     fields: [
       { name: "name", label: "Name", type: "text", required: true },
       { name: "role", label: "Role", type: "text" },
-      { name: "photo", label: "Photo URL", type: "image", required: true },
+      { name: "photo", label: "Photo URL", type: "image", required: true, hint: "Recommended size: 600 x 600 px (square headshot)" },
       { name: "tone", label: "Colour", type: "select", required: true, options: [{ value: "m-teal", label: "Teal" }, { value: "m-orange", label: "Orange" }, { value: "m-purple", label: "Purple" }, { value: "m-green", label: "Green" }] },
     ],
   },
@@ -140,7 +142,7 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
       { name: "slug", label: "Slug", type: "slug", help: "URL id for its own page, auto-filled from the title if empty" },
       { name: "desc", label: "Description", type: "textarea", help: "Optional line shown under the title on the card" },
       { name: "body", label: "Full text", type: "richtext", help: "Shown on the item's own page" },
-      { name: "image", label: "Image", type: "image", help: "Optional picture for the item's own page" },
+      { name: "image", label: "Image", type: "image", help: "Optional picture for the item's own page", hint: "Recommended size: 520 x 400 px" },
       { name: "icon", label: "Icon", type: "icon", required: true, options: iconOptions },
       { name: "tone", label: "Colour", type: "select", required: true, options: ["f-blue", "f-pink", "f-mint", "f-cream", "f-lav", "f-peach"].map((v) => ({ value: v, label: v.slice(2) })) },
     ],
@@ -160,7 +162,7 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
       { name: "slug", label: "Slug", type: "slug", help: "URL id for its own page, auto-filled from the title if empty" },
       { name: "desc", label: "Description", type: "textarea", required: true, help: "Short blurb shown on the home card and archive listing" },
       { name: "body", label: "Full details", type: "richtext", help: "Shown on the program's own page. Headings, lists and links are available in the toolbar - leave empty to fall back to the description." },
-      { name: "image", label: "Image", type: "image", required: true },
+      { name: "image", label: "Image", type: "image", required: true, hint: "Recommended size: 1200 x 675 px" },
       { name: "month", label: "Month", type: "select", required: true, options: MONTH_OPTIONS },
       { name: "year", label: "Year", type: "select", required: true, options: YEAR_OPTIONS },
     ],

@@ -44,9 +44,9 @@ export default function Lightbox({ items, index, onClose, onIndex }: {
       {item && (
         <motion.div className="lightbox" role="dialog" aria-modal="true" onClick={onClose}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-          <button className="lightbox-btn close" aria-label="അടയ്ക്കുക" onClick={onClose}><X size={20} /></button>
           <motion.div className="lightbox-stage" onClick={(e) => e.stopPropagation()}
             initial={{ scale: .94, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: .94, opacity: 0 }} transition={{ duration: .22 }}>
+            <button className="lightbox-btn close" aria-label="അടയ്ക്കുക" onClick={onClose}><X size={20} /></button>
             {items.length > 1 && (
               <>
                 <button className="lightbox-btn prev" aria-label="മുൻപത്തേത്" onClick={() => go(-1)}><ChevronLeft size={22} /></button>
