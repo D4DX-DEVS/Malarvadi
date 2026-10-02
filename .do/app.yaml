@@ -61,3 +61,12 @@ services:
       - key: DO_SPACES_ENDPOINT
         scope: RUN_TIME
         value: ""
+      - key: RESEND_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: MAIL_TO
+        scope: RUN_TIME
+        value: malarvadizone@gmail.com
+      - key: MAIL_FROM
+        scope: RUN_TIME
+        value: "Malarvadi Website <onboarding@resend.dev>"

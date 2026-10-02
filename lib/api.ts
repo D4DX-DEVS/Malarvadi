@@ -77,6 +77,18 @@ export async function nextOrder(db: Db, collection: string): Promise<number> {
 
 export const serializeDoc = serialize;
 
+/** Escape user text for use inside a Mongo $regex. */
+export function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/** ?page=&limit= → sane bounded values for a paginated listing. */
+export function pageParams(sp: URLSearchParams, defaultLimit = 20) {
+  const page = Math.max(1, Math.floor(Number(sp.get("page")) || 1));
+  const limit = Math.min(100, Math.max(1, Math.floor(Number(sp.get("limit")) || defaultLimit)));
+  return { page, limit, skip: (page - 1) * limit };
+}
+
 /** Deep merge with the same semantics as lib/queries mergeDeep: arrays replaced wholesale. */
 export function mergeDeep<T>(base: T, over: unknown): T {
   if (Array.isArray(base) || Array.isArray(over)) return (over ?? base) as T;

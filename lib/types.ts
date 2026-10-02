@@ -238,6 +238,8 @@ export type SubmissionKind = "contact" | "join" | "newsletter";
 export interface Submission extends BaseDoc {
   kind: SubmissionKind;
   data: Record<string, string>;
+  /** Set once an admin has opened it in the inbox. */
+  read?: boolean;
 }
 
 /** Everything the home page needs, fetched once on the server. */

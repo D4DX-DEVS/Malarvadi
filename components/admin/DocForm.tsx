@@ -1,10 +1,25 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ExternalLink, LoaderCircle, Trash2, TriangleAlert } from "lucide-react";
 import type { CollectionDef, FieldDef } from "@/lib/content-registry";
 import { Icon } from "@/components/icons";
 import RichText from "./RichText";
+import ImageField from "./ImageField";
 import { api } from "./api";
+import { useToast } from "./Toast";
+import { confirmDelete, useConfirm } from "./Confirm";
+import { listReturnKey } from "./ListClient";
+import { Switch, fmtDateTime, useUnsavedGuard } from "./ui";
+
+/** Public page for collections that have one, keyed by collection. */
+const PUBLIC_PATH: Record<string, string> = {
+  news: "/news/",
+  blog: "/blog/",
+  programs: "/programs/",
+  features: "/why/",
+  monthlyPrograms: "/monthly-programs/",
+};
 
 type Values = Record<string, unknown>;
 
@@ -34,6 +49,14 @@ function initialValues(def: CollectionDef, doc: Values | null): Values {
   return v;
 }
 
+function tagTextOf(def: CollectionDef, doc: Values | null): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const f of def.fields) {
+    if (f.type === "tags") out[f.name] = ((doc?.[f.name] as string[] | undefined) || []).join(", ");
+  }
+  return out;
+}
+
 /** Normalises a hex-ish string for <input type="color">, which rejects anything else. */
 function hexFor(value: string): string {
   return /^#[0-9a-fA-F]{6}$/.test(value) ? value : "#ffffff";
@@ -49,44 +72,49 @@ export default function DocForm({
   docId?: string;
 }) {
   const router = useRouter();
-  const listHref = `/admin/content/${def.key}`;
+  const toast = useToast();
+  const confirm = useConfirm();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [listHref, setListHref] = useState(`/admin/content/${def.key}`);
   const [values, setValues] = useState<Values>(() => initialValues(def, doc));
-  const [tagText, setTagText] = useState<Record<string, string>>(() => {
-    const out: Record<string, string> = {};
-    for (const f of def.fields) {
-      if (f.type === "tags") out[f.name] = ((doc?.[f.name] as string[] | undefined) || []).join(", ");
-    }
-    return out;
-  });
-  const [imgBroken, setImgBroken] = useState<Record<string, boolean>>({});
-  const [uploading, setUploading] = useState<Record<string, boolean>>({});
+  const [tagText, setTagText] = useState<Record<string, string>>(() => tagTextOf(def, doc));
+  const [snapshot] = useState(() => JSON.stringify([initialValues(def, doc), tagTextOf(def, doc)]));
   const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<"" | "save" | "draft" | "delete">("");
+
+  const dirty = useMemo(() => JSON.stringify([values, tagText]) !== snapshot, [values, tagText, snapshot]);
+  const navigate = useUnsavedGuard(dirty && !busy);
+
+  useEffect(() => {
+    try {
+      const back = sessionStorage.getItem(listReturnKey(def.key));
+      if (back) setListHref(back);
+    } catch {
+      /* storage unavailable */
+    }
+  }, [def.key]);
+
+  // Cmd/Ctrl+S saves.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        formRef.current?.requestSubmit();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   const set = (name: string, value: unknown) => setValues((p) => ({ ...p, [name]: value }));
+  const wasPublished = def.publishable && doc ? doc.published !== false : false;
 
-  async function uploadImage(name: string, file: File) {
-    setUploading((p) => ({ ...p, [name]: true }));
-    setError("");
-    try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const { url } = await api<{ url: string }>("/api/upload", { method: "POST", body: fd });
-      set(name, url);
-      setImgBroken((p) => ({ ...p, [name]: false }));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed");
-    } finally {
-      setUploading((p) => ({ ...p, [name]: false }));
-    }
-  }
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    setBusy(true);
+  async function save(published?: boolean) {
+    setBusy(published === false ? "draft" : "save");
     setError("");
     try {
       const payload: Values = { ...values };
+      if (published !== undefined) payload.published = published;
       if (!docId && (payload.order === "" || payload.order == null)) delete payload.order;
       for (const f of def.fields) {
         if (f.type === "tags") {
@@ -98,25 +126,41 @@ export default function DocForm({
       } else {
         await api(`/api/content/${def.key}`, { method: "POST", body: JSON.stringify(payload) });
       }
-      router.push(listHref);
+      toast(
+        published === false
+          ? `${def.singular} saved as draft`
+          : docId
+            ? `${def.singular} updated`
+            : `${def.singular} ${def.publishable ? "published" : "created"}`,
+      );
+      await navigate(listHref, true);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Save failed");
-      setBusy(false);
+      setBusy("");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
+  }
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    // Enter / Cmd+S keep the item's current published state.
+    void save(def.publishable ? (docId ? wasPublished : true) : undefined);
   }
 
   async function remove() {
     if (!docId) return;
-    if (!confirm(`Delete this ${def.singular.toLowerCase()}? This cannot be undone.`)) return;
-    setBusy(true);
+    const title = String(values[def.listTitle] ?? "").trim();
+    if (!(await confirm(confirmDelete(def.singular.toLowerCase(), title || undefined)))) return;
+    setBusy("delete");
     try {
       await api(`/api/content/${def.key}/${docId}`, { method: "DELETE" });
-      router.push(listHref);
+      toast(`${def.singular} deleted`);
+      await navigate(listHref, true);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Delete failed");
-      setBusy(false);
+      setBusy("");
     }
   }
 
@@ -136,10 +180,7 @@ export default function DocForm({
       case "boolean":
         return (
           <div className="adm-field" key={f.name}>
-            <label className="adm-check">
-              <input id={fid} type="checkbox" checked={Boolean(value)} onChange={(e) => set(f.name, e.target.checked)} />
-              {f.label}
-            </label>
+            <Switch id={fid} checked={Boolean(value)} onChange={(v) => set(f.name, v)} label={f.label} />
             {help}
           </div>
         );
@@ -196,7 +237,7 @@ export default function DocForm({
               ))}
             </select>
             <div className="adm-iconprev">
-              <Icon name={str} size={22} /> preview
+              <span className="box"><Icon name={str} size={20} /></span> Preview
             </div>
             {help}
           </div>
@@ -206,41 +247,8 @@ export default function DocForm({
         return (
           <div className="adm-field" key={f.name}>
             {label}
-            <div className="adm-imgrow">
-              <input
-                id={fid}
-                type="file"
-                accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"
-                disabled={uploading[f.name]}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  e.target.value = "";
-                  if (file) uploadImage(f.name, file);
-                }}
-              />
-              {uploading[f.name] ? <span className="adm-help">Uploading…</span> : null}
-            </div>
-            <input
-              id={`${fid}-url`}
-              type="url"
-              value={str}
-              placeholder="or paste an image URL"
-              onChange={(e) => {
-                set(f.name, e.target.value);
-                setImgBroken((p) => ({ ...p, [f.name]: false }));
-              }}
-            />
-            {f.hint ? <p className="adm-help">{f.hint}</p> : null}
+            <ImageField id={fid} value={str} onChange={(url) => set(f.name, url)} onError={(m) => toast(m, true)} hint={f.hint} />
             {help}
-            {str && !imgBroken[f.name] ? (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img
-                className="adm-thumb"
-                src={str}
-                alt=""
-                onError={() => setImgBroken((p) => ({ ...p, [f.name]: true }))}
-              />
-            ) : null}
           </div>
         );
 
@@ -310,54 +318,92 @@ export default function DocForm({
     }
   }
 
+  const slug = typeof values.slug === "string" ? values.slug : "";
+  const publicHref = docId && wasPublished && slug && PUBLIC_PATH[def.key] ? `${PUBLIC_PATH[def.key]}${slug}` : "";
+
   return (
-    <form onSubmit={submit}>
-      {error ? <p className="adm-err">{error}</p> : null}
+    <form ref={formRef} onSubmit={submit} className="adm-editor" noValidate>
+      <div>
+        {error ? (
+          <p className="adm-err" role="alert">
+            <TriangleAlert size={16} /> {error}
+          </p>
+        ) : null}
+        <div className="adm-card">{def.fields.map(renderField)}</div>
+      </div>
 
-      <div className="adm-card">{def.fields.map(renderField)}</div>
-
-      {def.publishable || def.sortable ? (
+      <aside className="adm-aside">
         <div className="adm-card">
-          <h3>Publishing</h3>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+            <h3 style={{ margin: 0 }}>{def.publishable ? "Publishing" : "Save"}</h3>
+            {dirty ? <span className="adm-dirty">Unsaved</span> : null}
+          </div>
+
           {def.publishable ? (
             <div className="adm-field">
-              <label className="adm-check">
-                <input
-                  type="checkbox"
-                  checked={values.published !== false}
-                  onChange={(e) => set("published", e.target.checked)}
-                />
-                Published (visible on the site)
-              </label>
+              <label>Status</label>
+              {docId ? (
+                <span className={`adm-badge dot ${wasPublished ? "on" : "off"}`}>{wasPublished ? "Published" : "Draft"}</span>
+              ) : (
+                <span className="adm-badge dot">New — not saved yet</span>
+              )}
             </div>
           ) : null}
-          {def.sortable ? (
-            <div className="adm-field" style={{ maxWidth: 200, marginBottom: 0 }}>
-              <label htmlFor="f-order">Order</label>
-              <input
-                id="f-order"
-                type="number"
-                value={Number(values.order) || 0}
-                onChange={(e) => set("order", Number(e.target.value))}
-              />
-              <p className="adm-help">Lower numbers come first.</p>
-            </div>
-          ) : null}
-        </div>
-      ) : null}
 
-      <div className="adm-actions">
-        <button type="submit" className="adm-btn primary" disabled={busy}>
-          {busy ? "Saving…" : docId ? "Save changes" : `Create ${def.singular.toLowerCase()}`}
-        </button>
-        <a className="adm-btn" href={listHref}>Cancel</a>
+          {def.sortable ? (
+            <div className="adm-field">
+              <label htmlFor="f-order">Order</label>
+              <input id="f-order" type="number" value={Number(values.order) || 0} onChange={(e) => set("order", Number(e.target.value))} />
+              <p className="adm-help">Lower numbers come first. You can also drag rows in the list.</p>
+            </div>
+          ) : null}
+
+          <div style={{ display: "flex", gap: 8 }}>
+            {def.publishable ? (
+              <>
+                <button type="button" className="adm-btn" style={{ flex: 1 }} disabled={!!busy} onClick={() => save(false)}>
+                  {busy === "draft" ? <LoaderCircle size={15} className="adm-spin" /> : null}
+                  {docId && wasPublished ? "Unpublish" : "Save draft"}
+                </button>
+                <button type="button" className="adm-btn primary" style={{ flex: 1 }} disabled={!!busy} onClick={() => save(true)}>
+                  {busy === "save" ? <LoaderCircle size={15} className="adm-spin" /> : null}
+                  {docId && wasPublished ? "Update" : "Publish"}
+                </button>
+              </>
+            ) : (
+              <button type="submit" className="adm-btn primary block" disabled={!!busy}>
+                {busy === "save" ? <LoaderCircle size={15} className="adm-spin" /> : null}
+                {docId ? "Save changes" : `Create ${def.singular.toLowerCase()}`}
+              </button>
+            )}
+          </div>
+          <button type="button" className="adm-btn ghost block" style={{ marginTop: 8 }} onClick={() => navigate(listHref)} disabled={!!busy}>
+            Cancel
+          </button>
+          <p className="adm-help" style={{ textAlign: "center", marginTop: 8 }}>
+            Tip: press <kbd className="adm-kbd">⌘S</kbd> to save
+          </p>
+        </div>
+
         {docId ? (
-          <>
-            <span className="adm-spacer" />
-            <button type="button" className="adm-btn danger" onClick={remove} disabled={busy}>Delete</button>
-          </>
+          <div className="adm-card">
+            <h3>Details</h3>
+            <ul className="adm-meta-list">
+              <li>Created <b>{fmtDateTime(doc?.createdAt as string | undefined)}</b></li>
+              <li>Last updated <b>{fmtDateTime(doc?.updatedAt as string | undefined)}</b></li>
+            </ul>
+            {publicHref ? (
+              <a href={publicHref} target="_blank" rel="noreferrer" className="adm-btn sm block" style={{ marginTop: 12 }}>
+                <ExternalLink size={14} /> View on website
+              </a>
+            ) : null}
+            <button type="button" className="adm-btn sm ghostdanger block" style={{ marginTop: 8 }} onClick={remove} disabled={!!busy}>
+              {busy === "delete" ? <LoaderCircle size={14} className="adm-spin" /> : <Trash2 size={14} />}
+              Delete {def.singular.toLowerCase()}
+            </button>
+          </div>
         ) : null}
-      </div>
+      </aside>
     </form>
   );
 }
