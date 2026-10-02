@@ -1,9 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  ChartColumn, FileText, Globe, LoaderCircle, Megaphone, MessageSquare, PanelBottom, PanelsTopLeft, Phone, Plus,
+  Settings, Share2, Smartphone, Trash2, UserPlus, Users, type LucideIcon,
+} from "lucide-react";
 import { ICON_OPTIONS } from "@/lib/content-registry";
 import { DEFAULT_SETTINGS } from "@/lib/defaults";
 import { api, humanize } from "@/components/admin/api";
 import { useToast } from "@/components/admin/Toast";
+import { useConfirm } from "@/components/admin/Confirm";
+import ImageField from "@/components/admin/ImageField";
+import { SkeletonRows, Switch, useUnsavedGuard } from "@/components/admin/ui";
 
 type Json = Record<string, unknown>;
 type Path = (string | number)[];
@@ -44,6 +51,25 @@ const IMAGE_HINTS: Record<string, string> = {
   "pages.about.image": "Recommended size: 1140 x 600 px",
 };
 
+/** Sidebar icon + one-line description per settings group. */
+const GROUP_META: Record<string, [LucideIcon, string]> = {
+  General: [Globe, "Basic information about your website"],
+  hero: [PanelsTopLeft, "The big banner at the top of the home page"],
+  ticker: [Megaphone, "Scrolling announcement strip"],
+  about: [Users, "About block on the home page"],
+  stats: [ChartColumn, "Numbers shown in the stats band"],
+  contact: [Phone, "Address and contact details"],
+  social: [Share2, "Social media profile links"],
+  app: [Smartphone, "Mobile app promotion"],
+  join: [UserPlus, "Join form headings"],
+  popup: [MessageSquare, "Home page pop-up"],
+  cta: [Megaphone, "Call-to-action banner"],
+  footer: [PanelBottom, "Footer text and copyright"],
+  pages: [FileText, "Headers for the inner pages"],
+};
+
+const GROUP_LABEL: Record<string, string> = { cta: "Call to action", app: "App promo", popup: "Pop-up", pages: "Inner pages" };
+
 /** Blank row shaped like an existing one (used by the repeatable tables). */
 function blankLike(sample: Json): Json {
   const out: Json = {};
@@ -54,20 +80,25 @@ function blankLike(sample: Json): Json {
 }
 
 export default function SettingsPage() {
-  const { show, toast } = useToast();
+  const toast = useToast();
+  const confirm = useConfirm();
   const [settings, setSettings] = useState<Json | null>(null);
-  const [open, setOpen] = useState<Record<string, boolean>>({ General: true });
+  const [saved, setSaved] = useState("");
+  const [active, setActive] = useState("General");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
-  const [uploading, setUploading] = useState<Record<string, boolean>>({});
-  const [imgBroken, setImgBroken] = useState<Record<string, boolean>>({});
+
+  const dirty = useMemo(() => settings !== null && saved !== "" && JSON.stringify(settings) !== saved, [settings, saved]);
+  useUnsavedGuard(dirty && !saving);
 
   useEffect(() => {
     (async () => {
       try {
         const res = await api<{ settings: Json }>("/api/settings");
-        setSettings({ ...(DEFAULT_SETTINGS as unknown as Json), ...(res.settings || {}) });
+        const next = { ...(DEFAULT_SETTINGS as unknown as Json), ...(res.settings || {}) };
+        setSettings(next);
+        setSaved(JSON.stringify(next));
       } catch (e) {
         setError(e instanceof Error ? e.message : "Could not load settings");
         setSettings({ ...(DEFAULT_SETTINGS as unknown as Json) });
@@ -79,23 +110,6 @@ export default function SettingsPage() {
 
   const update = (path: Path, value: unknown) => setSettings((prev) => (prev ? setIn(prev, path, value) : prev));
 
-  async function uploadImage(path: Path, file: File) {
-    const key = id(path);
-    setUploading((p) => ({ ...p, [key]: true }));
-    setError("");
-    try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const { url } = await api<{ url: string }>("/api/upload", { method: "POST", body: fd });
-      update(path, url);
-      setImgBroken((p) => ({ ...p, [key]: false }));
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Upload failed");
-    } finally {
-      setUploading((p) => ({ ...p, [key]: false }));
-    }
-  }
-
   async function save() {
     if (!settings) return;
     setSaving(true);
@@ -104,12 +118,14 @@ export default function SettingsPage() {
       const body: Json = { ...settings };
       delete body._id;
       const res = await api<{ settings: Json }>("/api/settings", { method: "PUT", body: JSON.stringify(body) });
-      setSettings({ ...(DEFAULT_SETTINGS as unknown as Json), ...(res.settings || {}) });
-      show("saved");
+      const next = { ...(DEFAULT_SETTINGS as unknown as Json), ...(res.settings || {}) };
+      setSettings(next);
+      setSaved(JSON.stringify(next));
+      toast("Settings saved");
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Save failed";
       setError(msg);
-      show(msg, true);
+      toast(msg, true);
     } finally {
       setSaving(false);
     }
@@ -123,10 +139,7 @@ export default function SettingsPage() {
     if (typeof value === "boolean") {
       return (
         <div className="adm-field" key={id(path)}>
-          <label className="adm-check">
-            <input type="checkbox" checked={value} onChange={(e) => update(path, e.target.checked)} />
-            {label}
-          </label>
+          <Switch checked={value} onChange={(v) => update(path, v)} label={label} />
         </div>
       );
     }
@@ -152,35 +165,7 @@ export default function SettingsPage() {
       return (
         <div className="adm-field" key={fkey}>
           <label htmlFor={fkey}>{label}</label>
-          <div className="adm-imgrow">
-            <input
-              id={fkey}
-              type="file"
-              accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml"
-              disabled={uploading[fkey]}
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                e.target.value = "";
-                if (file) uploadImage(path, file);
-              }}
-            />
-            {uploading[fkey] ? <span className="adm-help">Uploading…</span> : null}
-          </div>
-          <input
-            id={`${fkey}-url`}
-            type="url"
-            value={str}
-            placeholder="or paste an image URL"
-            onChange={(e) => {
-              update(path, e.target.value);
-              setImgBroken((p) => ({ ...p, [fkey]: false }));
-            }}
-          />
-          {IMAGE_HINTS[path.join(".")] ? <p className="adm-help">{IMAGE_HINTS[path.join(".")]}</p> : null}
-          {str && !imgBroken[fkey] ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img className="adm-thumb" src={str} alt="" onError={() => setImgBroken((p) => ({ ...p, [fkey]: true }))} />
-          ) : null}
+          <ImageField id={fkey} value={str} onChange={(url) => update(path, url)} onError={(m) => toast(m, true)} hint={IMAGE_HINTS[path.join(".")]} />
         </div>
       );
     }
@@ -299,10 +284,20 @@ export default function SettingsPage() {
                   <td className="right">
                     <button
                       type="button"
-                      className="adm-btn sm ghostdanger"
-                      onClick={() => update(path, rows.filter((_, i) => i !== ri))}
+                      className="adm-btn icon sm ghostdanger"
+                      aria-label="Remove row"
+                      title="Remove row"
+                      onClick={async () => {
+                        const ok = await confirm({
+                          title: "Remove this row?",
+                          message: "The row is removed from the form. It is only deleted from the site once you save.",
+                          confirmLabel: "Remove",
+                          tone: "danger",
+                        });
+                        if (ok) update(path, rows.filter((_, i) => i !== ri));
+                      }}
                     >
-                      Remove
+                      <Trash2 size={14} />
                     </button>
                   </td>
                 </tr>
@@ -316,7 +311,7 @@ export default function SettingsPage() {
           onClick={() => update(path, [...rows, blankLike(sample)])}
           disabled={cols.length === 0}
         >
-          + Add row
+          <Plus size={14} /> Add row
         </button>
       </div>
     );
@@ -340,28 +335,57 @@ export default function SettingsPage() {
     return renderScalar(key, value, path);
   }
 
-  function group(name: string, body: React.ReactNode) {
-    const isOpen = open[name] ?? false;
-    return (
-      <fieldset key={name} data-open={isOpen}>
-        <legend onClick={() => setOpen((p) => ({ ...p, [name]: !isOpen }))}>
-          {isOpen ? "▾" : "▸"} {name}
-        </legend>
-        {isOpen ? <div style={{ paddingBottom: 8 }}>{body}</div> : null}
-      </fieldset>
-    );
+  async function discard() {
+    const ok = await confirm({
+      title: "Discard changes?",
+      message: "All unsaved changes to the site settings will be lost.",
+      confirmLabel: "Discard",
+      tone: "danger",
+    });
+    if (ok) setSettings(JSON.parse(saved));
   }
 
   if (loading || !settings) {
     return (
       <>
-        <h1>Site settings</h1>
-        <div className="adm-card adm-empty">Loading…</div>
+        <div className="adm-head">
+          <div>
+            <h1>Site settings</h1>
+            <p className="adm-sub">Loading…</p>
+          </div>
+        </div>
+        <div className="adm-card pad0">
+          <SkeletonRows thumb={false} />
+        </div>
       </>
     );
   }
 
   const topKeys = Object.keys(settings).filter((k) => !HIDDEN_KEYS.includes(k) && !GENERAL_KEYS.includes(k));
+  const groups = ["General", ...topKeys];
+  const current = groups.includes(active) ? active : "General";
+  const label = (g: string) => GROUP_LABEL[g] ?? humanize(g);
+  const [CurIcon, curDesc] = GROUP_META[current] || [Settings, ""];
+
+  let body: React.ReactNode;
+  if (current === "General") {
+    body = GENERAL_KEYS.filter((k) => k in settings).map((k) => renderScalar(k, getIn(settings, [k]), [k]));
+  } else {
+    const v = settings[current];
+    // A top-level object becomes the panel itself, so render its children directly.
+    body = isPlainObject(v)
+      ? Object.entries(v)
+          .filter(([ck]) => !HIDDEN_KEYS.includes(ck))
+          .map(([ck, cv]) => renderNode(ck, cv, [current, ck]))
+      : renderNode(current, v, [current]);
+  }
+
+  const saveBtn = (
+    <button type="button" className="adm-btn primary" onClick={save} disabled={saving || !dirty}>
+      {saving ? <LoaderCircle size={16} className="adm-spin" /> : null}
+      {saving ? "Saving…" : "Save changes"}
+    </button>
+  );
 
   return (
     <>
@@ -370,35 +394,57 @@ export default function SettingsPage() {
           <h1>Site settings</h1>
           <p className="adm-sub">Global copy, contact details and page headers.</p>
         </div>
-        <button type="button" className="adm-btn primary" onClick={save} disabled={saving}>
-          {saving ? "Saving…" : "Save settings"}
-        </button>
+        <div className="adm-head-actions">
+          {dirty ? <span className="adm-dirty">Unsaved changes</span> : null}
+          {dirty ? (
+            <button type="button" className="adm-btn ghost" onClick={discard} disabled={saving}>
+              Discard
+            </button>
+          ) : null}
+          {saveBtn}
+        </div>
       </div>
 
       {error ? <p className="adm-err">{error}</p> : null}
 
-      {group(
-        "General",
-        GENERAL_KEYS.filter((k) => k in settings).map((k) => renderScalar(k, getIn(settings, [k]), [k])),
-      )}
+      <div className="adm-settings">
+        <nav className="adm-card adm-subnav" aria-label="Settings sections">
+          {groups.map((g) => {
+            const [Icon] = GROUP_META[g] || [Settings];
+            return (
+              <button key={g} type="button" className={g === current ? "on" : ""} onClick={() => setActive(g)} aria-current={g === current ? "page" : undefined}>
+                <Icon size={16} /> {label(g)}
+              </button>
+            );
+          })}
+        </nav>
 
-      {topKeys.map((k) => {
-        const v = settings[k];
-        // A top-level object becomes the group itself, so render its children directly.
-        const body = isPlainObject(v)
-          ? Object.entries(v)
-              .filter(([ck]) => !HIDDEN_KEYS.includes(ck))
-              .map(([ck, cv]) => renderNode(ck, cv, [k, ck]))
-          : renderNode(k, v, [k]);
-        return group(humanize(k), body);
-      })}
-
-      <div className="adm-actions">
-        <button type="button" className="adm-btn primary" onClick={save} disabled={saving}>
-          {saving ? "Saving…" : "Save settings"}
-        </button>
+        <div>
+          <select className="adm-subnav-select" value={current} onChange={(e) => setActive(e.target.value)} aria-label="Settings section">
+            {groups.map((g) => (
+              <option key={g} value={g}>{label(g)}</option>
+            ))}
+          </select>
+          <section className="adm-card">
+            <div className="adm-panel-h">
+              <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                <span className="adm-tile-ic tone-teal" style={{ width: 40, height: 40 }}>
+                  <CurIcon size={19} />
+                </span>
+                <div>
+                  <h2>{label(current)} settings</h2>
+                  {curDesc ? <p className="adm-sub">{curDesc}</p> : null}
+                </div>
+              </div>
+            </div>
+            {body}
+            <div className="adm-actions" style={{ borderTop: "1px solid var(--adm-line)", paddingTop: 16 }}>
+              <span className="adm-spacer" />
+              {saveBtn}
+            </div>
+          </section>
+        </div>
       </div>
-      {toast}
     </>
   );
 }

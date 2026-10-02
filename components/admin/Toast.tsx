@@ -1,22 +1,35 @@
 "use client";
-import { useCallback, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useRef, useState } from "react";
+import { Check, TriangleAlert } from "lucide-react";
 
-export interface ToastState {
-  message: string;
-  bad?: boolean;
-}
+type Show = (message: string, bad?: boolean) => void;
 
-/** Tiny bottom-right toast. `show(msg)` / `show(msg, true)` for errors. */
-export function useToast() {
-  const [toast, setToast] = useState<ToastState | null>(null);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+const ToastCtx = createContext<Show>(() => {});
 
-  const show = useCallback((message: string, bad = false) => {
-    if (timer.current) clearTimeout(timer.current);
-    setToast({ message, bad });
-    timer.current = setTimeout(() => setToast(null), 2600);
+/** Bottom-right toasts. `const toast = useToast(); toast("Saved")` / `toast(msg, true)` for errors. */
+export function ToastProvider({ children }: { children: React.ReactNode }) {
+  const [items, setItems] = useState<{ id: number; message: string; bad: boolean }[]>([]);
+  const seq = useRef(0);
+
+  const show = useCallback<Show>((message, bad = false) => {
+    const id = ++seq.current;
+    setItems((p) => [...p.slice(-2), { id, message, bad }]);
+    setTimeout(() => setItems((p) => p.filter((t) => t.id !== id)), bad ? 5000 : 3000);
   }, []);
 
-  const node = toast ? <div className={`adm-toast${toast.bad ? " bad" : ""}`}>{toast.message}</div> : null;
-  return { show, toast: node };
+  return (
+    <ToastCtx.Provider value={show}>
+      {children}
+      <div className="adm-toasts" role="status" aria-live="polite">
+        {items.map((t) => (
+          <div key={t.id} className={`adm-toast${t.bad ? " bad" : ""}`}>
+            <span className="ti">{t.bad ? <TriangleAlert size={14} /> : <Check size={14} />}</span>
+            {t.message}
+          </div>
+        ))}
+      </div>
+    </ToastCtx.Provider>
+  );
 }
+
+export const useToast = () => useContext(ToastCtx);
