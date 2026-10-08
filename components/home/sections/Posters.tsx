@@ -49,9 +49,13 @@ function PosterCard({ p, src }: { p: Poster; src?: string }) {
 
 export default function Posters({ data, section }: SectionProps) {
   if (!data.posters.length) return null;
-  // Posters are artwork first: fall back to the poster shots in the gallery so
-  // the row still shows images before anyone uploads a dedicated poster.
-  const shots = data.gallery.filter((g) => g.category === "posters").map((g) => g.src);
+  // Posters are artwork first: fall back to the gallery so the row still shows
+  // images before anyone uploads a dedicated poster. Poster shots come first,
+  // the rest of the gallery fills any remaining slots so no tile repeats.
+  const shots = [
+    ...data.gallery.filter((g) => g.category === "posters"),
+    ...data.gallery.filter((g) => g.category !== "posters"),
+  ].map((g) => g.src);
   return (
     <div className="cream-band">
       <div className="wrap">
